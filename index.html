@@ -8,236 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-
-:root{
-  --app-bg:#0f0f10;
-  --panel:#1c1c1e;
-  --panel-2:#242426;
-  --panel-header:#2a2a2c;
-  --field:#141415;
-  --line: rgba(255,255,255,.09);
-  --line-strong: rgba(255,255,255,.16);
-  --text-1:#ececeb;
-  --text-2:#9a9a9d;
-  --text-3:#69696c;
-  --cyan:#4fc3f7;      
-  --clip-teal:#1f5a63; 
-  --clip-teal-2:#2c7d89;
-  --clip-audio:#33502c;
-  --amber:#e8a33d;     
-  --red:#e0544c;      
-  --green:#6fbf8b;
-  --radius-md:10px;
-  --radius-sm:6px;
-  --radius-pill:999px;
-  --maxw:1180px;
-  --serif:'Instrument Serif', Georgia, serif;
-  --sans:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --mono:'JetBrains Mono','SFMono-Regular', Consolas, monospace;
-}
-*,*::before,*::after{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
-body{ margin:0; background:var(--app-bg); color:var(--text-1); font-family:var(--sans); line-height:1.55; -webkit-font-smoothing:antialiased; font-size:14px; }
-img,svg{ max-width:100%; display:block; }
-a{ color:inherit; }
-::selection{ background:var(--cyan); color:#0a1a22; }
-.container{ max-width:var(--maxw); margin:0 auto; padding:0 24px; }
-h1,h2,h3,h4{ font-family:var(--serif); font-weight:400; margin:0; }
-.mono{ font-family:var(--mono); }
-a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible{ outline:2px solid var(--cyan); outline-offset:2px; border-radius:3px; }
-@media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition-duration:.001ms !important; scroll-behavior:auto !important; } }
-
-.app-titlebar{ display:flex; align-items:center; justify-content:space-between; padding:6px 14px; background:#0a0a0b; font-family:var(--mono); font-size:11px; color:var(--text-3); border-bottom:1px solid var(--line); }
-.app-titlebar .dots{ display:flex; gap:6px; }
-.app-titlebar .dots span{ width:9px; height:9px; border-radius:50%; background:#333; }
-.app-menubar{ display:flex; gap:18px; padding:5px 14px; background:#141415; font-size:11.5px; color:var(--text-3); border-bottom:1px solid var(--line); overflow-x:auto; white-space:nowrap; }
-.app-menubar span{ cursor:default; }
-@media (max-width:640px){ .app-menubar{ display:none; } }
-
-.workspace-bar{ position:sticky; top:0; z-index:200; background:var(--panel); border-bottom:1px solid var(--line); }
-.ws-inner{ display:flex; align-items:center; gap:18px; padding:10px 24px; max-width:var(--maxw); margin:0 auto; }
-.brand{ display:flex; align-items:center; gap:9px; text-decoration:none; flex:none; }
-.brand-mark{ width:26px; height:26px; border-radius:6px; background:var(--field); border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:10px; color:var(--cyan); }
-.brand-name{ font-family:var(--serif); font-size:16px; font-style:italic; white-space:nowrap; }
-nav.primary-nav{ display:flex; gap:2px; overflow-x:auto; }
-nav.primary-nav a{ text-decoration:none; color:var(--text-2); font-size:13px; padding:8px 13px; border-bottom:2px solid transparent; white-space:nowrap; transition:.2s; }
-nav.primary-nav a:hover{ color:var(--text-1); }
-nav.primary-nav a.active{ color:var(--text-1); border-bottom-color:var(--cyan); }
-.nav-right{ position:relative; display:flex; align-items:center; gap:6px; margin-left:auto; flex:none; }
-.icon-btn{ width:32px; height:32px; border-radius:7px; background:var(--field); border:1px solid var(--line); color:var(--text-2); display:flex; align-items:center; justify-content:center; cursor:default; font-size:14px; }
-.cc-btn{ display:flex; align-items:center; gap:6px; background:var(--field); border:1px solid var(--line); color:var(--text-1); font-family:var(--mono); font-size:11.5px; padding:0 11px; height:32px; border-radius:7px; cursor:pointer; }
-.cc-btn:hover{ border-color:var(--text-2); }
-.cc-panel{ position:absolute; top:calc(100% + 8px); right:0; background:var(--panel-2); border:1px solid var(--line-strong); border-radius:9px; padding:5px; display:flex; flex-direction:column; gap:1px; min-width:145px; opacity:0; transform:translateY(-6px); pointer-events:none; transition:.15s ease; z-index:60; }
-.cc-panel.open{ opacity:1; transform:translateY(0); pointer-events:auto; }
-.cc-option{ display:flex; align-items:center; justify-content:space-between; gap:10px; background:none; border:0; color:var(--text-2); font-family:var(--sans); font-size:13px; padding:8px 9px; border-radius:6px; cursor:pointer; text-align:left; }
-.cc-option:hover{ background:var(--panel-header); color:var(--text-1); }
-.cc-option.active{ color:var(--text-1); }
-.cc-option .tag{ font-family:var(--mono); font-size:10px; color:var(--text-3); }
-.cc-option.active .tag{ color:var(--cyan); }
-.burger{ display:none; }
-@media (max-width:900px){
-  .icon-btn.decorative{ display:none; }
-  .burger{ display:flex; width:32px; height:32px; border-radius:7px; background:var(--field); border:1px solid var(--line); align-items:center; justify-content:center; cursor:pointer; }
-  .burger span, .burger span::before, .burger span::after{ content:''; display:block; width:14px; height:1.5px; background:var(--text-1); position:relative; }
-  .burger span::before{ position:absolute; top:-5px; } .burger span::after{ position:absolute; top:5px; }
-  nav.primary-nav{ position:fixed; inset:97px 0 0 0; background:var(--app-bg); flex-direction:column; padding:10px 20px; transform:translateY(-8px); opacity:0; pointer-events:none; transition:.2s ease; overflow:visible; z-index:150; }
-  nav.primary-nav.open{ transform:translateY(0); opacity:1; pointer-events:auto; }
-  nav.primary-nav a{ padding:15px 4px; border-bottom:1px solid var(--line); border-left:2px solid transparent; font-size:16px; }
-  nav.primary-nav a.active{ border-bottom-color:var(--line); border-left-color:var(--cyan); }
-}
-
-.app-shell{ display:grid; grid-template-columns:230px 1fr; align-items:start; max-width:var(--maxw); margin:0 auto; }
-.sidebar{ position:sticky; top:73px; align-self:start; height:calc(100vh - 73px); overflow-y:auto; border-right:1px solid var(--line); padding:14px 10px 30px; }
-.sidebar-title{ display:flex; align-items:center; justify-content:space-between; font-family:var(--mono); font-size:10.5px; color:var(--text-3); padding:0 6px 10px; text-transform:uppercase; letter-spacing:.06em; }
-.tree{ list-style:none; margin:0; padding:0; font-size:13px; }
-.tree li{ margin-bottom:1px; }
-.tree a{ display:flex; align-items:center; gap:7px; text-decoration:none; color:var(--text-2); padding:6px 8px; border-radius:6px; }
-.tree a:hover{ background:var(--panel-2); color:var(--text-1); }
-.tree a.active{ background:var(--panel-2); color:var(--text-1); }
-.tree .folder{ color:var(--amber); }
-.tree .file{ color:var(--cyan); font-size:11px; }
-.tree ul{ list-style:none; margin:0; padding-left:16px; border-left:1px dashed var(--line); }
-@media (max-width:1100px){ .app-shell{ grid-template-columns:1fr; } .sidebar{ display:none; } }
-
-main{ min-width:0; }
-
-.hero{ padding:20px 24px 0; }
-.panel{ background:var(--panel); border:1px solid var(--line); border-radius:var(--radius-md); overflow:hidden; }
-.panel-header{ display:flex; align-items:center; gap:10px; padding:8px 14px; background:var(--panel-header); border-bottom:1px solid var(--line); font-family:var(--mono); font-size:11px; color:var(--text-3); }
-.panel-header .ph-tab{ color:var(--text-1); border-bottom:2px solid var(--cyan); padding-bottom:8px; margin-bottom:-9px; }
-.panel-header .ph-spacer{ flex:1; }
-.monitor-frame{ position:relative; aspect-ratio:16/8.2; min-height:260px; background:
-    radial-gradient(circle at 25% 20%, rgba(79,195,247,.14), transparent 45%),
-    radial-gradient(circle at 80% 85%, rgba(232,163,61,.12), transparent 45%), #0b0b0c;
-  display:flex; align-items:center; justify-content:center; text-align:center; padding:28px; }
-.hero-title{ font-size:clamp(34px,6.4vw,72px); line-height:1.05; font-style:italic; letter-spacing:-.01em; }
-.hero-title .accent{ font-family:var(--sans); font-style:normal; font-weight:700; background:linear-gradient(100deg,var(--cyan),var(--amber)); -webkit-background-clip:text; background-clip:text; color:transparent; }
-.lower-third{ position:absolute; left:24px; bottom:24px; display:flex; align-items:stretch; font-family:var(--mono); }
-.lt-bar{ width:5px; background:var(--cyan); }
-.lt-text{ background:rgba(10,10,11,.72); backdrop-filter:blur(4px); padding:8px 14px; }
-.lt-name{ font-size:13px; font-weight:600; color:var(--text-1); letter-spacing:.02em; }
-.lt-role{ font-size:10.5px; color:var(--cyan); letter-spacing:.06em; text-transform:uppercase; margin-top:2px; }
-
-.playback-bar{ display:flex; align-items:center; gap:14px; padding:9px 16px; border-top:1px solid var(--line); font-family:var(--mono); font-size:11.5px; color:var(--text-3); }
-.tc-readout{ color:var(--cyan); font-size:12.5px; min-width:96px; }
-.transport{ display:flex; align-items:center; gap:12px; margin:0 auto; color:var(--text-2); }
-.transport span{ cursor:default; }
-.fit-tag{ border:1px solid var(--line); border-radius:5px; padding:3px 8px; }
-
-.scrub-bar{ position:relative; margin:0 16px 14px; height:2px; background:var(--line); border-radius:2px; }
-.scrub-fill{ position:absolute; left:0; top:0; height:100%; width:0%; background:var(--clip-teal-2); border-radius:2px; }
-.scrub-head{ position:absolute; top:50%; width:9px; height:9px; border-radius:50%; background:var(--cyan); transform:translate(-50%,-50%); box-shadow:0 0 0 4px rgba(79,195,247,.15); }
-.scroll-hint{ text-align:center; font-family:var(--mono); font-size:10.5px; color:var(--text-3); padding-bottom:14px; }
-
-.scrub-progress{ position:fixed; top:0; left:0; height:2px; width:0%; background:var(--cyan); z-index:300; }
-
-.tc-divider{ display:flex; align-items:center; gap:12px; margin:0 0 16px; }
-.tc-num{ font-family:var(--mono); font-size:12px; color:var(--cyan); border:1px solid var(--line-strong); border-radius:5px; padding:3px 8px; }
-.tc-ticks{ flex:1; height:9px; background-image:repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 13px); background-position:bottom; background-repeat:repeat-x; background-size:auto 100%; opacity:.7; }
-.eyebrow{ font-family:var(--mono); font-size:11px; letter-spacing:.05em; color:var(--text-3); }
-.section-title{ font-size:clamp(28px,4.6vw,44px); margin-top:6px; font-style:italic; }
-section{ scroll-margin-top:76px; }
-.section-pad{ padding:56px 24px; border-top:1px solid var(--line); }
-.section-head{ margin-bottom:32px; }
-
-.about-rows{ border:1px solid var(--line); border-radius:var(--radius-md); overflow:hidden; }
-.about-row{ border-bottom:1px solid var(--line); }
-.about-row:last-child{ border-bottom:none; }
-.about-row summary{ list-style:none; display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer; font-weight:600; font-size:14px; }
-.about-row summary::-webkit-details-marker{ display:none; }
-.about-row summary .car{ font-family:var(--mono); color:var(--text-3); font-size:11px; transition:.2s; }
-.about-row[open] summary .car{ transform:rotate(90deg); }
-.about-row summary .icon{ font-size:16px; }
-.about-row p{ margin:0; padding:0 16px 16px 46px; color:var(--text-2); font-size:13.5px; max-width:560px; }
-
-.bin{ border:1px solid var(--line); border-radius:var(--radius-md); padding:6px 0; }
-.bin-org{ display:flex; align-items:center; gap:9px; padding:11px 16px; font-weight:600; font-size:14px; }
-.bin-org .folder-ic{ color:var(--amber); }
-.bin-sub{ padding-left:40px; padding-bottom:6px; }
-.bin-item{ display:flex; align-items:baseline; gap:10px; padding:6px 16px 6px 0; color:var(--text-2); font-size:13px; border-left:1px dashed var(--line); margin-left:2px; padding-left:14px; }
-.bin-item .file-ic{ font-family:var(--mono); color:var(--cyan); font-size:11px; }
-.bin-item .date{ margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--text-3); white-space:nowrap; }
-.bin + .bin{ margin-top:12px; }
-
-.fader-list{ display:flex; flex-direction:column; gap:22px; max-width:600px; }
-.fader-row{ display:grid; grid-template-columns:150px 1fr 48px; align-items:center; gap:14px; }
-.fader-label{ display:flex; align-items:center; gap:9px; font-weight:600; font-size:13.5px; }
-.fader-icon{ width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-weight:700; font-size:11px; color:#fff; flex:none; }
-.fader-track{ position:relative; height:20px; display:flex; align-items:center; }
-.fader-meter{ position:absolute; left:0; right:0; height:5px; border-radius:3px; background-image:repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 8px); pointer-events:none; }
-.fader-fill{ position:absolute; left:0; height:5px; border-radius:3px; background:linear-gradient(90deg,var(--clip-audio),var(--clip-teal-2)); pointer-events:none; }
-.fader-slider{ position:relative; -webkit-appearance:none; appearance:none; width:100%; height:20px; background:transparent; cursor:pointer; z-index:1; }
-.fader-slider::-webkit-slider-thumb{ -webkit-appearance:none; width:7px; height:20px; border-radius:2px; background:var(--text-1); cursor:pointer; box-shadow:0 0 0 2px var(--app-bg); }
-.fader-slider::-moz-range-thumb{ width:7px; height:20px; border-radius:2px; background:var(--text-1); border:0; cursor:pointer; }
-.fader-slider::-moz-range-track{ background:transparent; }
-.fader-val{ font-family:var(--mono); font-size:11.5px; color:var(--text-3); text-align:right; }
-.soft-note{ margin-top:22px; font-size:12px; color:var(--text-3); max-width:520px; font-family:var(--mono); }
-
-.render-bar-wrap{ display:flex; align-items:center; gap:12px; margin-bottom:36px; max-width:440px; font-family:var(--mono); font-size:11.5px; color:var(--text-3); }
-.render-track{ flex:1; height:4px; border-radius:3px; background:var(--line); overflow:hidden; }
-.render-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--red),var(--amber),var(--green)); transition:width .4s ease; }
-
-.projects{ display:flex; flex-direction:column; gap:20px; }
-.project{ border:1px solid var(--line); border-radius:var(--radius-md); overflow:hidden; scroll-margin-top:76px; }
-.clip-head{ display:flex; align-items:center; gap:10px; padding:9px 14px; background:linear-gradient(90deg,var(--clip-teal),var(--clip-teal-2)); font-family:var(--mono); font-size:11.5px; color:#dff3f6; }
-.clip-head .track-ic{ opacity:.85; }
-.clip-head .clip-name{ font-weight:600; }
-.clip-head .fx-badge{ margin-left:auto; background:rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.18); border-radius:4px; padding:2px 7px; font-size:10px; }
-
-.project-body{ display:grid; grid-template-columns:1fr 1.05fr; gap:0; }
-.project-info{ padding:20px; border-right:1px solid var(--line); }
-.project-info h3{ font-size:24px; font-style:italic; margin-bottom:6px; }
-.project-desc{ color:var(--text-2); font-size:13.5px; margin:8px 0 14px; }
-.project-link{ display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:12px; color:var(--cyan); text-decoration:none; margin-bottom:12px; }
-
-.review-toggle{ display:inline-flex; align-items:center; gap:8px; background:var(--field); border:1px solid var(--line); border-radius:var(--radius-pill); padding:7px 14px; font-family:var(--mono); font-size:11.5px; color:var(--text-2); cursor:pointer; transition:.2s; }
-.review-toggle .dot{ width:6px; height:6px; border-radius:50%; border:1px solid var(--text-3); }
-.review-toggle.done{ border-color:var(--green); color:var(--text-1); }
-.review-toggle.done .dot{ background:var(--green); border-color:var(--green); }
-
-.videos{ display:flex; flex-direction:column; gap:14px; padding:20px; }
-.player{ border:1px solid var(--line); border-radius:var(--radius-sm); overflow:hidden; background:var(--field); }
-.video-box{ position:relative; aspect-ratio:16/9; background:#0a090b; }
-.video-box iframe{ width:100%; height:100%; border:0; }
-.video-placeholder{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; color:var(--text-3); text-align:center; padding:14px; font-size:12px; font-family:var(--mono); }
-.video-placeholder .play{ width:40px; height:40px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; color:var(--text-2); }
-.pchrome{ display:flex; align-items:center; gap:8px; padding:7px 10px; border-top:1px solid var(--line); font-family:var(--mono); font-size:10.5px; color:var(--text-3); }
-.pchrome .pc-scrub{ flex:1; height:2px; background:var(--line); border-radius:2px; position:relative; overflow:hidden; }
-.pchrome .pc-scrub::after{ content:''; position:absolute; left:0; top:0; height:100%; width:28%; background:var(--text-3); }
-.video-caption{ padding:9px 10px 10px; font-size:12.5px; color:var(--text-2); border-top:1px solid var(--line); }
-
-/* ficha técnica — estilo "Effect Controls" (retrátil, mantida) */
-.credits{ margin-top:4px; background:var(--field); border:1px solid var(--line); border-radius:var(--radius-sm); padding:0; }
-.credits summary{ cursor:pointer; font-family:var(--mono); font-size:11px; color:var(--text-1); font-weight:500; list-style:none; display:flex; align-items:center; justify-content:space-between; padding:9px 13px; }
-.credits summary::-webkit-details-marker{ display:none; }
-.credits summary::after{ content:'▸'; color:var(--text-3); font-size:10px; }
-.credits[open] summary::after{ content:'▾'; }
-.credits[open] summary{ border-bottom:1px solid var(--line); }
-.credits-list{ padding:8px 13px 11px; display:flex; flex-direction:column; gap:5px; }
-.credit-line{ display:flex; gap:8px; font-size:11.5px; color:var(--text-1); font-family:var(--mono); }
-.credit-role{ color:var(--text-3); flex:none; min-width:150px; position:relative; }
-.credit-role::after{ content:''; position:absolute; bottom:2px; left:0; right:6px; border-bottom:1px dotted var(--line-strong); }
-
-@media (max-width:860px){ .project-body{ grid-template-columns:1fr; } .project-info{ border-right:none; border-bottom:1px solid var(--line); } }
-
-.export-panel{ border:1px solid var(--line); border-radius:var(--radius-md); overflow:hidden; max-width:640px; }
-.export-row{ display:flex; align-items:center; gap:14px; padding:16px 18px; border-bottom:1px solid var(--line); }
-.export-row:last-child{ border-bottom:none; }
-.export-fmt{ font-family:var(--mono); font-size:10.5px; color:var(--amber); border:1px solid var(--line-strong); border-radius:5px; padding:4px 9px; white-space:nowrap; }
-.export-row a{ text-decoration:none; color:var(--text-1); font-size:14px; }
-.export-row a:hover{ color:var(--cyan); }
-
-.credits-roll{ margin-top:64px; text-align:center; }
-.credits-roll h3{ font-size:clamp(40px,8vw,84px); font-style:italic; }
-.credits-roll p{ color:var(--text-3); font-family:var(--mono); font-size:12px; margin-top:8px; }
-footer{ text-align:center; padding:30px 24px 26px; color:var(--text-3); font-size:11px; font-family:var(--mono); border-top:1px solid var(--line); }
-
-.reveal{ opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease; }
-.reveal.in{ opacity:1; transform:translateY(0); }
-.skip-link{ position:absolute; left:-999px; top:0; background:var(--text-1); color:#000; padding:9px 14px; z-index:1000; border-radius:6px; }
-.skip-link:focus{ left:16px; top:16px; }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -372,14 +143,24 @@ footer{ text-align:center; padding:30px 24px 26px; color:var(--text-3); font-siz
       <h2 class="section-title" data-i18n="nav_experiencia_full">experiência profissional</h2>
     </div>
     <div class="bin reveal">
-      <div class="bin-org"><span class="folder-ic">📁</span><span data-i18n="exp1_org">hemobrás — empresa brasileira de hemoderivados e biotecnologia</span></div>
+      <div class="bin-org">
+        <a class="bin-org-link" href="hemobras.html">
+          <span class="folder-ic">📁</span><span data-i18n="exp1_org">hemobrás — empresa brasileira de hemoderivados e biotecnologia</span>
+          <span class="goto-tag" data-i18n="goto_label">ver trabalhos →</span>
+        </a>
+      </div>
       <div class="bin-sub">
         <div class="bin-item"><span class="file-ic">▤</span><span data-i18n="exp1_l2">editor audiovisual | terceirizado, out. 2024 – atual</span><span class="date">2024—atual</span></div>
         <div class="bin-item"><span class="file-ic">▤</span><span data-i18n="exp1_l1">editor audiovisual | estágio, nov. 2023 – set. 2024</span><span class="date">2023</span></div>
       </div>
     </div>
     <div class="bin reveal">
-      <div class="bin-org"><span class="folder-ic">📁</span><span data-i18n="exp2_org">ufpe — universidade federal de pernambuco</span></div>
+      <div class="bin-org">
+        <a class="bin-org-link" href="ufpe.html">
+          <span class="folder-ic">📁</span><span data-i18n="exp2_org">ufpe — universidade federal de pernambuco</span>
+          <span class="goto-tag" data-i18n="goto_label">ver trabalhos →</span>
+        </a>
+      </div>
       <div class="bin-sub"><div class="bin-item"><span class="file-ic">▤</span><span data-i18n="exp2_l1">editor audiovisual | estágio, jun. 2023 – nov. 2023</span><span class="date">2023</span></div></div>
     </div>
     <div class="bin reveal">
@@ -408,13 +189,46 @@ footer{ text-align:center; padding:30px 24px 26px; color:var(--text-3); font-siz
   <div class="container">
     <div class="tc-divider"><span class="tc-num">05</span><span class="tc-ticks"></span></div>
     <div class="section-head reveal">
-      <span class="eyebrow" data-i18n="work_eyebrow">// timeline</span>
+      <span class="eyebrow" data-i18n="featured_eyebrow">// um exemplo</span>
       <h2 class="section-title" data-i18n="nav_trabalhos_full">meus trabalhos</h2>
     </div>
+
+    <!-- vídeo modelo em destaque -->
+    <div class="player reveal in" style="max-width:620px;">
+      <div class="video-box">
+        <iframe src="https://drive.google.com/file/d/1wNEM2RUJwKO6dW5ZJnRGFhnYJN2ezjl4/preview" title="Hemobrás em um minuto" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="pchrome"><span>▶</span><div class="pc-scrub"></div><span>00:00 / --:--</span></div>
+      <div class="video-caption" data-i18n="featured_caption">hemobrás em um minuto</div>
+    </div>
+    <p class="soft-note reveal" data-i18n="explore_more">quer ver mais? explore os projetos completos nas pastas abaixo ↓</p>
+
+    <!-- pastas de empresa, no estilo bin do premiere -->
+    <div class="bin reveal">
+      <div class="bin-org">
+        <a class="bin-org-link" href="hemobras.html">
+          <span class="folder-ic">📁</span><span data-i18n="exp1_org">hemobrás — empresa brasileira de hemoderivados e biotecnologia</span>
+          <span class="goto-tag" data-i18n="goto_label">ver trabalhos →</span>
+        </a>
+      </div>
+      <div class="bin-sub"><div class="bin-item"><span class="file-ic">▤</span><span data-i18n="bin_hemobras_count">2 vídeos</span></div></div>
+    </div>
+    <div class="bin reveal">
+      <div class="bin-org">
+        <a class="bin-org-link" href="ufpe.html">
+          <span class="folder-ic">📁</span><span data-i18n="exp2_org">ufpe — universidade federal de pernambuco</span>
+          <span class="goto-tag" data-i18n="goto_label">ver trabalhos →</span>
+        </a>
+      </div>
+      <div class="bin-sub"><div class="bin-item"><span class="file-ic">▤</span><span data-i18n="bin_ufpe_count">6 vídeos</span></div></div>
+    </div>
+
+    <!-- projetos pessoais, sem empresa associada, seguem exibidos por completo -->
+    <div class="eyebrow reveal" style="display:block;margin:28px 0 14px;" data-i18n="personal_projects_label">projetos pessoais</div>
     <div class="render-bar-wrap reveal">
       <span data-i18n="render_label">renderizando portfólio</span>
       <div class="render-track"><div class="render-fill" id="progressFill"></div></div>
-      <span id="progressLabel">0/6</span>
+      <span id="progressLabel">0/2</span>
     </div>
     <div class="projects" id="projectsList"></div>
   </div>
@@ -443,361 +257,12 @@ footer{ text-align:center; padding:30px 24px 26px; color:var(--text-3); font-siz
 
 <footer><span data-i18n="footer_text">feito por david sales — portfólio pessoal · 2026</span></footer>
 
+<script src="data.js"></script>
 <script>
-const SOFTWARES = [
-  { id:'pr', name:'Premiere Pro', color:'#00005b', abbr:'Pr', level:85 },
-  { id:'ae', name:'After Effects', color:'#00005b', abbr:'Ae', level:65 },
-  { id:'ps', name:'Photoshop', color:'#001e36', abbr:'Ps', level:75 },
-  { id:'ai', name:'Illustrator', color:'#330000', abbr:'Ai', level:75 },
-  { id:'fig', name:'Figma', color:'#1e1e1e', abbr:'Fi', level:70 },
-];
-
-const CREDIT_LABELS = {
-  pt:{ reportagem_producao:'reportagem e produção', imagens:'imagens', imagens_edicao:'imagens e edição',
-       direcao:'direção', roteiro:'roteiro', captacao:'captação', montagem_edicao:'montagem e edição',
-       producao:'produção', musica:'música', elenco:'elenco', camera1:'câmera 1', camera2:'câmera 2',
-       imagens_finalizacao:'imagens e finalização', edicao:'edição', captacao_audio:'captação de áudio',
-       captacao_imagens:'captação de imagens', edicao_imagem_som:'edição de imagem e som',
-       mixagem:'mixagem e masterização', apoio_tecnico:'apoio técnico', locucao:'locução', agradecimentos:'agradecimentos' },
-  en:{ reportagem_producao:'report & production', imagens:'footage', imagens_edicao:'footage & editing',
-       direcao:'direction', roteiro:'script', captacao:'filming', montagem_edicao:'edit & assembly',
-       producao:'production', musica:'music', elenco:'cast', camera1:'camera 1', camera2:'camera 2',
-       imagens_finalizacao:'footage & finishing', edicao:'editing', captacao_audio:'audio recording',
-       captacao_imagens:'camera work', edicao_imagem_som:'picture & sound editing',
-       mixagem:'mixing & mastering', apoio_tecnico:'technical support', locucao:'narration', agradecimentos:'thanks to' },
-  es:{ reportagem_producao:'reportaje y producción', imagens:'imágenes', imagens_edicao:'imágenes y edición',
-       direcao:'dirección', roteiro:'guion', captacao:'captación', montagem_edicao:'montaje y edición',
-       producao:'producción', musica:'música', elenco:'elenco', camera1:'cámara 1', camera2:'cámara 2',
-       imagens_finalizacao:'imágenes y finalización', edicao:'edición', captacao_audio:'captación de audio',
-       captacao_imagens:'captación de imágenes', edicao_imagem_som:'edición de imagen y sonido',
-       mixagem:'mezcla y masterización', apoio_tecnico:'apoyo técnico', locucao:'locución', agradecimentos:'agradecimientos' }
-};
-
-const PROJECTS = [
-  { id:'hemobras', kind:{pt:'empresa pública · redes sociais', en:'public business · social media', es:'empresa pública · redes sociales'},
-    title:{pt:'hemobrás', en:'hemobrás', es:'hemobrás'},
-    desc:{ pt:'vídeos editados para o instagram da Hemobrás, empresa brasileira de hemoderivados e biotecnologia — estatal vinculada ao ministério da saúde, que garante aos pacientes do SUS medicamentos derivados do sangue e/ou obtidos por engenharia genética, com produção nacional.',
-           en:'videos edited for the Instagram of Hemobrás, a Brazilian blood-products and biotechnology company — a federal enterprise linked to the Ministry of Health that supplies blood-derived and genetically engineered medicines to public healthcare patients.',
-           es:'vídeos editados para el Instagram de Hemobrás, empresa brasileña de hemoderivados y biotecnología — estatal vinculada al ministerio de salud, que garantiza a los pacientes del sistema público medicamentos derivados de la sangre y/o obtenidos por ingeniería genética.' },
-    link:{ href:'https://instagram.com/hemobras', label:{pt:'ver no instagram', en:'view on instagram', es:'ver en instagram'} },
-    videos:[
-      { caption:{pt:'hemobrás em um minuto', en:'hemobrás in one minute', es:'hemobrás en un minuto'}, embed:"https://drive.google.com/file/d/1wNEM2RUJwKO6dW5ZJnRGFhnYJN2ezjl4/preview" },
-      { caption:{pt:'inauguração da fábrica de hemoderivados — super plasma', en:'opening of the blood-products factory — super plasma', es:'inauguración de la fábrica de hemoderivados — super plasma'}, embed:"https://drive.google.com/file/d/1ejgGxSmHspLxAmW0eLaRLE9KRJAK9Kqk/preview" }
-    ], credits:[] },
-  { id:'noticias-campus', kind:{pt:'ascom ufpe · jornalismo', en:'ufpe press office · journalism', es:'ascom ufpe · periodismo'},
-    title:{pt:'notícias do campus', en:'notícias do campus', es:'notícias do campus'},
-    desc:{ pt:'reportagens realizadas durante o estágio em audiovisual na ASCOM – UFPE.',
-           en:'news pieces produced during the audiovisual internship at UFPE\'s press office (ASCOM).',
-           es:'reportajes realizados durante la pasantía en audiovisual en la ASCOM – UFPE.' },
-    link:null,
-    videos:[
-      { caption:{pt:'estudantes de arquitetura projetam praças de descanso para a 23ª FENEARTE', en:'architecture students design rest plazas for the 23rd FENEARTE', es:'estudiantes de arquitectura diseñan plazas de descanso para la 23ª FENEARTE'}, embed:"https://drive.google.com/file/d/12zTWAsTg_RtUS9CpfEM4m2zU9qbojtMK/preview",
-        credits:[['reportagem_producao','eugênia bezerra'],['imagens','evelyn carolina'],['imagens_edicao','david sales']] },
-      { caption:{pt:'clínica escola da UFPE oferece fisioterapia para gestantes', en:'UFPE\'s teaching clinic offers physiotherapy for pregnant patients', es:'clínica escuela de la UFPE ofrece fisioterapia para gestantes'}, embed:"https://drive.google.com/file/d/1UDz4BfScoV7rlHL0xpq1XBc5l0wdPie3/preview",
-        credits:[['reportagem_producao','eliza brito'], ['imagens', 'catarina albertim'], ['edicao', 'david sales']] },
-      { caption:{pt:'festival de ópera de pernambuco apresenta a obra "La Traviata"', en:'Pernambuco Opera Festival presents "La Traviata"', es:'festival de ópera de pernambuco presenta la obra "La Traviata"'}, embed:"https://drive.google.com/file/d/1qYtAOyIQVg3F0WLGpZs5dn9anxAkE6Z6/preview",
-        credits:[['reportagem_producao','amanda dantas'], ['imagens', 'bernardo sampaio'], ['edicao', 'david sales']] },
-    ], credits:[] },
-  { id:'documenta-ufpe', kind:{pt:'ascom ufpe · programa mensal', en:'ufpe press office · monthly program', es:'ascom ufpe · programa mensual'},
-    title:{pt:'documenta ufpe', en:'documenta ufpe', es:'documenta ufpe'},
-    desc:{ pt:'programa mensal que trata de temas importantes e atuais na sociedade, produzido pela ASCOM da UFPE. formato de entrevista com professores, pesquisadores e especialistas.',
-           en:'a monthly program covering relevant, current social topics, produced by UFPE\'s press office. the format is an interview with professors, researchers and specialists.',
-           es:'programa mensual que aborda temas importantes y actuales en la sociedad, producido por la ASCOM de la UFPE. formato de entrevista con profesores, investigadores y especialistas.' },
-    link:null,
-    videos:[ 
-      { caption:{pt:'transtornos mentais e o espírito da nossa geração', en:'mental health disorders and the spirit of our generation', es:'trastornos mentales y el espíritu de nuestra generación'}, embed:"https://drive.google.com/file/d/1ckHK35ZB2IXFZmXdLbMWRKJzFBdtjChl/preview",
-        credits:[['reportagem_producao','eliza brito'],['imagens_finalizacao','bernardo sampaio'],['edicao','david sales e evelyn carolina']] },
-      { caption:{pt:'conflito entre israel e o hamas completa dois meses e chega a mais de 17 mil mortos', en:'israel–hamas conflict marks two months, death toll passes 17,000', es:'conflicto entre israel y hamás cumple dos meses y supera los 17 mil muertos'}, embed:"https://drive.google.com/file/d/1SnlT0ATvDb8y3fzOhfobpllygRQB4_SX/preview", 
-      credits:[['reportagem_producao','amanda dantas'],['roteiro_edicao','bernardo sampaio'],['camera1','david sales'], ['camera2', 'rayman phelipe']] },
-      { caption:{pt:'por que os prédios tipo "caixão" caem?', en:'why do "coffin-style" buildings collapse?', es:'¿por qué se derrumban los edificios tipo "ataúd"?'}, embed:"https://drive.google.com/file/d/1N_7C8IhkHfyvgBkf_5aRTPxrN6Y5eTQQ/preview",
-        credits:[['reportagem_producao','amanda dantas'],['imagens_edicao','bernardo sampaio'],['camera１','david sales e ana clara botelho'],['camera2','juno anjos']] } ], credits:[] },
-  { id:'a-stalker', kind:{pt:'curta-metragem', en:'short film', es:'cortometraje'},
-    title:{pt:'a stalker', en:'a stalker', es:'a stalker'},
-    desc:{ pt:'curta-metragem autoral.', en:'an original short film.', es:'cortometraje de autoría propia.' },
-    link:null,
-    videos:[ { caption:{pt:'a stalker — curta metragem', en:'a stalker — short film', es:'a stalker — cortometraje'}, embed:"https://drive.google.com/file/d/1bUgVcP1eg01dD7SmItrc9bRl4c1z-LYw/preview" } ],
-    credits:[ ['elenco','matheus dos santos e reneé patriota'], ['direcao','david sales'], ['roteiro','david sales'],
-      ['captacao','david sales e matheus dos santos'], ['montagem_edicao','david sales'],
-      ['producao','joão marcelo e marta rafael'], ['musica','"psycho killer", talking heads'] ] },
-  { id:'rolou-olinda', kind:{pt:'mini documentário', en:'mini documentary', es:'mini documental'},
-    title:{pt:'rolou em olinda: bajado lembrado', en:'rolou em olinda: bajado lembrado', es:'rolou em olinda: bajado lembrado'},
-    desc:{ pt:'mini documentário colaborativo sobre memória e cultura popular em olinda.', en:'a collaborative mini-documentary about memory and popular culture in Olinda.', es:'mini documental colaborativo sobre memoria y cultura popular en olinda.' },
-    link:null,
-    videos:[ { caption:{pt:'rolou em olinda: bajado lembrado', en:'rolou em olinda: bajado lembrado', es:'rolou em olinda: bajado lembrado'}, embed:"https://drive.google.com/file/d/1UezpsAHU2OawnRwNnraMSXvuVfBOO7LI/preview" } ],
-    credits:[ ['direcao','matheus dos santos'], ['roteiro','andré da cunha, mariana fernandes, joão roberto e matheus dos santos'],
-      ['producao','clara avelina, david sales e anthony gabriel'], ['captacao_audio','raudney josé e alexandre barbosa'],
-      ['captacao_imagens','maria eduarda e matheus dos santos'], ['edicao_imagem_som','david sales'], ['mixagem','joão marcelo'],
-      ['apoio_tecnico','samara cristine e ana jade'], ['locucao','anthony santana'],
-      ['musica','"frevo da saudade", bloco da saudade — licenciado por mediamuv'],
-      ['agradecimentos','jacemira monteiro, joão batista e nilton correia'] ] }
-];
-
-const I18N = {
-  pt:{ nav_about:'sobre', nav_formacao:'formação', nav_experiencia:'experiência', nav_softwares:'softwares', nav_trabalhos:'trabalhos', nav_contatos:'contato',
-    nav_formacao_full:'minha formação', nav_experiencia_full:'experiência profissional', nav_softwares_full:'softwares', nav_trabalhos_full:'meus trabalhos', nav_contatos_full:'contatos',
-    sidebar_title:'project: portfolio_2026', tree_about:'00_sobre-mim', tree_formacao:'01_formação', tree_experiencia:'02_experiência',
-    tree_softwares:'03_softwares', tree_trabalhos:'04_trabalhos', tree_contatos:'05_contatos',
-    hero_role:'editor de vídeo', hero_title:'bem-vindo ao meu <span class="accent">portfólio</span>', hero_scroll_hint:'role para reproduzir ↓',
-    about_eyebrow:'// sobre', about_title:'sobre mim',
-    card1_title:'quem sou', card1_body:'david, 26 anos. formado em comunicação social (rádio, tv e internet) pela ufpe.',
-    card2_title:'o que me move', card2_body:'sou apaixonado por cinema e pelo universo do audiovisual, especialmente pela forma como histórias ganham vida através de imagens.',
-    card3_title:'o que estou aprendendo', card3_body:'estudo sistemas de informações na ufpe e me interesso por design centrado no usuário, interfaces e experiências digitais.',
-    card4_title:'além da tela', card4_body:'nos tempos livres, faço crochê e bordado livre, gosto de ver imagens se formando ponto a ponto, com calma e atenção nos detalhes.',
-    edu_eyebrow:'// formação acadêmica', edu_school:'universidade federal de pernambuco',
-    edu_course:'sistemas de informação.',
-    edu_course2:'comunicação social com habilitação em rádio, tv e internet.', 
-    exp_eyebrow:'// trajetória',
-    exp1_org:'hemobrás — empresa brasileira de hemoderivados e biotecnologia',
-    exp1_l1:'editor audiovisual | estágio, nov. 2023 – set. 2024', exp1_l2:'editor audiovisual | terceirizado, out. 2024 – atual',
-    exp2_org:'ufpe — universidade federal de pernambuco', exp2_l1:'editor audiovisual | estágio, jun. 2023 – nov. 2023',
-    exp3_org:'júnior rações | rações cantoria', exp3_l1:'designer gráfico | estágio, ago. 2021 – abr. 2023',
-    exp4_org:'grid design e estratégia', exp4_l1:'social media | estágio, jan. 2021 – ago. 2021',
-    work_eyebrow:'// timeline', render_label:'renderizando portfólio', mark_reviewed:'marcar como revisado', reviewed:'revisado',
-    embed_hint:'espaço reservado para o embed do vídeo', contact_eyebrow:'// export', thanks_title:'obrigado!', thanks_sub:'valeu por rolar até aqui!',
-    export_email_label:'e-mail', export_linkedin_label:'linkedin',
-    footer_text:'feito por david sales — portfólio pessoal · 2026', credits_label:'ficha técnica' },
-  en:{ nav_about:'about', nav_formacao:'education', nav_experiencia:'experience', nav_softwares:'software', nav_trabalhos:'work', nav_contatos:'contact',
-    nav_formacao_full:'education', nav_experiencia_full:'professional experience', nav_softwares_full:'software', nav_trabalhos_full:'my work', nav_contatos_full:'contact',
-    sidebar_title:'project: portfolio_2026', tree_about:'00_about-me', tree_formacao:'01_education', tree_experiencia:'02_experience',
-    tree_softwares:'03_software', tree_trabalhos:'04_work', tree_contatos:'05_contact',
-    hero_role:'video editor', hero_title:'welcome to my <span class="accent">portfolio</span>', hero_scroll_hint:'scroll to play ↓',
-    about_eyebrow:'// about', about_title:'about me',
-    card1_title:'who i am', card1_body:'david, 26. graduated in social communication (radio, tv & internet) from ufpe.',
-    card2_title:'what drives me', card2_body:'i\'m passionate about cinema and the world of audiovisual media, especially the way stories come to life through images.',
-    card3_title:'what i\'m learning', card3_body:'i study systems of information at ufpe and am interested in user-centered design, interfaces and digital experiences.',
-    card4_title:'beyond the screen', card4_body:'in my free time, i do crochet and free-style embroidery; I enjoy watching images take shape stitch by stitch, with patience and attention to detail.',
-    edu_eyebrow:'// academic background', edu_school:'federal university of pernambuco',
-    edu_course:'systems of information.',
-    edu_course2:'social communication, radio/tv/internet track.',
-    exp_eyebrow:'// career path',
-    exp1_org:'hemobrás — brazilian blood-products & biotechnology company',
-    exp1_l1:'video editor | internship, nov 2023 – sept 2024', exp1_l2:'video editor | outsourced, oct 2024 – present',
-    exp2_org:'ufpe — federal university of pernambuco', exp2_l1:'video editor | internship, jun 2023 – nov 2023',
-    exp3_org:'júnior rações | rações cantoria', exp3_l1:'graphic designer | internship, aug 2021 – apr 2023',
-    exp4_org:'grid design e estratégia', exp4_l1:'social media | internship, jan 2021 – aug 2021',
-    work_eyebrow:'// timeline', render_label:'rendering portfolio', mark_reviewed:'mark as reviewed', reviewed:'reviewed',
-    embed_hint:'reserved space for the video embed', contact_eyebrow:'// export', thanks_title:'thank you!', thanks_sub:'thanks for scrolling!',
-    export_email_label:'email', export_linkedin_label:'linkedin',
-    footer_text:'made by david sales — personal portfolio · 2026', credits_label:'credits' },
-  es:{ nav_about:'sobre', nav_formacao:'formación', nav_experiencia:'experiencia', nav_softwares:'programas', nav_trabalhos:'trabajos', nav_contatos:'contacto',
-    nav_formacao_full:'formación', nav_experiencia_full:'experiencia profesional', nav_softwares_full:'programas', nav_trabalhos_full:'mis trabajos', nav_contatos_full:'contacto',
-    sidebar_title:'project: portfolio_2026', tree_about:'00_sobre-mí', tree_formacao:'01_formación', tree_experiencia:'02_experiencia',
-    tree_softwares:'03_programas', tree_trabalhos:'04_trabajos', tree_contatos:'05_contacto',
-    hero_role:'editor de vídeo', hero_title:'bienvenido a mi <span class="accent">portafolio</span>', hero_scroll_hint:'desplázate para reproducir ↓',
-    about_eyebrow:'// sobre', about_title:'sobre mí',
-    card1_title:'quién soy', card1_body:'david, 26 años. graduado en comunicación social (radio, tv e internet) por la ufpe.',
-    card2_title:'qué me mueve', card2_body:'me apasiona el cine y el universo audiovisual, especialmente la forma en que las historias cobran vida a través de las imágenes.',
-    card3_title:'qué estoy aprendiendo', card3_body:'estudio sistemas de información en la ufpe y me interesa el diseño centrado en el usuario, interfaces y experiencias digitales.',
-    card4_title:'más allá de la pantalla', card4_body:'en mi tiempo libre hago crochet y bordado libre, me gusta ver cómo la imagen se forma punto a punto, con calma y atención a los detalles.',
-    edu_eyebrow:'// formación académica', edu_school:'universidad federal de pernambuco',
-    edu_course:'comunicación social con especialización en radio, tv e internet.',
-    edu_course2:'sistemas de información.',
-    exp_eyebrow:'// trayectoria',
-    exp1_org:'hemobrás — empresa brasileña de hemoderivados y biotecnología',
-    exp1_l1:'editor audiovisual | pasantía, nov. 2023 – sept. 2024', exp1_l2:'editor audiovisual | tercerizado, oct. 2024 – actualidad',
-    exp2_org:'ufpe — universidad federal de pernambuco', exp2_l1:'editor audiovisual | pasantía, jun. 2023 – nov. 2023',
-    exp3_org:'júnior rações | rações cantoria', exp3_l1:'diseñador gráfico | pasantía, ago. 2021 – abr. 2023',
-    exp4_org:'grid design e estratégia', exp4_l1:'social media | pasantía, ene. 2021 – ago. 2021',
-    work_eyebrow:'// timeline', render_label:'renderizando portafolio', mark_reviewed:'marcar como revisado', reviewed:'revisado',
-    embed_hint:'espacio reservado para insertar el vídeo', contact_eyebrow:'// exportar', thanks_title:'¡gracias!', thanks_sub:'¡gracias por llegar hasta aquí!',
-    export_email_label:'correo', export_linkedin_label:'linkedin',
-    footer_text:'hecho por david sales — portafolio personal · 2026', credits_label:'ficha técnica' }
-};
-
-const STORAGE_KEY = 'davidsales_portfolio_state_v3';
-function loadState(){
-  try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) return JSON.parse(raw); }
-  catch(e){ /* ignora silenciosamente */ }
-  return { lang:'pt', softLevels:{}, reviewed:{} };
-}
-function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){ /* ignora silenciosamente */ } }
-let state = loadState();
-if(!state.softLevels) state.softLevels = {};
-if(!state.reviewed) state.reviewed = {};
-if(!state.lang) state.lang = 'pt';
-
-function renderSidebarTree(){
-  const ul = document.getElementById('sidebarProjectTree');
-  ul.innerHTML = PROJECTS.map(p => `<li><a href="#proj-${p.id}"><span class="file">◆</span><span>${p.title.pt}</span></a></li>`).join('');
-}
-renderSidebarTree();
-
-function applyLang(lang){
-  state.lang = lang;
-  document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
-  document.getElementById('ccCurrent').textContent = lang.toUpperCase();
-  document.querySelectorAll('.cc-option').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
-
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const key = el.getAttribute('data-i18n');
-    if(I18N[lang][key] !== undefined) el.textContent = I18N[lang][key];
-  });
-  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
-    const key = el.getAttribute('data-i18n-html');
-    if(I18N[lang][key] !== undefined) el.innerHTML = I18N[lang][key];
-  });
-
-  renderSoftwares(lang);
-  renderProjects(lang);
-  saveState();
-}
-
-function renderSoftwares(lang){
-  const wrap = document.getElementById('softGrid');
-  wrap.innerHTML = '';
-  SOFTWARES.forEach(s=>{
-    const level = state.softLevels[s.id] ?? s.level;
-    const row = document.createElement('div');
-    row.className = 'fader-row';
-    row.innerHTML = `
-      <span class="fader-label"><span class="fader-icon" style="background:${s.color}">${s.abbr}</span>${s.name}</span>
-      <div class="fader-track">
-        <div class="fader-meter"></div>
-        <div class="fader-fill" style="width:${level}%"></div>
-        <div class="fader-fill-static" style="width:${level}%"></div>
-      </div>
-      <span class="fader-val">${level}%</span>
-    `;
-    wrap.appendChild(row);
-  });
-}
-
-function videoBoxHTML(video, lang){
-  const inner = video.embed
-    ? `<iframe src="${video.embed}" title="${video.caption[lang]}" allowfullscreen loading="lazy"></iframe>`
-    : `<div class="video-placeholder"><div class="play">▶</div><span>${I18N[lang].embed_hint}</span></div>`;
-  return `<div class="player">
-      <div class="video-box">${inner}</div>
-      <div class="pchrome"><span>▶</span><div class="pc-scrub"></div><span>00:00 / --:--</span></div>
-      <div class="video-caption">${video.caption[lang]}</div>
-    </div>`;
-}
-function creditsHTML(pairs, lang){
-  if(!pairs || !pairs.length) return '';
-  const rows = pairs.map(([role,names])=>`<div class="credit-line"><span class="credit-role">${CREDIT_LABELS[lang][role] || role}</span>${names}</div>`).join('');
-  return `<details class="credits"><summary>${I18N[lang].credits_label}</summary><div class="credits-list">${rows}</div></details>`;
-}
-function renderProjects(lang){
-  const list = document.getElementById('projectsList');
-  list.innerHTML = '';
-  PROJECTS.forEach((p,i)=>{
-    const isReviewed = !!state.reviewed[p.id];
-    const el = document.createElement('article');
-    el.className = 'project reveal in';
-    el.id = 'proj-' + p.id;
-    el.innerHTML = `
-      <div class="clip-head">
-        <span class="track-ic">▮▮</span>
-        <span class="clip-name">${p.title[lang]}</span>
-        <span class="fx-badge">${p.kind[lang]}</span>
-      </div>
-      <div class="project-body">
-        <div class="project-info">
-          <p class="project-desc">${p.desc[lang]}</p>
-          ${p.link ? `<a class="project-link" href="${p.link.href}" target="_blank" rel="noopener">↗ ${p.link.label[lang]}</a><br>` : ''}
-          ${creditsHTML(p.credits, lang)}
-          <div style="margin-top:14px;">
-            <button class="review-toggle ${isReviewed ? 'done':''}" data-project="${p.id}">
-              <span class="dot"></span> ${isReviewed ? I18N[lang].reviewed : I18N[lang].mark_reviewed}
-            </button>
-          </div>
-        </div>
-        <div class="videos">${p.videos.map(v=>`<div>${videoBoxHTML(v, lang)}${creditsHTML(v.credits, lang)}</div>`).join('')}</div>
-      </div>
-    `;
-    list.appendChild(el);
-  });
-  list.querySelectorAll('.review-toggle').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const id = btn.dataset.project;
-      state.reviewed[id] = !state.reviewed[id];
-      saveState();
-      renderProjects(state.lang);
-      updateProgress();
-    });
-  });
-  updateProgress();
-}
-function updateProgress(){
-  const total = PROJECTS.length;
-  const done = PROJECTS.filter(p=>state.reviewed[p.id]).length;
-  document.getElementById('progressFill').style.width = (done/total*100) + '%';
-  document.getElementById('progressLabel').textContent = `${done}/${total}`;
-}
-
-const ccBtn = document.getElementById('ccBtn');
-const ccPanel = document.getElementById('ccPanel');
-ccBtn.addEventListener('click', ()=>{
-  const open = ccPanel.classList.toggle('open');
-  ccBtn.setAttribute('aria-expanded', open);
-});
-document.addEventListener('click', (e)=>{
-  if(!ccPanel.contains(e.target) && e.target !== ccBtn){ ccPanel.classList.remove('open'); ccBtn.setAttribute('aria-expanded','false'); }
-});
-document.querySelectorAll('.cc-option').forEach(btn=>{
-  btn.addEventListener('click', ()=>{ applyLang(btn.dataset.lang); ccPanel.classList.remove('open'); ccBtn.setAttribute('aria-expanded','false'); });
-});
-
-const burger = document.getElementById('burgerBtn');
-const primaryNav = document.getElementById('primaryNav');
-burger.addEventListener('click', ()=>{
-  const open = primaryNav.classList.toggle('open');
-  burger.setAttribute('aria-expanded', open);
-});
-primaryNav.querySelectorAll('a').forEach(a=>{
-  a.addEventListener('click', ()=>{ primaryNav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); });
-});
-
-const navLinks = document.querySelectorAll('nav.primary-nav a');
-const sections = [...navLinks].map(a => document.querySelector(a.getAttribute('href')));
-const navObserver = new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      const id = '#' + entry.target.id;
-      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
-    }
-  });
-}, { rootMargin: '-45% 0px -50% 0px' });
-sections.forEach(s => s && navObserver.observe(s));
-
-const revealObserver = new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('in'); revealObserver.unobserve(entry.target); } });
-}, { threshold:.15 });
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-const scrubProgress = document.getElementById('scrubProgress');
-const heroScrubFill = document.getElementById('heroScrubFill');
-const heroScrubHead = document.getElementById('heroScrubHead');
-const heroTimecode = document.getElementById('heroTimecode');
-const heroTimecode2 = document.getElementById('heroTimecode2');
-function fmtTimecode(ms){
-  const totalSec = ms/1000;
-  const h = String(Math.floor(totalSec/3600)).padStart(2,'0');
-  const m = String(Math.floor((totalSec%3600)/60)).padStart(2,'0');
-  const s = String(Math.floor(totalSec%60)).padStart(2,'0');
-  const f = String(Math.floor((ms%1000)/1000*30)).padStart(2,'0');
-  return `${h}:${m}:${s}:${f}`;
-}
-const startTime = Date.now();
-function onScroll(){
-  const doc = document.documentElement;
-  const pct = doc.scrollTop / (doc.scrollHeight - doc.clientHeight || 1) * 100;
-  scrubProgress.style.width = pct + '%';
-  heroScrubFill.style.width = Math.min(pct*3,100) + '%';
-  heroScrubHead.style.left = Math.min(pct*3,100) + '%';
-}
-document.addEventListener('scroll', onScroll, { passive:true });
-onScroll();
-function tick(){
-  const tc = fmtTimecode(Date.now()-startTime);
-  heroTimecode.textContent = tc; heroTimecode2.textContent = tc;
-  requestAnimationFrame(tick);
-}
-if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){ requestAnimationFrame(tick); }
-else { heroTimecode.textContent = '00:00:00:00'; heroTimecode2.textContent = '00:00:00:00'; }
-
-/* INIT */
-applyLang(state.lang);
+  /* a home mostra os projetos de empresa como pastas clicáveis (acima);
+     aqui na lista de cards ficam só os projetos pessoais, sem empresa associada */
+  window.PROJECTS_FILTER_IDS = ['a-stalker', 'rolou-olinda'];
 </script>
+<script src="common.js"></script>
 </body>
 </html>

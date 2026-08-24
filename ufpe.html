@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UFPE — Trabalhos | David Sales</title>
+<meta name="description" content="Vídeos editados por David Sales durante o estágio na ASCOM da UFPE.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="scrub-progress" id="scrubProgress"></div>
+<a href="#main" class="skip-link">Pular para o conteúdo / Skip to content</a>
+
+<div class="app-titlebar">
+  <span>david_sales — portfolio_2026 *</span>
+  <div class="dots"><span></span><span></span><span></span></div>
+</div>
+<div class="app-menubar">
+  <span>File</span><span>Edit</span><span>Clip</span><span>Sequence</span><span>Markers</span><span>Graphics</span><span>View</span><span>Window</span><span>Help</span>
+</div>
+
+<div class="workspace-bar">
+  <div class="ws-inner">
+    <a href="index.html" class="brand"><span class="brand-mark">DS</span><span class="brand-name">david sales</span></a>
+    <nav class="primary-nav" id="primaryNav">
+      <a href="index.html#about" data-i18n="nav_about">sobre</a>
+      <a href="index.html#formacao" data-i18n="nav_formacao">formação</a>
+      <a href="index.html#experiencia" data-i18n="nav_experiencia">experiência</a>
+      <a href="index.html#softwares" data-i18n="nav_softwares">softwares</a>
+      <a href="index.html#trabalhos" data-i18n="nav_trabalhos">trabalhos</a>
+      <a href="index.html#contatos" data-i18n="nav_contatos">contato</a>
+    </nav>
+    <div class="nav-right">
+      <span class="icon-btn decorative" aria-hidden="true">🔍</span>
+      <span class="icon-btn decorative" aria-hidden="true">▦</span>
+      <button class="cc-btn" id="ccBtn" aria-haspopup="true" aria-expanded="false">CC <span id="ccCurrent">PT</span></button>
+      <div class="cc-panel" id="ccPanel">
+        <button class="cc-option" data-lang="pt"><span>português</span><span class="tag">PT</span></button>
+        <button class="cc-option" data-lang="en"><span>english</span><span class="tag">EN</span></button>
+        <button class="cc-option" data-lang="es"><span>español</span><span class="tag">ES</span></button>
+      </div>
+      <button class="burger" id="burgerBtn" aria-label="Menu" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</div>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-title"><span data-i18n="sidebar_title">project: portfolio_2026</span></div>
+    <ul class="tree">
+      <li><a href="index.html#about"><span class="folder">📁</span><span data-i18n="tree_about">00_sobre-mim</span></a></li>
+      <li><a href="index.html#formacao"><span class="folder">📁</span><span data-i18n="tree_formacao">01_formação</span></a></li>
+      <li><a href="index.html#experiencia"><span class="folder">📁</span><span data-i18n="tree_experiencia">02_experiência</span></a></li>
+      <li><a href="index.html#softwares"><span class="folder">📁</span><span data-i18n="tree_softwares">03_softwares</span></a></li>
+      <li><a href="index.html#trabalhos" class="active"><span class="folder">📁</span><span data-i18n="tree_trabalhos">04_trabalhos</span></a></li>
+      <li><a href="index.html#contatos"><span class="folder">📁</span><span data-i18n="tree_contatos">05_contatos</span></a></li>
+    </ul>
+  </aside>
+
+<main id="main">
+
+<section class="section-pad container" id="top">
+  <a class="breadcrumb reveal in" href="index.html#experiencia" data-i18n="breadcrumb_back">← voltar ao portfólio</a>
+
+  <div class="panel company-hero reveal in">
+    <h1 data-i18n="exp2_org">ufpe — universidade federal de pernambuco</h1>
+    <span class="kind-tag" data-i18n="ufpe_kind">ascom ufpe · jornalismo</span>
+    <p class="company-desc" data-i18n="ufpe_desc">reportagens realizadas durante o estágio em audiovisual na ASCOM – UFPE.</p>
+  </div>
+</section>
+
+<section class="section-pad container" id="trabalhos">
+  <div class="projects" id="projectsList"></div>
+</section>
+
+</main>
+</div>
+
+<footer><span data-i18n="footer_text">feito por david sales — portfólio pessoal · 2026</span></footer>
+
+<script src="data.js"></script>
+<script>
+  /* restringe a lista de projetos renderizada por common.js só aos projetos desta empresa */
+  window.PROJECTS_FILTER_IDS = ['noticias-campus', 'documenta-ufpe'];
+</script>
+<script src="common.js"></script>
+</body>
+</html>

@@ -1,5 +1,3 @@
-/* common.js — funções e comportamento compartilhados entre todas as páginas do portfólio (home + páginas de empresa). */
-
 const STORAGE_KEY = 'davidsales_portfolio_state_v3';
 function loadState(){
   try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) return JSON.parse(raw); }
@@ -14,10 +12,7 @@ if(!state.lang) state.lang = 'pt';
 
 function renderSidebarTree(){
   const ul = document.getElementById('sidebarProjectTree');
-  if(!ul) return; /* elemento só existe na página inicial */
-  /* respeita window.PROJECTS_FILTER_IDS, para não linkar para projetos que
-     não estão mais renderizados inline nesta página (ex.: os de empresa,
-     que agora vivem em suas próprias páginas) */
+  if(!ul) return;
   const items = window.PROJECTS_FILTER_IDS
     ? PROJECTS.filter(p => window.PROJECTS_FILTER_IDS.includes(p.id))
     : PROJECTS;
@@ -48,7 +43,7 @@ function applyLang(lang){
 
 function renderSoftwares(lang){
   const wrap = document.getElementById('softGrid');
-  if(!wrap) return; /* elemento só existe na página inicial */
+  if(!wrap) return;
   wrap.innerHTML = '';
   SOFTWARES.forEach(s=>{
     const level = state.softLevels[s.id] ?? s.level;
@@ -73,9 +68,6 @@ function videoBoxHTML(video, lang, extraHtml){
     : `<div class="video-placeholder"><div class="play">▶</div><span>${I18N[lang].embed_hint}</span></div>`;
   /* video.orientation:'vertical' habilita o layout 9:16 (reels), lado a lado com os 16:9 */
   const vertical = video.orientation === 'vertical';
-  /* video.category (ex.: 'instagram', 'tv', 'youtube') habilita as abas dentro
-     da página (quando o projeto tem 2+ categorias) E sempre mostra uma
-     etiqueta discreta no canto do vídeo, mesmo com uma categoria só. */
   const cat = video.category || 'geral';
   const tagHtml = video.category ? `<span class="video-tag">${I18N[lang]['cat_'+cat] || cat}</span>` : '';
   return `<div class="player${vertical ? ' vertical' : ''}" data-cat="${cat}">
@@ -93,17 +85,12 @@ function creditsHTML(pairs, lang){
 function renderProjects(lang){
   const list = document.getElementById('projectsList');
   if(!list) return;
-  /* window.PROJECTS_FILTER_IDS permite que uma página de empresa mostre
-     só os projetos daquela empresa, reaproveitando esta mesma função. */
   const items = window.PROJECTS_FILTER_IDS
     ? PROJECTS.filter(p => window.PROJECTS_FILTER_IDS.includes(p.id))
     : PROJECTS;
   list.innerHTML = '';
   items.forEach((p,i)=>{
     const isReviewed = !!state.reviewed[p.id];
-    /* se os vídeos do projeto tiverem mais de uma categoria (video.category),
-       mostra abas estilo painel do Premiere pra alternar entre elas.
-       com só uma categoria (ou nenhuma definida), não mostra aba nenhuma. */
     const categories = [...new Set(p.videos.map(v => v.category || 'geral'))];
     const hasTabs = categories.length > 1;
     const tabsHtml = hasTabs ? `<div class="video-tabs" role="tablist">${categories.map((c,ci)=>
@@ -160,9 +147,8 @@ function renderProjects(lang){
 function updateProgress(){
   const fill = document.getElementById('progressFill');
   const label = document.getElementById('progressLabel');
-  if(!fill || !label) return; /* elemento só existe na página inicial */
-  /* respeita window.PROJECTS_FILTER_IDS, para o progresso refletir só os
-     projetos de fato exibidos nesta página (ex.: só os pessoais na home) */
+  if(!fill || !label) return;
+
   const items = window.PROJECTS_FILTER_IDS
     ? PROJECTS.filter(p => window.PROJECTS_FILTER_IDS.includes(p.id))
     : PROJECTS;
@@ -250,5 +236,4 @@ if(heroTimecode || heroTimecode2){
   else { if(heroTimecode) heroTimecode.textContent = '00:00:00:00'; if(heroTimecode2) heroTimecode2.textContent = '00:00:00:00'; }
 }
 
-/* INIT */
 applyLang(state.lang);

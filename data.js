@@ -1,53 +1,3 @@
-/* data.js — dados do portfólio de David Sales (projetos, softwares, traduções). Gerado a partir do index.html original; nenhum link de vídeo foi alterado. */
-
-/* ============================================================
-   COMO ADICIONAR UM VÍDEO A UM PROJETO JÁ EXISTENTE
-   (ex.: colocar mais um vídeo/reel da Hemobrás)
-   ============================================================
-   Ache o projeto certo em PROJECTS (mais abaixo, procure por "id:'hemobras'"
-   ou "id:'noticias-campus'" etc.) e adicione um item dentro do array "videos:[ ]":
-
-   { caption:{pt:'legenda em pt', en:'caption in en', es:'leyenda en es'},
-     embed:"COLE_AQUI_O_LINK_DE_PREVIEW_DO_GOOGLE_DRIVE" }
-
-   → Isso cria um vídeo HORIZONTAL (16:9) — é o padrão, não precisa declarar nada a mais.
-
-   Se o vídeo for um REEL VERTICAL (9:16, formato Instagram/TikTok), adicione
-   também a propriedade orientation:'vertical':
-
-   { caption:{pt:'legenda em pt', en:'caption in en', es:'leyenda en es'},
-     embed:"COLE_AQUI_O_LINK_DE_PREVIEW_DO_GOOGLE_DRIVE",
-     orientation:'vertical' }
-
-   → O player se ajusta sozinho: 16:9 por padrão, 9:16 quando marcado assim.
-     Pode misturar os dois formatos dentro do mesmo array "videos:[ ]" sem problema.
-
-   Se quiser separar os vídeos do projeto em ABAS (ex.: "instagram" vs "tv
-   corporativa"), adicione também category:'algum-nome' em cada vídeo:
-
-   { caption:{...}, embed:"...", category:'tv' }
-
-   → Assim que houver 2+ categorias diferentes num mesmo projeto, as abas
-     aparecem sozinhas acima da galeria (não precisa fazer mais nada). Com só
-     uma categoria (ou nenhuma definida), nenhuma aba aparece, mas o vídeo
-     ainda ganha uma etiqueta discreta no canto (ex.: "youtube") — a etiqueta
-     e a aba usam o mesmo texto, vindo do I18N logo abaixo, nas chaves
-     "cat_instagram", "cat_tv", "cat_youtube" etc. — se criar uma categoria
-     nova, adicione a tradução dela lá (pt/en/es) do mesmo jeito.
-
-   IMPORTANTE: nunca edite um link "embed" já existente — só adicione itens novos.
-
-   ============================================================
-   COMO CRIAR UM PROJETO/EMPRESA NOVA DO ZERO
-   ============================================================
-   1. Adicione um objeto novo aqui em PROJECTS (copie a estrutura de um já existente).
-   2. Se for uma empresa nova com página própria, crie um arquivo HTML novo
-      (copie hemobras.html ou ufpe.html como modelo) e ajuste, perto do fim do
-      arquivo, a linha: window.PROJECTS_FILTER_IDS = ['id-do-seu-projeto'];
-   3. Adicione um link clicável até essa página na seção "experiência" do
-      index.html e na seção "meus trabalhos" (procure por bin-org-link).
-   ============================================================ */
-
 const SOFTWARES = [
   { id:'pr', name:'Premiere Pro', color:'#00005b', abbr:'Pr', level:85 },
   { id:'ae', name:'After Effects', color:'#00005b', abbr:'Ae', level:65 },
@@ -85,7 +35,6 @@ const PROJECTS = [
            es:'vídeos institucionales videos institucionales para su difusión en youtube.' },
     link:null,
     videos:[
-      /* 👉 pra adicionar um vídeo aqui, veja as instruções no topo deste arquivo */
       { caption:{pt:'hemobrás em um minuto', en:'hemobrás in one minute', es:'hemobrás en un minuto'}, embed:"https://drive.google.com/file/d/1wNEM2RUJwKO6dW5ZJnRGFhnYJN2ezjl4/preview", category:'youtube' },
       { caption:{pt:'inauguração da fábrica de hemoderivados — super plasma', en:'opening of the blood-products factory — super plasma', es:'inauguración de la fábrica de hemoderivados — super plasma'}, embed:"https://drive.google.com/file/d/1ejgGxSmHspLxAmW0eLaRLE9KRJAK9Kqk/preview", category:'youtube' }
     ], credits:[] },
@@ -108,9 +57,6 @@ const PROJECTS = [
            es:'vídeos verticales publicados en el feed y los reels de instagram de Hemobrás.' },
     link:{ href:'https://instagram.com/hemobras', label:{pt:'ver no instagram', en:'view on instagram', es:'ver en instagram'} },
     videos:[
-      /* 👉 espaço reservado — substitua estes dois itens pelos vídeos reais assim que
-         escolher quais reels/posts do instagram entram aqui. mantenha orientation:'vertical'.
-         basta trocar caption e adicionar embed:"LINK_DO_DRIVE" em cada um. */
       { caption:{pt:'giro 360º na hemobrás', en:'360º tour on hemobrás', es:'giro de 360º en hemobrás'}, embed: "https://drive.google.com/file/d/1E-4Z8DSho3n9JyX3hdVKEh0d4n-e95xN/preview", orientation:'vertical' },
       { caption:{pt:'jogo do super plasma', en:'super plasma game', es:'juego del super plasma'}, embed: "https://drive.google.com/file/d/1fYktSbheXIA4p3c9y3nQxuH-HH5vAuLW/preview", orientation:'vertical' },
     { caption:{pt:'super plasma em o "agente secreto"', en:'super plasma on "the secret agent"', es:'super plasma en "el agente secreto"'}, embed: "https://drive.google.com/file/d/1C0yu0E8MTV16mpibNR8ix0X-hotc84Ud/preview", orientation:'vertical' },

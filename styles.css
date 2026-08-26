@@ -98,7 +98,7 @@ main{ min-width:0; }
 .panel-header{ display:flex; align-items:center; gap:10px; padding:8px 14px; background:var(--panel-header); border-bottom:1px solid var(--line); font-family:var(--mono); font-size:11px; color:var(--text-3); }
 .panel-header .ph-tab{ color:var(--text-1); border-bottom:2px solid var(--cyan); padding-bottom:8px; margin-bottom:-9px; }
 .panel-header .ph-spacer{ flex:1; }
-.monitor-frame{ position:relative; aspect-ratio:16/8.2; min-height:260px; background:
+.monitor-frame{ position:relative; aspect-ratio:16/8.2; min-height:320px; background:
     radial-gradient(circle at 25% 20%, rgba(79,195,247,.14), transparent 45%),
     radial-gradient(circle at 80% 85%, rgba(232,163,61,.12), transparent 45%), #0b0b0c;
   display:flex; align-items:center; justify-content:center; text-align:center; padding:28px; }
@@ -106,7 +106,7 @@ main{ min-width:0; }
 .hero-title .accent{ font-family:var(--sans); font-style:normal; font-weight:700; background:linear-gradient(100deg,var(--cyan),var(--amber)); -webkit-background-clip:text; background-clip:text; color:transparent; }
 .lower-third{ position:absolute; left:24px; bottom:24px; display:flex; align-items:stretch; font-family:var(--mono); }
 .lt-bar{ width:5px; background:var(--cyan); }
-.lt-text{ background:rgba(10,10,11,.72); -webkit-backdrop-filter:blur(4px); backdrop-filter: blur(4px); padding:8px 14px; }
+.lt-text{ background:rgba(10,10,11,.72); backdrop-filter:blur(4px); padding:8px 14px; }
 .lt-name{ font-size:13px; font-weight:600; color:var(--text-1); letter-spacing:.02em; }
 .lt-role{ font-size:10.5px; color:var(--cyan); letter-spacing:.06em; text-transform:uppercase; margin-top:2px; }
 
@@ -176,8 +176,8 @@ section{ scroll-margin-top:76px; }
 .clip-head .clip-name{ font-weight:600; }
 .clip-head .fx-badge{ margin-left:auto; background:rgba(0,0,0,.28); border:1px solid rgba(255,255,255,.18); border-radius:4px; padding:2px 7px; font-size:10px; }
 
-.project-body{ display:grid; grid-template-columns:1fr 1.05fr; gap:0; }
-.project-info{ padding:20px; border-right:1px solid var(--line); }
+.project-body{ display:flex; flex-direction:column; }
+.project-info{ padding:20px; border-bottom:1px solid var(--line); }
 .project-info h3{ font-size:24px; font-style:italic; margin-bottom:6px; }
 .project-desc{ color:var(--text-2); font-size:13.5px; margin:8px 0 14px; }
 .project-link{ display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:12px; color:var(--cyan); text-decoration:none; margin-bottom:12px; }
@@ -187,21 +187,31 @@ section{ scroll-margin-top:76px; }
 .review-toggle.done{ border-color:var(--green); color:var(--text-1); }
 .review-toggle.done .dot{ background:var(--green); border-color:var(--green); }
 
-.videos{ display:flex; flex-direction:column; gap:14px; padding:20px; }
-.player{ border:1px solid var(--line); border-radius:var(--radius-sm); overflow:hidden; background:var(--field); }
+/* galeria de vídeos: grade que se ajusta sozinha à largura disponível, então
+   vários vídeos (16:9 ou 9:16) ficam lado a lado em vez de empilhados */
+/* galeria: flexbox (não grid) de propósito — assim um vídeo vertical (9:16) ocupa
+   só a largura que ele precisa, e um horizontal ao lado cresce pra preencher o
+   resto do espaço, em vez de ambos ficarem presos numa "coluna" de mesmo tamanho */
+/* abas de categoria dentro de um projeto (ex.: instagram / tv corporativa),
+   no mesmo estilo das abas de painel do Premiere Pro */
+.video-tabs{ display:flex; gap:2px; padding:0 20px; border-top:1px solid var(--line); background:var(--panel-2, var(--field)); }
+.video-tab{ background:transparent; border:none; border-bottom:2px solid transparent; color:var(--text-3); font-family:var(--mono); font-size:11px; letter-spacing:.02em; padding:10px 14px 8px; cursor:pointer; transition:.15s; }
+.video-tab:hover{ color:var(--text-1); }
+.video-tab.active{ color:var(--cyan); border-bottom-color:var(--cyan); }
+
+.videos{ display:flex; flex-wrap:wrap; align-items:flex-start; gap:18px; padding:20px; }
+.player{ border:1px solid var(--line); border-radius:var(--radius-sm); overflow:hidden; background:var(--field); flex:1 1 460px; }
+.player.vertical{ flex:0 0 320px; max-width:320px; }
 .video-box{ position:relative; aspect-ratio:16/9; background:#0a090b; }
+.video-tag{ position:absolute; top:8px; left:8px; z-index:2; background:rgba(10,9,11,.78); border:1px solid var(--line-strong); color:var(--text-1); font-family:var(--mono); font-size:10px; letter-spacing:.03em; padding:3px 8px; border-radius:5px; pointer-events:none; }
+.video-box.vertical{ aspect-ratio:9/16; }
 .video-box iframe{ width:100%; height:100%; border:0; }
 .video-placeholder{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; color:var(--text-3); text-align:center; padding:14px; font-size:12px; font-family:var(--mono); }
 .video-placeholder .play{ width:40px; height:40px; border-radius:50%; border:1px solid var(--line-strong); display:flex; align-items:center; justify-content:center; color:var(--text-2); }
+.video-caption{ padding:9px 10px 10px; font-size:12.5px; color:var(--text-2); border-top:1px solid var(--line); }
 .pchrome{ display:flex; align-items:center; gap:8px; padding:7px 10px; border-top:1px solid var(--line); font-family:var(--mono); font-size:10.5px; color:var(--text-3); }
 .pchrome .pc-scrub{ flex:1; height:2px; background:var(--line); border-radius:2px; position:relative; overflow:hidden; }
 .pchrome .pc-scrub::after{ content:''; position:absolute; left:0; top:0; height:100%; width:28%; background:var(--text-3); }
-.video-caption{ padding:9px 10px 10px; font-size:12.5px; color:var(--text-2); border-top:1px solid var(--line); }
-
-/* ficha técnica — estilo "Effect Controls" (retrátil, mantida) */
-.credits{ margin-top:4px; background:var(--field); border:1px solid var(--line); border-radius:var(--radius-sm); padding:0; }
-.credits summary{ cursor:pointer; font-family:var(--mono); font-size:11px; color:var(--text-1); font-weight:500; list-style:none; display:flex; align-items:center; justify-content:space-between; padding:9px 13px; }
-.credits summary::-webkit-details-marker{ display:none; }
 .credits summary::after{ content:'▸'; color:var(--text-3); font-size:10px; }
 .credits[open] summary::after{ content:'▾'; }
 .credits[open] summary{ border-bottom:1px solid var(--line); }
@@ -210,7 +220,7 @@ section{ scroll-margin-top:76px; }
 .credit-role{ color:var(--text-3); flex:none; min-width:150px; position:relative; }
 .credit-role::after{ content:''; position:absolute; bottom:2px; left:0; right:6px; border-bottom:1px dotted var(--line-strong); }
 
-@media (max-width:860px){ .project-body{ grid-template-columns:1fr; } .project-info{ border-right:none; border-bottom:1px solid var(--line); } }
+@media (max-width:860px){ .player{ flex-basis:100%; } .player.vertical{ flex:0 0 220px; max-width:220px; } }
 
 .export-panel{ border:1px solid var(--line); border-radius:var(--radius-md); overflow:hidden; max-width:640px; }
 .export-row{ display:flex; align-items:center; gap:14px; padding:16px 18px; border-bottom:1px solid var(--line); }

@@ -82,11 +82,14 @@
 
 <footer><span data-i18n="footer_text">feito por david sales — portfólio pessoal · 2026</span></footer>
 
-<script src="data.js?v=1.1"></script>
+<script src="data.js"></script>
 <script>
-  /* restringe a lista de projetos renderizada por common.js só ao(s) projeto(s) desta empresa */
-  window.PROJECTS_FILTER_IDS = ['hemobras'];
+  /* restringe a lista de projetos renderizada por common.js aos projetos desta empresa:
+     youtube, tv corporativa e instagram. pra adicionar vídeos novos, mexa nos arrays
+     "videos" de hemobras / hemobras-tv / hemobras-instagram em data.js (tem instruções
+     detalhadas no topo daquele arquivo) — não precisa tocar aqui. */
+  window.PROJECTS_FILTER_IDS = ['hemobras', 'hemobras-tv', 'hemobras-instagram'];
 </script>
-<script src="common.js?v=1.1"></script>
+<script src="common.js"></script>
 </body>
 </html>

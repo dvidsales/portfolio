@@ -67,14 +67,22 @@ function renderSoftwares(lang){
   });
 }
 
-function videoBoxHTML(video, lang){
+function videoBoxHTML(video, lang, extraHtml){
   const inner = video.embed
     ? `<iframe src="${video.embed}" title="${video.caption[lang]}" allowfullscreen loading="lazy"></iframe>`
     : `<div class="video-placeholder"><div class="play">▶</div><span>${I18N[lang].embed_hint}</span></div>`;
-  return `<div class="player">
-      <div class="video-box">${inner}</div>
+  /* video.orientation:'vertical' habilita o layout 9:16 (reels), lado a lado com os 16:9 */
+  const vertical = video.orientation === 'vertical';
+  /* video.category (ex.: 'instagram', 'tv', 'youtube') habilita as abas dentro
+     da página (quando o projeto tem 2+ categorias) E sempre mostra uma
+     etiqueta discreta no canto do vídeo, mesmo com uma categoria só. */
+  const cat = video.category || 'geral';
+  const tagHtml = video.category ? `<span class="video-tag">${I18N[lang]['cat_'+cat] || cat}</span>` : '';
+  return `<div class="player${vertical ? ' vertical' : ''}" data-cat="${cat}">
+      <div class="video-box${vertical ? ' vertical' : ''}">${tagHtml}${inner}</div>
       <div class="pchrome"><span>▶</span><div class="pc-scrub"></div><span>00:00 / --:--</span></div>
       <div class="video-caption">${video.caption[lang]}</div>
+      ${extraHtml || ''}
     </div>`;
 }
 function creditsHTML(pairs, lang){
@@ -93,6 +101,14 @@ function renderProjects(lang){
   list.innerHTML = '';
   items.forEach((p,i)=>{
     const isReviewed = !!state.reviewed[p.id];
+    /* se os vídeos do projeto tiverem mais de uma categoria (video.category),
+       mostra abas estilo painel do Premiere pra alternar entre elas.
+       com só uma categoria (ou nenhuma definida), não mostra aba nenhuma. */
+    const categories = [...new Set(p.videos.map(v => v.category || 'geral'))];
+    const hasTabs = categories.length > 1;
+    const tabsHtml = hasTabs ? `<div class="video-tabs" role="tablist">${categories.map((c,ci)=>
+      `<button class="video-tab${ci===0?' active':''}" data-cat="${c}" role="tab" aria-selected="${ci===0}">${I18N[lang]['cat_'+c] || c}</button>`
+    ).join('')}</div>` : '';
     const el = document.createElement('article');
     el.className = 'project reveal in';
     el.id = 'proj-' + p.id;
@@ -113,9 +129,21 @@ function renderProjects(lang){
             </button>
           </div>
         </div>
-        <div class="videos">${p.videos.map(v=>`<div>${videoBoxHTML(v, lang)}${creditsHTML(v.credits, lang)}</div>`).join('')}</div>
+        ${tabsHtml}
+        <div class="videos">${p.videos.map(v=>videoBoxHTML(v, lang, creditsHTML(v.credits, lang))).join('')}</div>
       </div>
     `;
+    if(hasTabs){
+      const firstCat = categories[0];
+      el.querySelectorAll('.player').forEach(pl => { if(pl.dataset.cat !== firstCat) pl.style.display = 'none'; });
+      el.querySelectorAll('.video-tab').forEach(tab=>{
+        tab.addEventListener('click', ()=>{
+          const cat = tab.dataset.cat;
+          el.querySelectorAll('.video-tab').forEach(t=>{ t.classList.toggle('active', t===tab); t.setAttribute('aria-selected', t===tab); });
+          el.querySelectorAll('.player').forEach(pl=>{ pl.style.display = (pl.dataset.cat === cat) ? '' : 'none'; });
+        });
+      });
+    }
     list.appendChild(el);
   });
   list.querySelectorAll('.review-toggle').forEach(btn=>{

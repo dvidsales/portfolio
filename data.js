@@ -1,5 +1,53 @@
 /* data.js — dados do portfólio de David Sales (projetos, softwares, traduções). Gerado a partir do index.html original; nenhum link de vídeo foi alterado. */
 
+/* ============================================================
+   COMO ADICIONAR UM VÍDEO A UM PROJETO JÁ EXISTENTE
+   (ex.: colocar mais um vídeo/reel da Hemobrás)
+   ============================================================
+   Ache o projeto certo em PROJECTS (mais abaixo, procure por "id:'hemobras'"
+   ou "id:'noticias-campus'" etc.) e adicione um item dentro do array "videos:[ ]":
+
+   { caption:{pt:'legenda em pt', en:'caption in en', es:'leyenda en es'},
+     embed:"COLE_AQUI_O_LINK_DE_PREVIEW_DO_GOOGLE_DRIVE" }
+
+   → Isso cria um vídeo HORIZONTAL (16:9) — é o padrão, não precisa declarar nada a mais.
+
+   Se o vídeo for um REEL VERTICAL (9:16, formato Instagram/TikTok), adicione
+   também a propriedade orientation:'vertical':
+
+   { caption:{pt:'legenda em pt', en:'caption in en', es:'leyenda en es'},
+     embed:"COLE_AQUI_O_LINK_DE_PREVIEW_DO_GOOGLE_DRIVE",
+     orientation:'vertical' }
+
+   → O player se ajusta sozinho: 16:9 por padrão, 9:16 quando marcado assim.
+     Pode misturar os dois formatos dentro do mesmo array "videos:[ ]" sem problema.
+
+   Se quiser separar os vídeos do projeto em ABAS (ex.: "instagram" vs "tv
+   corporativa"), adicione também category:'algum-nome' em cada vídeo:
+
+   { caption:{...}, embed:"...", category:'tv' }
+
+   → Assim que houver 2+ categorias diferentes num mesmo projeto, as abas
+     aparecem sozinhas acima da galeria (não precisa fazer mais nada). Com só
+     uma categoria (ou nenhuma definida), nenhuma aba aparece, mas o vídeo
+     ainda ganha uma etiqueta discreta no canto (ex.: "youtube") — a etiqueta
+     e a aba usam o mesmo texto, vindo do I18N logo abaixo, nas chaves
+     "cat_instagram", "cat_tv", "cat_youtube" etc. — se criar uma categoria
+     nova, adicione a tradução dela lá (pt/en/es) do mesmo jeito.
+
+   IMPORTANTE: nunca edite um link "embed" já existente — só adicione itens novos.
+
+   ============================================================
+   COMO CRIAR UM PROJETO/EMPRESA NOVA DO ZERO
+   ============================================================
+   1. Adicione um objeto novo aqui em PROJECTS (copie a estrutura de um já existente).
+   2. Se for uma empresa nova com página própria, crie um arquivo HTML novo
+      (copie hemobras.html ou ufpe.html como modelo) e ajuste, perto do fim do
+      arquivo, a linha: window.PROJECTS_FILTER_IDS = ['id-do-seu-projeto'];
+   3. Adicione um link clicável até essa página na seção "experiência" do
+      index.html e na seção "meus trabalhos" (procure por bin-org-link).
+   ============================================================ */
+
 const SOFTWARES = [
   { id:'pr', name:'Premiere Pro', color:'#00005b', abbr:'Pr', level:85 },
   { id:'ae', name:'After Effects', color:'#00005b', abbr:'Ae', level:65 },
@@ -30,15 +78,45 @@ const CREDIT_LABELS = {
 };
 
 const PROJECTS = [
-  { id:'hemobras', kind:{pt:'empresa pública · redes sociais', en:'public business · social media', es:'empresa pública · redes sociales'},
-    title:{pt:'hemobrás', en:'hemobrás', es:'hemobrás'},
-    desc:{ pt:'vídeos editados para o instagram da Hemobrás, empresa brasileira de hemoderivados e biotecnologia — estatal vinculada ao ministério da saúde, que garante aos pacientes do SUS medicamentos derivados do sangue e/ou obtidos por engenharia genética, com produção nacional.',
-           en:'videos edited for the Instagram of Hemobrás, a Brazilian blood-products and biotechnology company — a federal enterprise linked to the Ministry of Health that supplies blood-derived and genetically engineered medicines to public healthcare patients.',
-           es:'vídeos editados para el Instagram de Hemobrás, empresa brasileña de hemoderivados y biotecnología — estatal vinculada al ministerio de salud, que garantiza a los pacientes del sistema público medicamentos derivados de la sangre y/o obtenidos por ingeniería genética.' },
+  { id:'hemobras', kind:{pt:'youtube · vídeos institucionais', en:'youtube · institutional videos', es:'youtube · vídeos institucionales'},
+    title:{pt:'hemobrás — youtube', en:'hemobrás — youtube', es:'hemobrás — youtube'},
+    desc:{ pt:'vídeos institucionais para veiculação no youtube.',
+           en:'corporate videos for distribution on youtube.',
+           es:'vídeos institucionales videos institucionales para su difusión en youtube.' },
+    link:null,
+    videos:[
+      /* 👉 pra adicionar um vídeo aqui, veja as instruções no topo deste arquivo */
+      { caption:{pt:'hemobrás em um minuto', en:'hemobrás in one minute', es:'hemobrás en un minuto'}, embed:"https://drive.google.com/file/d/1wNEM2RUJwKO6dW5ZJnRGFhnYJN2ezjl4/preview", category:'youtube' },
+      { caption:{pt:'inauguração da fábrica de hemoderivados — super plasma', en:'opening of the blood-products factory — super plasma', es:'inauguración de la fábrica de hemoderivados — super plasma'}, embed:"https://drive.google.com/file/d/1ejgGxSmHspLxAmW0eLaRLE9KRJAK9Kqk/preview", category:'youtube' }
+    ], credits:[] },
+  { id:'hemobras-tv', kind:{pt:'comunicação interna · tv corporativa', en:'internal communications · corporate tv', es:'comunicación interna · tv corporativa'},
+    title:{pt:'hemobrás — tv corporativa', en:'hemobrás — corporate tv', es:'hemobrás — tv corporativa'},
+    desc:{ pt:'vídeos tutoriais e institucionais exibidos nas telas internas da Hemobrás, voltados para os colaboradores da empresa.',
+           en:'tutorial and institutional videos shown on Hemobrás\' internal screens, aimed at company employees.',
+           es:'vídeos tutoriales e institucionales exhibidos en las pantallas internas de Hemobrás, dirigidos a los colaboradores de la empresa.' },
+    link:null,
+    videos:[
+      { caption:{pt:'como abrir um chamado no GLIP', en:'how to open a support ticket in GLIP', es:'cómo abrir un ticket en GLIP'}, embed:"https://drive.google.com/file/d/1QNVd32SE92kKs-8IeMnwazbQCoay5lqS/preview" },
+      { caption:{pt:'como entrar no Hemozap', en:'how to log into Hemozap', es:'cómo ingresar a Hemozap'}, embed:"https://drive.google.com/file/d/1-2JEwWHCWp6quOXgKNIbV9LttEiRL-Cf/preview" },
+      { caption:{pt:'como solicitar uma publicação', en:'how to request a publication', es:'cómo solicitar una publicación'}, embed:"https://drive.google.com/file/d/1HNKOpJR62t7WZeULXn8nX70Ngxy1MRPo/preview" },
+      { caption:{pt:'você que faz!', en:'you make it happen!', es:'¡tú lo haces posible!'}, embed:"https://drive.google.com/file/d/14JojR0DahqXHvRK_TZqNTVIp8uZRtacD/preview" }
+    ], credits:[] },
+  { id:'hemobras-instagram', kind:{pt:'instagram · reels', en:'instagram · reels', es:'instagram · reels'},
+    title:{pt:'hemobrás — instagram', en:'hemobrás — instagram', es:'hemobrás — instagram'},
+    desc:{ pt:'vídeos verticais publicados no feed e nos reels do instagram da Hemobrás.',
+           en:'vertical videos posted to Hemobrás\' Instagram feed and reels.',
+           es:'vídeos verticales publicados en el feed y los reels de instagram de Hemobrás.' },
     link:{ href:'https://instagram.com/hemobras', label:{pt:'ver no instagram', en:'view on instagram', es:'ver en instagram'} },
     videos:[
-      { caption:{pt:'hemobrás em um minuto', en:'hemobrás in one minute', es:'hemobrás en un minuto'}, embed:"https://drive.google.com/file/d/1wNEM2RUJwKO6dW5ZJnRGFhnYJN2ezjl4/preview" },
-      { caption:{pt:'inauguração da fábrica de hemoderivados — super plasma', en:'opening of the blood-products factory — super plasma', es:'inauguración de la fábrica de hemoderivados — super plasma'}, embed:"https://drive.google.com/file/d/1ejgGxSmHspLxAmW0eLaRLE9KRJAK9Kqk/preview" }
+      /* 👉 espaço reservado — substitua estes dois itens pelos vídeos reais assim que
+         escolher quais reels/posts do instagram entram aqui. mantenha orientation:'vertical'.
+         basta trocar caption e adicionar embed:"LINK_DO_DRIVE" em cada um. */
+      { caption:{pt:'giro 360º na hemobrás', en:'360º tour on hemobrás', es:'giro de 360º en hemobrás'}, embed: "https://drive.google.com/file/d/1E-4Z8DSho3n9JyX3hdVKEh0d4n-e95xN/preview", orientation:'vertical' },
+      { caption:{pt:'jogo do super plasma', en:'super plasma game', es:'juego del super plasma'}, embed: "https://drive.google.com/file/d/1fYktSbheXIA4p3c9y3nQxuH-HH5vAuLW/preview", orientation:'vertical' },
+    { caption:{pt:'super plasma em o "agente secreto"', en:'super plasma on "the secret agent"', es:'super plasma en "el agente secreto"'}, embed: "https://drive.google.com/file/d/1C0yu0E8MTV16mpibNR8ix0X-hotc84Ud/preview", orientation:'vertical' },
+      { caption:{pt:'joao pedro dias', en:'joao pedro dias', es:'joao pedro dias'}, embed: "https://drive.google.com/file/d/1S4QHahx2nI4dDyY3RQOUm25pv6CB2RnY/preview", orientation:'vertical' },
+      { caption:{pt:'boas práticas de fabricação - bpf', en:'good manufacturing practices - gmp', es:'prácticas de fabricación adecuadas - pfa'}, embed: "https://drive.google.com/file/d/1AmJlXbQM-U_r_z0dVPIBNWJbFUND-1Q7/preview", orientation:'vertical' },
+      { caption:{pt:'por dentro do sgsaa', en:'inside the sgsaa', es:'por dentro del sgsaa'}, embed: "https://drive.google.com/file/d/16GuNvY-mTg6tsfiS0GEsnz2r7qYmxQTV/preview", orientation:'vertical' }
     ], credits:[] },
   { id:'noticias-campus', kind:{pt:'ascom ufpe · jornalismo', en:'ufpe press office · journalism', es:'ascom ufpe · periodismo'},
     title:{pt:'notícias do campus', en:'notícias do campus', es:'notícias do campus'},
@@ -114,12 +192,13 @@ const I18N = {
     footer_text:'feito por david sales — portfólio pessoal · 2026', credits_label:'ficha técnica',
     goto_label:'ver trabalhos →', breadcrumb_back:'← voltar ao portfólio', company_works_title:'trabalhos para',
     hemobras_kind:'empresa pública · redes sociais',
-    hemobras_desc:'vídeos editados para o instagram da Hemobrás, empresa brasileira de hemoderivados e biotecnologia, como editor audiovisual terceirizado (out. 2024 – atual) após estágio (nov. 2023 – set. 2024).',
+    hemobras_desc:'vídeos produzidos para a Hemobrás, empresa brasileira de hemoderivados e biotecnologia, como editor audiovisual terceirizado (out. 2024 – atual) após estágio (nov. 2023 – set. 2024). organizados abaixo por canal: youtube, tv corporativa e instagram.',
     ufpe_kind:'ascom ufpe · jornalismo e programas',
     ufpe_desc:'reportagens e o programa mensal "documenta ufpe" produzidos durante o estágio em audiovisual na ASCOM – UFPE (jun. 2023 – nov. 2023).',
     featured_eyebrow:'// um exemplo', featured_caption:'hemobrás em um minuto',
     explore_more:'quer ver mais? explore os projetos completos nas pastas abaixo ↓',
-    bin_hemobras_count:'2 vídeos', bin_ufpe_count:'6 vídeos', personal_projects_label:'projetos pessoais' },
+    bin_hemobras_count:'6 vídeos', bin_ufpe_count:'6 vídeos', personal_projects_label:'projetos pessoais',
+    cat_instagram:'instagram', cat_tv:'tv corporativa', cat_geral:'geral', cat_youtube:'youtube' },
   en:{ nav_about:'about', nav_formacao:'education', nav_experiencia:'experience', nav_softwares:'software', nav_trabalhos:'work', nav_contatos:'contact',
     nav_formacao_full:'education', nav_experiencia_full:'professional experience', nav_softwares_full:'software', nav_trabalhos_full:'my work', nav_contatos_full:'contact',
     sidebar_title:'project: portfolio_2026', tree_about:'00_about-me', tree_formacao:'01_education', tree_experiencia:'02_experience',
@@ -145,12 +224,13 @@ const I18N = {
     footer_text:'made by david sales — personal portfolio · 2026', credits_label:'credits',
     goto_label:'view work →', breadcrumb_back:'← back to portfolio', company_works_title:'work for',
     hemobras_kind:'public company · social media',
-    hemobras_desc:'videos edited for the Instagram of Hemobrás, a Brazilian blood-products and biotechnology company, as an outsourced video editor (oct 2024 – present) following an internship (nov 2023 – sept 2024).',
+    hemobras_desc:'videos produced for Hemobrás, a Brazilian blood-products and biotechnology company, as an outsourced video editor (oct 2024 – present) following an internship (nov 2023 – sept 2024). organized below by channel: youtube, corporate tv and instagram.',
     ufpe_kind:'ufpe press office · journalism & programs',
     ufpe_desc:'news pieces and the monthly program "documenta ufpe" produced during the audiovisual internship at UFPE\'s press office, ASCOM (jun 2023 – nov 2023).',
     featured_eyebrow:'// a sample', featured_caption:'hemobrás in one minute',
     explore_more:'want to see more? explore the full folders below ↓',
-    bin_hemobras_count:'2 videos', bin_ufpe_count:'6 videos', personal_projects_label:'personal projects' },
+    bin_hemobras_count:'6 videos', bin_ufpe_count:'6 videos', personal_projects_label:'personal projects',
+    cat_instagram:'instagram', cat_tv:'corporate tv', cat_geral:'general', cat_youtube:'youtube' },
   es:{ nav_about:'sobre', nav_formacao:'formación', nav_experiencia:'experiencia', nav_softwares:'programas', nav_trabalhos:'trabajos', nav_contatos:'contacto',
     nav_formacao_full:'formación', nav_experiencia_full:'experiencia profesional', nav_softwares_full:'programas', nav_trabalhos_full:'mis trabajos', nav_contatos_full:'contacto',
     sidebar_title:'project: portfolio_2026', tree_about:'00_sobre-mí', tree_formacao:'01_formación', tree_experiencia:'02_experiencia',
@@ -176,11 +256,12 @@ const I18N = {
     footer_text:'hecho por david sales — portafolio personal · 2026', credits_label:'ficha técnica',
     goto_label:'ver trabajos →', breadcrumb_back:'← volver al portafolio', company_works_title:'trabajos para',
     hemobras_kind:'empresa pública · redes sociales',
-    hemobras_desc:'vídeos editados para el instagram de Hemobrás, empresa brasileña de hemoderivados y biotecnología, como editor audiovisual tercerizado (oct. 2024 – actualidad) tras una pasantía (nov. 2023 – sept. 2024).',
+    hemobras_desc:'vídeos producidos para Hemobrás, empresa brasileña de hemoderivados y biotecnología, como editor audiovisual tercerizado (oct. 2024 – actualidad) tras una pasantía (nov. 2023 – sept. 2024). organizados abajo por canal: youtube, tv corporativa e instagram.',
     ufpe_kind:'ascom ufpe · periodismo y programas',
     ufpe_desc:'reportajes y el programa mensual "documenta ufpe" producidos durante la pasantía en audiovisual en la ASCOM – UFPE (jun. 2023 – nov. 2023).',
     featured_eyebrow:'// un ejemplo', featured_caption:'hemobrás en un minuto',
     explore_more:'¿quieres ver más? explora los proyectos completos en las carpetas de abajo ↓',
-    bin_hemobras_count:'2 vídeos', bin_ufpe_count:'6 vídeos', personal_projects_label:'proyectos personales' }
+    bin_hemobras_count:'6 vídeos', bin_ufpe_count:'6 vídeos', personal_projects_label:'proyectos personales',
+    cat_instagram:'instagram', cat_tv:'tv corporativa', cat_geral:'general', cat_youtube:'youtube' }
 };
 

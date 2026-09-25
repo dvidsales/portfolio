@@ -2,12 +2,10 @@ const STORAGE_KEY = 'davidsales_portfolio_state_v3';
 function loadState(){
   try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) return JSON.parse(raw); }
   catch(e){ /* ignora silenciosamente */ }
-  return { lang:'pt', softLevels:{}, reviewed:{} };
+  return { lang:'pt' };
 }
 function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){ /* ignora silenciosamente */ } }
 let state = loadState();
-if(!state.softLevels) state.softLevels = {};
-if(!state.reviewed) state.reviewed = {};
 if(!state.lang) state.lang = 'pt';
 
 function renderSidebarTree(){
@@ -46,17 +44,16 @@ function renderSoftwares(lang){
   if(!wrap) return;
   wrap.innerHTML = '';
   SOFTWARES.forEach(s=>{
-    const level = state.softLevels[s.id] ?? s.level;
+    const level = s.level;
     const row = document.createElement('div');
     row.className = 'fader-row';
     row.innerHTML = `
       <span class="fader-label"><span class="fader-icon" style="background:${s.color}">${s.abbr}</span>${s.name}</span>
-      <div class="fader-track">
+      <div class="fader-track" aria-hidden="true">
         <div class="fader-meter"></div>
         <div class="fader-fill" style="width:${level}%"></div>
-        <div class="fader-fill-static" style="width:${level}%"></div>
       </div>
-      <span class="fader-val">${level}%</span>
+      <span class="fader-val">${s.label[lang]}</span>
     `;
     wrap.appendChild(row);
   });
@@ -72,7 +69,6 @@ function videoBoxHTML(video, lang, extraHtml){
   const tagHtml = video.category ? `<span class="video-tag">${I18N[lang]['cat_'+cat] || cat}</span>` : '';
   return `<div class="player${vertical ? ' vertical' : ''}" data-cat="${cat}">
       <div class="video-box${vertical ? ' vertical' : ''}">${tagHtml}${inner}</div>
-      <div class="pchrome"><span>▶</span><div class="pc-scrub"></div><span>00:00 / --:--</span></div>
       <div class="video-caption">${video.caption[lang]}</div>
       ${extraHtml || ''}
     </div>`;
@@ -90,7 +86,6 @@ function renderProjects(lang){
     : PROJECTS;
   list.innerHTML = '';
   items.forEach((p,i)=>{
-    const isReviewed = !!state.reviewed[p.id];
     const categories = [...new Set(p.videos.map(v => v.category || 'geral'))];
     const hasTabs = categories.length > 1;
     const tabsHtml = hasTabs ? `<div class="video-tabs" role="tablist">${categories.map((c,ci)=>
@@ -110,11 +105,6 @@ function renderProjects(lang){
           <p class="project-desc">${p.desc[lang]}</p>
           ${p.link ? `<a class="project-link" href="${p.link.href}" target="_blank" rel="noopener">↗ ${p.link.label[lang]}</a><br>` : ''}
           ${creditsHTML(p.credits, lang)}
-          <div style="margin-top:14px;">
-            <button class="review-toggle ${isReviewed ? 'done':''}" data-project="${p.id}">
-              <span class="dot"></span> ${isReviewed ? I18N[lang].reviewed : I18N[lang].mark_reviewed}
-            </button>
-          </div>
         </div>
         ${tabsHtml}
         <div class="videos">${p.videos.map(v=>videoBoxHTML(v, lang, creditsHTML(v.credits, lang))).join('')}</div>
@@ -133,30 +123,9 @@ function renderProjects(lang){
     }
     list.appendChild(el);
   });
-  list.querySelectorAll('.review-toggle').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const id = btn.dataset.project;
-      state.reviewed[id] = !state.reviewed[id];
-      saveState();
-      renderProjects(state.lang);
-      updateProgress();
-    });
-  });
-  updateProgress();
 }
-function updateProgress(){
-  const fill = document.getElementById('progressFill');
-  const label = document.getElementById('progressLabel');
-  if(!fill || !label) return;
 
-  const items = window.PROJECTS_FILTER_IDS
-    ? PROJECTS.filter(p => window.PROJECTS_FILTER_IDS.includes(p.id))
-    : PROJECTS;
-  const total = items.length;
-  const done = items.filter(p=>state.reviewed[p.id]).length;
-  fill.style.width = (total ? done/total*100 : 0) + '%';
-  label.textContent = `${done}/${total}`;
-}
+
 
 const ccBtn = document.getElementById('ccBtn');
 const ccPanel = document.getElementById('ccPanel');
@@ -166,7 +135,7 @@ if(ccBtn && ccPanel){
     ccBtn.setAttribute('aria-expanded', open);
   });
   document.addEventListener('click', (e)=>{
-    if(!ccPanel.contains(e.target) && e.target !== ccBtn){ ccPanel.classList.remove('open'); ccBtn.setAttribute('aria-expanded','false'); }
+    if(!ccPanel.contains(e.target) && !ccBtn.contains(e.target)){ ccPanel.classList.remove('open'); ccBtn.setAttribute('aria-expanded','false'); }
   });
   document.querySelectorAll('.cc-option').forEach(btn=>{
     btn.addEventListener('click', ()=>{ applyLang(btn.dataset.lang); ccPanel.classList.remove('open'); ccBtn.setAttribute('aria-expanded','false'); });
@@ -186,12 +155,13 @@ if(burger && primaryNav){
 }
 
 const navLinks = document.querySelectorAll('nav.primary-nav a');
-const sections = [...navLinks].map(a => document.querySelector(a.getAttribute('href')));
+const samePageNavLinks = [...navLinks].filter(a => a.getAttribute('href')?.startsWith('#'));
+const sections = samePageNavLinks.map(a => document.querySelector(a.getAttribute('href')));
 const navObserver = new IntersectionObserver(entries=>{
   entries.forEach(entry=>{
     if(entry.isIntersecting){
       const id = '#' + entry.target.id;
-      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+      samePageNavLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
     }
   });
 }, { rootMargin: '-45% 0px -50% 0px' });

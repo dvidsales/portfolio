@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<meta property="og:type" content="website">
 </head>
 <body>
 
@@ -19,7 +20,7 @@
   <span>david_sales — portfolio_2026 *</span>
   <div class="dots"><span></span><span></span><span></span></div>
 </div>
-<div class="app-menubar">
+<div class="app-menubar" aria-hidden="true">
   <span>File</span><span>Edit</span><span>Clip</span><span>Sequence</span><span>Markers</span><span>Graphics</span><span>View</span><span>Window</span><span>Help</span>
 </div>
 
@@ -37,7 +38,7 @@
     <div class="nav-right">
       <span class="icon-btn decorative" aria-hidden="true">🔍</span>
       <span class="icon-btn decorative" aria-hidden="true">▦</span>
-      <button class="cc-btn" id="ccBtn" aria-haspopup="true" aria-expanded="false">CC <span id="ccCurrent">PT</span></button>
+      <button class="cc-btn" id="ccBtn" aria-haspopup="true" aria-expanded="false" aria-label="Selecionar idioma">CC <span id="ccCurrent">PT</span></button>
       <div class="cc-panel" id="ccPanel">
         <button class="cc-option" data-lang="pt"><span>português</span><span class="tag">PT</span></button>
         <button class="cc-option" data-lang="en"><span>english</span><span class="tag">EN</span></button>
@@ -70,6 +71,7 @@
     <h1 data-i18n="exp1_org">hemobrás — empresa brasileira de hemoderivados e biotecnologia</h1>
     <span class="kind-tag" data-i18n="hemobras_kind">empresa pública · redes sociais</span>
     <p class="company-desc" data-i18n="hemobras_desc">vídeos editados para o instagram da Hemobrás.</p>
+  <div class="company-actions"><a class="project-link" href="curriculo.pdf" download>↧ currículo PDF</a><a class="project-link" href="index.html#contatos">↗ contato</a></div>
   </div>
 </section>
 

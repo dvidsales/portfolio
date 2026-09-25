@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>David Sales — Editor de Vídeo | Portfólio</title>
-<meta name="description" content="Portfólio de David Sales, editor de vídeo e comunicador social pela UFPE.">
+<title>David Sales — Editor Audiovisual | Portfólio</title>
+<meta name="description" content="Portfólio de David Sales — editor audiovisual com experiência em conteúdo institucional, redes sociais e jornalismo.">
+<meta property="og:title" content="David Sales — Editor Audiovisual">
+<meta property="og:description" content="Portfólio audiovisual com trabalhos institucionais, conteúdo digital, jornalismo e projetos autorais.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -19,7 +22,7 @@
   <span>david_sales — portfolio_2026 *</span>
   <div class="dots"><span></span><span></span><span></span></div>
 </div>
-<div class="app-menubar">
+<div class="app-menubar" aria-hidden="true">
   <span>File</span><span>Edit</span><span>Clip</span><span>Sequence</span><span>Markers</span><span>Graphics</span><span>View</span><span>Window</span><span>Help</span>
 </div>
 
@@ -37,7 +40,7 @@
     <div class="nav-right">
       <span class="icon-btn decorative" aria-hidden="true">🔍</span>
       <span class="icon-btn decorative" aria-hidden="true">▦</span>
-      <button class="cc-btn" id="ccBtn" aria-haspopup="true" aria-expanded="false">CC <span id="ccCurrent">PT</span></button>
+      <button class="cc-btn" id="ccBtn" aria-haspopup="true" aria-expanded="false" aria-label="Selecionar idioma">CC <span id="ccCurrent">PT</span></button>
       <div class="cc-panel" id="ccPanel">
         <button class="cc-option" data-lang="pt"><span>português</span><span class="tag">PT</span></button>
         <button class="cc-option" data-lang="en"><span>english</span><span class="tag">EN</span></button>
@@ -70,13 +73,11 @@
   <div class="panel reveal in">
     <div class="panel-header"><span class="ph-tab">PROGRAM</span><span class="ph-spacer"></span><span id="heroTimecode2">00:00:00:00</span></div>
     <div class="monitor-frame">
-      <h1 class="hero-title" data-i18n-html="hero_title">bem-vindo ao meu <span class="accent">portfólio</span></h1>
-      <div class="lower-third">
-        <div class="lt-bar"></div>
-        <div class="lt-text">
-          <div class="lt-name">DAVID SALES</div>
-          <div class="lt-role" data-i18n="hero_role">editor de vídeo</div>
-        </div>
+      <div class="hero-copy">
+        <p class="hero-name">DAVID SALES</p>
+        <p class="hero-role" data-i18n="hero_role">editor audiovisual</p>
+        <h1 class="hero-title" data-i18n-html="hero_title">edição que dá <span class="accent">ritmo</span> à história</h1>
+        <p class="hero-sub" data-i18n="hero_sub">conteúdo institucional · redes sociais · jornalismo</p>
       </div>
     </div>
     <div class="playback-bar">
@@ -193,12 +194,19 @@
       <h2 class="section-title" data-i18n="nav_trabalhos_full">meus trabalhos</h2>
     </div>
 
-    <div class="player reveal in" style="max-width:620px;">
-      <div class="video-box">
-        <iframe src="https://drive.google.com/file/d/1wNEM2RUJwKO6dW5ZJnRGFhnYJN2ezjl4/preview" title="Hemobrás em um minuto" allowfullscreen loading="lazy"></iframe>
+    <div class="featured-work reveal in">
+      <div class="player featured-player">
+        <div class="video-box">
+          <iframe src="https://drive.google.com/file/d/1wNEM2RUJwKO6dW5ZJnRGFhnYJN2ezjl4/preview" title="Hemobrás em um minuto" allowfullscreen loading="lazy"></iframe>
+        </div>
       </div>
-      <div class="pchrome"><span>▶</span><div class="pc-scrub"></div><span>00:00 / --:--</span></div>
-      <div class="video-caption" data-i18n="featured_caption">hemobrás em um minuto</div>
+      <div class="featured-info">
+        <span class="eyebrow" data-i18n="featured_label">// trabalho selecionado</span>
+        <h3 data-i18n="featured_caption">hemobrás em um minuto</h3>
+        <p data-i18n="featured_desc">vídeo institucional editado para a Hemobrás, apresentado aqui como uma amostra do meu trabalho profissional.</p>
+        <div class="featured-meta" data-i18n="featured_meta">edição audiovisual · conteúdo institucional</div>
+        <a class="project-link featured-link" href="hemobras.html" data-i18n="featured_cta">ver projeto completo →</a>
+      </div>
     </div>
     <p class="soft-note reveal" data-i18n="explore_more">quer ver mais? explore os projetos completos nas pastas abaixo ↓</p>
 
@@ -222,11 +230,7 @@
     </div>
 
     <div class="eyebrow reveal" style="display:block;margin:28px 0 14px;" data-i18n="personal_projects_label">projetos pessoais</div>
-    <div class="render-bar-wrap reveal">
-      <span data-i18n="render_label">renderizando portfólio</span>
-      <div class="render-track"><div class="render-fill" id="progressFill"></div></div>
-      <span id="progressLabel">0/2</span>
-    </div>
+    <div class="portfolio-status reveal"><span class="status-dot"></span><span data-i18n="render_label">portfolio status: ready</span></div>
     <div class="projects" id="projectsList"></div>
   </div>
 </section>
@@ -239,6 +243,7 @@
       <h2 class="section-title" data-i18n="nav_contatos_full">contatos</h2>
     </div>
     <div class="export-panel reveal">
+      <div class="export-row export-row-primary"><span class="export-fmt" data-i18n="export_cv_label">currículo</span><a href="curriculo.pdf" download data-i18n="export_cv_action">baixar PDF</a></div>
       <div class="export-row"><span class="export-fmt" data-i18n="export_email_label">e-mail</span><a href="mailto:davidevertonsales@gmail.com">davidevertonsales@gmail.com</a></div>
       <div class="export-row"><span class="export-fmt" data-i18n="export_linkedin_label">linkedin</span><a href="https://linkedin.com/in/devertonsales/" target="_blank" rel="noopener">linkedin.com/in/devertonsales</a></div>
     </div>

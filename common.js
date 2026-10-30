@@ -6,7 +6,9 @@ function loadState(){
 }
 function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){ /* ignora silenciosamente */ } }
 let state = loadState();
-if(!state.lang) state.lang = 'pt';
+if(!['pt','en','es'].includes(state.lang)) state.lang = 'pt';
+function esc(value){ return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function safeEmbed(value){ try { const u = new URL(value); return u.protocol === 'https:' && ['drive.google.com','www.youtube.com','www.youtube-nocookie.com','player.vimeo.com'].includes(u.hostname) ? esc(u.href) : ''; } catch { return ''; } }
 
 function renderSidebarTree(){
   const ul = document.getElementById('sidebarProjectTree');
@@ -14,7 +16,7 @@ function renderSidebarTree(){
   const items = window.PROJECTS_FILTER_IDS
     ? PROJECTS.filter(p => window.PROJECTS_FILTER_IDS.includes(p.id))
     : PROJECTS;
-  ul.innerHTML = items.map(p => `<li><a href="#proj-${p.id}"><span class="file">◆</span><span>${p.title.pt}</span></a></li>`).join('');
+  ul.innerHTML = items.map(p => `<li><a href="#proj-${p.id}"><span class="file">◆</span><span>${esc(p.title.pt)}</span></a></li>`).join('');
 }
 renderSidebarTree();
 
@@ -34,6 +36,21 @@ function applyLang(lang){
     if(I18N[lang][key] !== undefined) el.innerHTML = I18N[lang][key];
   });
 
+  for(const [key,ids] of Object.entries({bin_hemobras_count:['hemobras','hemobras-tv','hemobras-instagram'],bin_ufpe_count:['noticias-campus','documenta-ufpe']})){
+    const total = PROJECTS.filter(p=>ids.includes(p.id)).reduce((sum,p)=>sum+p.videos.length,0);
+    document.querySelectorAll(`[data-i18n="${key}"]`).forEach(el=>el.textContent=total+' '+(lang==='en'?'videos':'vídeos'));
+  }
+  const featured = document.querySelector('.featured-work');
+  if(featured){
+    const first = PROJECTS.find(p=>p.id==='hemobras')?.videos[0];
+    featured.hidden = !first;
+    if(first){
+      featured.querySelector('iframe').src = safeEmbed(first.embed);
+      featured.querySelector('iframe').title = first.caption[lang];
+      featured.querySelector('h3').textContent = first.caption[lang];
+      if(first.desc?.[lang]) featured.querySelector('.featured-info p').textContent=first.desc[lang];
+    }
+  }
   renderSoftwares(lang);
   renderProjects(lang);
   saveState();
@@ -61,21 +78,22 @@ function renderSoftwares(lang){
 
 function videoBoxHTML(video, lang, extraHtml){
   const inner = video.embed
-    ? `<iframe src="${video.embed}" title="${video.caption[lang]}" allowfullscreen loading="lazy"></iframe>`
+    ? `<iframe src="${safeEmbed(video.embed)}" title="${esc(video.caption[lang])}" allowfullscreen loading="lazy"></iframe>`
     : `<div class="video-placeholder"><div class="play">▶</div><span>${I18N[lang].embed_hint}</span></div>`;
   /* video.orientation:'vertical' habilita o layout 9:16 (reels), lado a lado com os 16:9 */
   const vertical = video.orientation === 'vertical';
-  const cat = video.category || 'geral';
+  const cat = esc(video.category || 'geral');
   const tagHtml = video.category ? `<span class="video-tag">${I18N[lang]['cat_'+cat] || cat}</span>` : '';
   return `<div class="player${vertical ? ' vertical' : ''}" data-cat="${cat}">
       <div class="video-box${vertical ? ' vertical' : ''}">${tagHtml}${inner}</div>
-      <div class="video-caption">${video.caption[lang]}</div>
+      <div class="video-caption">${esc(video.caption[lang])}</div>
+      ${video.desc?.[lang] ? `<p class="video-description">${esc(video.desc[lang])}</p>` : ''}
       ${extraHtml || ''}
     </div>`;
 }
 function creditsHTML(pairs, lang){
   if(!pairs || !pairs.length) return '';
-  const rows = pairs.map(([role,names])=>`<div class="credit-line"><span class="credit-role">${CREDIT_LABELS[lang][role] || role}</span>${names}</div>`).join('');
+  const rows = pairs.map(([role,names])=>`<div class="credit-line"><span class="credit-role">${CREDIT_LABELS[lang][role] || role}</span>${esc(names)}</div>`).join('');
   return `<details class="credits"><summary>${I18N[lang].credits_label}</summary><div class="credits-list">${rows}</div></details>`;
 }
 function renderProjects(lang){
@@ -97,12 +115,12 @@ function renderProjects(lang){
     el.innerHTML = `
       <div class="clip-head">
         <span class="track-ic">▮▮</span>
-        <span class="clip-name">${p.title[lang]}</span>
-        <span class="fx-badge">${p.kind[lang]}</span>
+        <span class="clip-name">${esc(p.title[lang])}</span>
+        <span class="fx-badge">${esc(p.kind[lang])}</span>
       </div>
       <div class="project-body">
         <div class="project-info">
-          <p class="project-desc">${p.desc[lang]}</p>
+          <p class="project-desc">${esc(p.desc[lang])}</p>
           ${p.link ? `<a class="project-link" href="${p.link.href}" target="_blank" rel="noopener">↗ ${p.link.label[lang]}</a><br>` : ''}
           ${creditsHTML(p.credits, lang)}
         </div>

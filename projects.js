@@ -31,7 +31,8 @@ PROJECTS.splice(0, PROJECTS.length, ...[
           "es": ""
         },
         "embed": "https://drive.google.com/file/d/1DZhahpUj7jJilLuiKO1K6JVftdhp6G8U/preview",
-        "orientation": "horizontal"
+        "orientation": "horizontal",
+        "category": "youtube"
       },
       {
         "caption": {

@@ -6,6 +6,14 @@ const languages = {pt:'Português', en:'English', es:'Español'};
 let projects = clone(PROJECTS), selectedProject = 0, selectedVideo = 0, lang = 'pt', history = [], dragged = null;
 function status(message){ $('status').textContent = message; }
 try { const draft = JSON.parse(localStorage.getItem(DRAFT_KEY)); if(Array.isArray(draft) && draft.length && draft.every(p => p.id && Array.isArray(p.videos))) { projects = draft; status('Rascunho local recuperado.'); } } catch { status('Não foi possível recuperar o rascunho. Os dados publicados foram mantidos.'); }
+function collectionCategory(p){
+ const categories = [...new Set(p.videos.map(v=>v.category).filter(Boolean))];
+ return categories.length===1 ? categories[0] : null;
+}
+function normalizeCategories(){
+ for(const p of projects){const category=collectionCategory(p);if(category)for(const v of p.videos)if(!v.category)v.category=category;}
+}
+normalizeCategories();
 const project = () => projects[selectedProject];
 const video = () => project().videos[selectedVideo];
 function persist(){ try { localStorage.setItem(DRAFT_KEY, JSON.stringify(projects)); status('Rascunho salvo neste navegador.'); } catch { status('Armazenamento indisponível. Exporte os dados antes de fechar.'); } }
@@ -47,11 +55,11 @@ $('videoForm').onsubmit=e=>{e.preventDefault();try{const normalized=embedURL($('
 for(const [i,p] of projects.entries()){const option=document.createElement('option');option.value=i;option.textContent=p.title.pt;$('project').append(option);}
 $('project').onchange=()=>{selectedProject=Number($('project').value);selectedVideo=0;render();};
 for(const b of document.querySelectorAll('[data-lang]'))b.onclick=()=>{lang=b.dataset.lang;render();};
-$('add').onclick=()=>{checkpoint();project().videos.push({caption:{pt:'',en:'',es:''},desc:{pt:'',en:'',es:''},embed:'',orientation:'horizontal'});selectedVideo=project().videos.length-1;persist();render();$('url').focus();};
+$('add').onclick=()=>{checkpoint();project().videos.push({... (collectionCategory(project()) ? {category:collectionCategory(project())} : {}),caption:{pt:'',en:'',es:''},desc:{pt:'',en:'',es:''},embed:'',orientation:'horizontal'});selectedVideo=project().videos.length-1;persist();render();$('url').focus();};
 $('remove').onclick=()=>{if(!video()||!confirm('Remover este vídeo do rascunho? Você pode desfazer.'))return;checkpoint();project().videos.splice(selectedVideo,1);selectedVideo=Math.max(0,selectedVideo-1);persist();render();};
 $('undo').onclick=()=>{if(!history.length)return;projects=history.pop();selectedVideo=Math.min(selectedVideo,Math.max(0,project().videos.length-1));$('undo').disabled=!history.length;persist();render();};
 $('reset').onclick=()=>{if(!confirm('Descartar o rascunho e voltar aos dados publicados?'))return;checkpoint();projects=clone(PROJECTS);selectedVideo=0;persist();render();};
-function publishedSource(){return '// Gerado pelo editor visual. Não contém credenciais.\nPROJECTS.splice(0, PROJECTS.length, ...'+JSON.stringify(projects,null,2).replace(/</g,'\\u003c')+');\n';}
+function publishedSource(){normalizeCategories();return '// Gerado pelo editor visual. Não contém credenciais.\nPROJECTS.splice(0, PROJECTS.length, ...'+JSON.stringify(projects,null,2).replace(/</g,'\\u003c')+');\n';}
 $('export').onclick=()=>{const blob=new Blob([publishedSource()],{type:'text/javascript;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='projects.js';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 function validate(){for(const p of projects)for(const [i,v] of p.videos.entries()){embedURL(v.embed);for(const l of Object.keys(languages))if(!v.caption?.[l]?.trim())throw Error(`${p.title.pt}, vídeo ${i+1}: preencha o título em ${languages[l]}.`);}}
 function base64(text){const bytes=new TextEncoder().encode(text);let binary='';for(const b of bytes)binary+=String.fromCharCode(b);return btoa(binary);}

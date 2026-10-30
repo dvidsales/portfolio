@@ -37,3 +37,7 @@ O token só fica no campo e na memória da aba durante o uso; é limpo após cad
 - `styles.css`: correção de declaração CSS inválida, melhorias de quebra de texto, cards verticais, créditos, navegação móvel abaixo da barra, contatos e controles de reprodução; respeita `[hidden]`.
 
 `data.js` e `curriculo.pdf` permanecem intactos. Destino desta versão: repositório `dvidsales/portfolio`, branch `main`, arquivos na raiz. A hospedagem principal permanece no GitHub Pages. O editor já preenche esse destino; o token restrito deve ser informado apenas no momento de publicar.
+
+## Correção de categorias
+
+Vídeos novos herdam a categoria quando a coleção possui uma única categoria definida. Rascunhos antigos e exportações também recebem essa normalização, preservando categorias explícitas. Isso evita que um vídeo sem categoria crie uma aba “geral” ao lado de “YouTube”. O vídeo institucional adicionado foi corrigido para `youtube`.

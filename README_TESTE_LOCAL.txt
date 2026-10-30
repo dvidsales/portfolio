@@ -1,22 +1,18 @@
-PORTFOLIO REVISADO — TESTE LOCAL
+PORTFÓLIO — TESTE LOCAL
 
-1. Abra index.html no navegador.
-2. Para testar o botao de curriculo, coloque seu PDF real nesta pasta com o nome: curriculo.pdf
-3. Os videos agora carregam o iframe do Google Drive somente depois do clique. Isso reduz o peso inicial.
-4. A estrutura continua MPA: index.html, hemobras.html e ufpe.html.
+1. Na pasta dos arquivos, execute: python -m http.server 8000
+2. Abra http://localhost:8000/ para o portfólio.
+3. Abra http://localhost:8000/editor.html para o editor.
 
-ALTERACOES PRINCIPAIS
-- Hero reposicionado para comunicar especialidade em poucos segundos.
-- Percentuais de softwares trocados por niveis textuais, mantendo a metafora do mixer.
-- Removidos marcar como revisado e progresso 0/2.
-- Status do portfolio virou elemento passivo READY.
-- Adicionado CTA de curriculo na home e paginas de experiencia.
-- Videos passaram a click-to-load.
-- Correcao do espanhol na formacao.
-- Correcao das chaves roteiro_edicao e camera1.
-- Inclusao da chave soft_eyebrow nos 3 idiomas.
-- Meta description/OG basico melhorados.
-- Textos de apresentacao ficaram mais orientados a recrutamento.
+O currículo original já está em curriculo.pdf. Os vídeos usam iframes com
+carregamento lazy e oferecem um link para abrir no provedor. O editor mantém
+rascunhos no navegador; somente a publicação autorizada no GitHub atualiza o site.
 
-OBSERVACAO
-Nao foi criado um curriculo ficticio. O link espera curriculo.pdf para que voce use o documento real.
+Hospedagem principal: https://dvidsales.github.io/portfolio/
+Documentação atual: README.md
+Mudanças: CHANGELOG.md
+Resultados da revisão: VALIDACAO.md
+Como executar os testes automatizados: tests/README.md
+
+O site utiliza somente HTML, CSS e JavaScript. O servidor Python e as dependências
+de teste são ferramentas de desenvolvimento; não há backend de produção.

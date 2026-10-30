@@ -1,6 +1,6 @@
 const STORAGE_KEY = 'davidsales_portfolio_state_v3';
 function loadState(){
-  try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) return JSON.parse(raw); }
+  try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw){const parsed=JSON.parse(raw);if(parsed && typeof parsed==='object' && !Array.isArray(parsed))return parsed;} }
   catch(e){ /* ignora silenciosamente */ }
   return { lang:'pt' };
 }
@@ -8,19 +8,24 @@ function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(stat
 let state = loadState();
 if(!['pt','en','es'].includes(state.lang)) state.lang = 'pt';
 function esc(value){ return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function safeEmbed(value){ try { const u = new URL(value); return u.protocol === 'https:' && ['drive.google.com','www.youtube.com','www.youtube-nocookie.com','player.vimeo.com'].includes(u.hostname) ? esc(u.href) : ''; } catch { return ''; } }
+function safeEmbed(value){ return PortfolioVideo.safe(value); }
+function localized(value, lang){ return value?.[lang] || value?.pt || ''; }
+function externalLink(value){ try{const url=new URL(value);return url.protocol==='https:'&&!url.username&&!url.password?esc(url.href):'';}catch{return '';}}
+const categorySelections = new Map();
 
-function renderSidebarTree(){
+
+function renderSidebarTree(lang = state.lang){
   const ul = document.getElementById('sidebarProjectTree');
   if(!ul) return;
   const items = window.PROJECTS_FILTER_IDS
     ? PROJECTS.filter(p => window.PROJECTS_FILTER_IDS.includes(p.id))
     : PROJECTS;
-  ul.innerHTML = items.map(p => `<li><a href="#proj-${p.id}"><span class="file">◆</span><span>${esc(p.title.pt)}</span></a></li>`).join('');
+  ul.innerHTML = items.map(p => `<li><a href="#proj-${p.id}"><span class="file">◆</span><span>${esc(localized(p.title, lang))}</span></a></li>`).join('');
 }
 renderSidebarTree();
 
 function applyLang(lang){
+  if(!I18N[lang])lang='pt';
   state.lang = lang;
   document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
   const ccCurrent = document.getElementById('ccCurrent');
@@ -36,19 +41,36 @@ function applyLang(lang){
     if(I18N[lang][key] !== undefined) el.innerHTML = I18N[lang][key];
   });
 
+  renderSidebarTree(lang);
+  document.querySelector('.skip-link')?.setAttribute('aria-label', I18N[lang].skip_link);
+  document.getElementById('primaryNav')?.setAttribute('aria-label', I18N[lang].nav_label);
+  document.getElementById('ccBtn')?.setAttribute('aria-label', I18N[lang].language_label);
+  document.getElementById('burgerBtn')?.setAttribute('aria-label', I18N[lang].menu_label);
+  const page = location.pathname.endsWith('hemobras.html') ? 'hemobras' : location.pathname.endsWith('ufpe.html') ? 'ufpe' : 'home';
+  document.title = I18N[lang]['title_'+page];
+  document.querySelector('meta[name="description"]')?.setAttribute('content', I18N[lang]['description_'+page]);
+  document.querySelector('meta[property="og:title"]')?.setAttribute('content',document.title);
+  document.querySelector('meta[property="og:description"]')?.setAttribute('content',I18N[lang]['description_'+page]);
   for(const [key,ids] of Object.entries({bin_hemobras_count:['hemobras','hemobras-tv','hemobras-instagram'],bin_ufpe_count:['noticias-campus','documenta-ufpe']})){
     const total = PROJECTS.filter(p=>ids.includes(p.id)).reduce((sum,p)=>sum+p.videos.length,0);
-    document.querySelectorAll(`[data-i18n="${key}"]`).forEach(el=>el.textContent=total+' '+(lang==='en'?'videos':'vídeos'));
+    document.querySelectorAll(`[data-i18n="${key}"]`).forEach(el=>el.textContent=total+' '+I18N[lang][total===1?'video_singular':'video_plural']);
   }
   const featured = document.querySelector('.featured-work');
   if(featured){
     const first = PROJECTS.find(p=>p.id==='hemobras')?.videos[0];
     featured.hidden = !first;
     if(first){
-      featured.querySelector('iframe').src = safeEmbed(first.embed);
-      featured.querySelector('iframe').title = first.caption[lang];
-      featured.querySelector('h3').textContent = first.caption[lang];
-      if(first.desc?.[lang]) featured.querySelector('.featured-info p').textContent=first.desc[lang];
+      const box = featured.querySelector('.video-box');
+      box.classList.toggle('vertical',first.orientation==='vertical');
+      featured.querySelector('.featured-player').classList.toggle('vertical',first.orientation==='vertical');
+      box.innerHTML = embedHTML(first, lang);
+      featured.querySelector('h3').textContent = localized(first.caption,lang);
+      featured.querySelector('.featured-info p').textContent = first.desc?.[lang] || I18N[lang].featured_desc;
+      let external = featured.querySelector('.video-external');
+      if(!external){external=document.createElement('a');external.className='video-external';external.target='_blank';external.rel='noopener noreferrer';featured.querySelector('.featured-info').append(external);}
+      external.href=PortfolioVideo.external(first.embed);
+      external.textContent=I18N[lang].open_video;
+      external.hidden=!external.getAttribute('href');
     }
   }
   renderSoftwares(lang);
@@ -76,66 +98,77 @@ function renderSoftwares(lang){
   });
 }
 
+function embedHTML(video,lang){
+  const url = safeEmbed(video.embed);
+  return url ? `<iframe src="${esc(url)}" title="${esc(localized(video.caption,lang))}" allow="fullscreen; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>`
+    : `<div class="video-placeholder"><span>${esc(I18N[lang].embed_hint)}</span></div>`;
+}
 function videoBoxHTML(video, lang, extraHtml){
-  const inner = video.embed
-    ? `<iframe src="${safeEmbed(video.embed)}" title="${esc(video.caption[lang])}" allowfullscreen loading="lazy"></iframe>`
-    : `<div class="video-placeholder"><div class="play">▶</div><span>${I18N[lang].embed_hint}</span></div>`;
-  /* video.orientation:'vertical' habilita o layout 9:16 (reels), lado a lado com os 16:9 */
   const vertical = video.orientation === 'vertical';
-  const cat = esc(video.category || 'geral');
-  const tagHtml = video.category ? `<span class="video-tag">${I18N[lang]['cat_'+cat] || cat}</span>` : '';
-  return `<div class="player${vertical ? ' vertical' : ''}" data-cat="${cat}">
-      <div class="video-box${vertical ? ' vertical' : ''}">${tagHtml}${inner}</div>
-      <div class="video-caption">${esc(video.caption[lang])}</div>
+  const cat = video.category || 'geral';
+  const tagHtml = video.category ? `<span class="video-tag">${esc(I18N[lang]['cat_'+cat] || cat)}</span>` : '';
+  const external = PortfolioVideo.external(video.embed);
+  return `<div class="player${vertical ? ' vertical' : ''}" data-cat="${esc(cat)}">
+      <div class="video-box${vertical ? ' vertical' : ''}">${tagHtml}${embedHTML(video,lang)}</div>
+      <div class="video-caption">${esc(localized(video.caption,lang))}</div>
       ${video.desc?.[lang] ? `<p class="video-description">${esc(video.desc[lang])}</p>` : ''}
+      ${external ? `<a class="video-external" href="${esc(external)}" target="_blank" rel="noopener noreferrer">${esc(I18N[lang].open_video)}</a>` : ''}
       ${extraHtml || ''}
     </div>`;
 }
 function creditsHTML(pairs, lang){
-  if(!pairs || !pairs.length) return '';
-  const rows = pairs.map(([role,names])=>`<div class="credit-line"><span class="credit-role">${CREDIT_LABELS[lang][role] || role}</span>${esc(names)}</div>`).join('');
-  return `<details class="credits"><summary>${I18N[lang].credits_label}</summary><div class="credits-list">${rows}</div></details>`;
+  if(!pairs?.length) return '';
+  const rows = pairs.map(([role,names])=>`<div class="credit-line"><span class="credit-role">${esc(CREDIT_LABELS[lang][role] || role)}</span>${esc(names)}</div>`).join('');
+  return `<details class="credits"><summary>${esc(I18N[lang].credits_label)}</summary><div class="credits-list">${rows}</div></details>`;
 }
 function renderProjects(lang){
   const list = document.getElementById('projectsList');
   if(!list) return;
-  const items = window.PROJECTS_FILTER_IDS
-    ? PROJECTS.filter(p => window.PROJECTS_FILTER_IDS.includes(p.id))
-    : PROJECTS;
-  list.innerHTML = '';
-  items.forEach((p,i)=>{
+  const items = window.PROJECTS_FILTER_IDS ? PROJECTS.filter(p => window.PROJECTS_FILTER_IDS.includes(p.id)) : PROJECTS;
+  list.replaceChildren();
+  items.forEach(p=>{
     const categories = [...new Set(p.videos.map(v => v.category || 'geral'))];
     const hasTabs = categories.length > 1;
-    const tabsHtml = hasTabs ? `<div class="video-tabs" role="tablist">${categories.map((c,ci)=>
-      `<button class="video-tab${ci===0?' active':''}" data-cat="${c}" role="tab" aria-selected="${ci===0}">${I18N[lang]['cat_'+c] || c}</button>`
+    const selected = categories.includes(categorySelections.get(p.id)) ? categorySelections.get(p.id) : categories[0];
+    const tabsHtml = hasTabs ? `<div class="video-tabs" role="tablist" aria-label="${esc(localized(p.title,lang))}">${categories.map((c,i)=>
+      `<button id="tab-${p.id}-${i}" class="video-tab${c===selected?' active':''}" data-cat="${esc(c)}" role="tab" aria-controls="panel-${p.id}-${i}" tabindex="${c===selected?'0':'-1'}" aria-selected="${c===selected}">${esc(I18N[lang]['cat_'+c] || c)}</button>`
     ).join('')}</div>` : '';
+    const videosHTML = hasTabs ? categories.map((c,i)=>`<div class="videos" id="panel-${p.id}-${i}" role="tabpanel" aria-labelledby="tab-${p.id}-${i}" tabindex="0" ${c!==selected?'hidden':''}>${p.videos.filter(v=>(v.category||'geral')===c).map(v=>videoBoxHTML(v,lang,creditsHTML(v.credits,lang))).join('')}</div>`).join('')
+      : `<div class="videos">${p.videos.length ? p.videos.map(v=>videoBoxHTML(v,lang,creditsHTML(v.credits,lang))).join('') : `<p class="empty-state">${esc(I18N[lang].empty_project)}</p>`}</div>`;
     const el = document.createElement('article');
-    el.className = 'project reveal in';
-    el.id = 'proj-' + p.id;
+    el.className = 'project reveal in';el.id = 'proj-' + p.id;el.setAttribute('aria-labelledby','title-'+p.id);
+    const link = p.link && externalLink(p.link.href);
+    const heading = document.querySelector('.company-hero') ? 'h2' : 'h3';
     el.innerHTML = `
       <div class="clip-head">
-        <span class="track-ic">▮▮</span>
-        <span class="clip-name">${esc(p.title[lang])}</span>
-        <span class="fx-badge">${esc(p.kind[lang])}</span>
+        <span class="track-ic" aria-hidden="true">▮▮</span>
+        <${heading} class="clip-name" id="title-${p.id}">${esc(localized(p.title,lang))}</${heading}>
+        <span class="fx-badge">${esc(localized(p.kind,lang))}</span>
       </div>
       <div class="project-body">
         <div class="project-info">
-          <p class="project-desc">${esc(p.desc[lang])}</p>
-          ${p.link ? `<a class="project-link" href="${p.link.href}" target="_blank" rel="noopener">↗ ${p.link.label[lang]}</a><br>` : ''}
+          <p class="project-desc">${esc(localized(p.desc,lang))}</p>
+          ${link ? `<a class="project-link" href="${link}" target="_blank" rel="noopener noreferrer">↗ ${esc(localized(p.link.label,lang))}</a><br>` : ''}
           ${creditsHTML(p.credits, lang)}
         </div>
-        ${tabsHtml}
-        <div class="videos">${p.videos.map(v=>videoBoxHTML(v, lang, creditsHTML(v.credits, lang))).join('')}</div>
-      </div>
-    `;
+        ${tabsHtml}${videosHTML}
+      </div>`;
     if(hasTabs){
-      const firstCat = categories[0];
-      el.querySelectorAll('.player').forEach(pl => { if(pl.dataset.cat !== firstCat) pl.style.display = 'none'; });
-      el.querySelectorAll('.video-tab').forEach(tab=>{
-        tab.addEventListener('click', ()=>{
-          const cat = tab.dataset.cat;
-          el.querySelectorAll('.video-tab').forEach(t=>{ t.classList.toggle('active', t===tab); t.setAttribute('aria-selected', t===tab); });
-          el.querySelectorAll('.player').forEach(pl=>{ pl.style.display = (pl.dataset.cat === cat) ? '' : 'none'; });
+      const tabs = [...el.querySelectorAll('.video-tab')];
+      function select(tab,focus=false){
+        categorySelections.set(p.id,tab.dataset.cat);
+        tabs.forEach(t=>{const active=t===tab;t.classList.toggle('active',active);t.setAttribute('aria-selected',active);t.tabIndex=active?0:-1;el.querySelector('#'+t.getAttribute('aria-controls')).hidden=!active;});
+        if(focus)tab.focus();
+      }
+      tabs.forEach((tab,i)=>{
+        tab.addEventListener('click',()=>select(tab));
+        tab.addEventListener('keydown',e=>{
+          let next;
+          if(e.key==='ArrowRight')next=(i+1)%tabs.length;
+          if(e.key==='ArrowLeft')next=(i+tabs.length-1)%tabs.length;
+          if(e.key==='Home')next=0;
+          if(e.key==='End')next=tabs.length-1;
+          if(next!==undefined){e.preventDefault();select(tabs[next],true);}
         });
       });
     }
@@ -147,30 +180,49 @@ function renderProjects(lang){
 
 const ccBtn = document.getElementById('ccBtn');
 const ccPanel = document.getElementById('ccPanel');
-if(ccBtn && ccPanel){
-  ccBtn.addEventListener('click', ()=>{
-    const open = ccPanel.classList.toggle('open');
-    ccBtn.setAttribute('aria-expanded', open);
-  });
-  document.addEventListener('click', (e)=>{
-    if(!ccPanel.contains(e.target) && !ccBtn.contains(e.target)){ ccPanel.classList.remove('open'); ccBtn.setAttribute('aria-expanded','false'); }
-  });
-  document.querySelectorAll('.cc-option').forEach(btn=>{
-    btn.addEventListener('click', ()=>{ applyLang(btn.dataset.lang); ccPanel.classList.remove('open'); ccBtn.setAttribute('aria-expanded','false'); });
-  });
-}
-
 const burger = document.getElementById('burgerBtn');
 const primaryNav = document.getElementById('primaryNav');
-if(burger && primaryNav){
-  burger.addEventListener('click', ()=>{
-    const open = primaryNav.classList.toggle('open');
-    burger.setAttribute('aria-expanded', open);
+const mobileNav = window.matchMedia('(max-width:900px)');
+function closeLanguages(focus=false){if(!ccPanel)return;ccPanel.classList.remove('open');ccPanel.inert=true;ccBtn.setAttribute('aria-expanded','false');if(focus)ccBtn.focus();}
+function closeNavigation(focus=false){if(!primaryNav)return;primaryNav.classList.remove('open');primaryNav.inert=mobileNav.matches;burger.setAttribute('aria-expanded','false');if(focus)burger.focus();}
+if(ccBtn && ccPanel){
+  ccBtn.addEventListener('click',()=>{
+    const open = ccBtn.getAttribute('aria-expanded')!=='true';closeNavigation();
+    ccPanel.classList.toggle('open',open);ccPanel.inert=!open;ccBtn.setAttribute('aria-expanded',open);
+    if(open)ccPanel.querySelector(`[data-lang="${state.lang}"]`).focus();
   });
-  primaryNav.querySelectorAll('a').forEach(a=>{
-    a.addEventListener('click', ()=>{ primaryNav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); });
+  ccPanel.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>{applyLang(btn.dataset.lang);closeLanguages(true);}));
+  ccPanel.addEventListener('keydown',e=>{
+    if(['ArrowDown','ArrowUp','Home','End'].includes(e.key)){
+      const options=[...ccPanel.querySelectorAll('button')];let i=options.indexOf(document.activeElement);
+      i=e.key==='Home'?0:e.key==='End'?options.length-1:(i+(e.key==='ArrowDown'?1:options.length-1))%options.length;
+      e.preventDefault();options[i].focus();
+    }
   });
 }
+if(burger && primaryNav){
+  closeNavigation();
+  burger.addEventListener('click',()=>{
+    const open=burger.getAttribute('aria-expanded')!=='true';closeLanguages();primaryNav.classList.toggle('open',open);primaryNav.inert=!open;burger.setAttribute('aria-expanded',open);
+    if(open)primaryNav.querySelector('a').focus();
+  });
+  primaryNav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>closeNavigation()));
+  mobileNav.addEventListener('change',()=>closeNavigation());
+}
+document.addEventListener('click',e=>{
+  if(ccPanel&&!ccPanel.contains(e.target)&&!ccBtn.contains(e.target))closeLanguages();
+  if(primaryNav&&!primaryNav.contains(e.target)&&!burger.contains(e.target))closeNavigation();
+});
+document.addEventListener('focusin',e=>{
+  if(ccPanel&&!ccPanel.contains(e.target)&&!ccBtn.contains(e.target))closeLanguages();
+  if(primaryNav&&!primaryNav.contains(e.target)&&!burger.contains(e.target))closeNavigation();
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    if(ccBtn?.getAttribute('aria-expanded')==='true')closeLanguages(true);
+    if(burger?.getAttribute('aria-expanded')==='true')closeNavigation(true);
+  }
+});
 
 const navLinks = document.querySelectorAll('nav.primary-nav a');
 const samePageNavLinks = [...navLinks].filter(a => a.getAttribute('href')?.startsWith('#'));
@@ -179,7 +231,7 @@ const navObserver = new IntersectionObserver(entries=>{
   entries.forEach(entry=>{
     if(entry.isIntersecting){
       const id = '#' + entry.target.id;
-      samePageNavLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+      samePageNavLinks.forEach(a => {const active=a.getAttribute('href')===id;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});
     }
   });
 }, { rootMargin: '-45% 0px -50% 0px' });
@@ -225,3 +277,11 @@ if(heroTimecode || heroTimecode2){
 }
 
 applyLang(state.lang);
+
+// Os projetos são criados após o carregamento dos dados; resolve também links diretos.
+if(location.hash){
+  try{
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if(target) requestAnimationFrame(() => target.scrollIntoView({behavior:'instant',block:'start'}));
+  }catch{ /* Fragmentos inválidos não impedem a navegação. */ }
+}

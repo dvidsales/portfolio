@@ -1,0 +1,6 @@
+{
+  "name": "portfolio-audit",
+  "private": true,
+  "description": "Dependência exclusiva dos testes de acessibilidade; não usada pelo site.",
+  "devDependencies": { "axe-core": "4.14.0" }
+}

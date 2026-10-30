@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<script>document.documentElement.classList.add("js");</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>David Sales — Editor Audiovisual | Portfólio</title>
 <meta name="description" content="Portfólio de David Sales — editor audiovisual com experiência em conteúdo institucional, redes sociais e jornalismo.">
@@ -11,12 +12,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=5">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://dvidsales.github.io/portfolio/">
+<meta property="og:url" content="https://dvidsales.github.io/portfolio/">
 </head>
 <body>
 
 <div class="scrub-progress" id="scrubProgress"></div>
-<a href="#main" class="skip-link">Pular para o conteúdo / Skip to content</a>
+<a href="#main" class="skip-link" data-i18n="skip_link">Pular para o conteúdo</a>
 
 <div class="app-titlebar">
   <span>david_sales — portfolio_2026 *</span>
@@ -29,7 +33,7 @@
 <div class="workspace-bar">
   <div class="ws-inner">
     <a href="#top" class="brand"><span class="brand-mark">DS</span><span class="brand-name">david sales</span></a>
-    <nav class="primary-nav" id="primaryNav">
+    <nav class="primary-nav" id="primaryNav" aria-label="Navegação principal">
       <a href="#about" data-i18n="nav_about">sobre</a>
       <a href="#formacao" data-i18n="nav_formacao">formação</a>
       <a href="#experiencia" data-i18n="nav_experiencia">experiência</a>
@@ -40,13 +44,13 @@
     <div class="nav-right">
       <span class="icon-btn decorative" aria-hidden="true">🔍</span>
       <span class="icon-btn decorative" aria-hidden="true">▦</span>
-      <button class="cc-btn" id="ccBtn" aria-haspopup="true" aria-expanded="false" aria-label="Selecionar idioma">CC <span id="ccCurrent">PT</span></button>
-      <div class="cc-panel" id="ccPanel">
-        <button class="cc-option" data-lang="pt"><span>português</span><span class="tag">PT</span></button>
-        <button class="cc-option" data-lang="en"><span>english</span><span class="tag">EN</span></button>
-        <button class="cc-option" data-lang="es"><span>español</span><span class="tag">ES</span></button>
+      <button class="cc-btn" id="ccBtn" aria-controls="ccPanel" aria-expanded="false" aria-label="Selecionar idioma">CC <span id="ccCurrent">PT</span></button>
+      <div class="cc-panel" id="ccPanel" inert>
+        <button class="cc-option" data-lang="pt" lang="pt-BR"><span>português</span><span class="tag">PT</span></button>
+        <button class="cc-option" data-lang="en" lang="en"><span>english</span><span class="tag">EN</span></button>
+        <button class="cc-option" data-lang="es" lang="es"><span>español</span><span class="tag">ES</span></button>
       </div>
-      <button class="burger" id="burgerBtn" aria-label="Menu" aria-expanded="false"><span></span></button>
+      <button class="burger" id="burgerBtn" aria-controls="primaryNav" aria-label="Abrir menu" aria-expanded="false"><span></span></button>
     </div>
   </div>
 </div>
@@ -71,7 +75,7 @@
 
 <section class="hero" id="top">
   <div class="panel reveal in">
-    <div class="panel-header"><span class="ph-tab">PROGRAM</span><span class="ph-spacer"></span><span id="heroTimecode2">00:00:00:00</span></div>
+    <div class="panel-header"><span class="ph-tab" data-i18n="monitor_label">MONITOR</span><span class="ph-spacer"></span><span id="heroTimecode2">00:00:00:00</span></div>
     <div class="monitor-frame">
       <div class="hero-copy">
         <p class="hero-name">DAVID SALES</p>
@@ -80,7 +84,7 @@
         <p class="hero-sub" data-i18n="hero_sub">vídeos institucionais · redes sociais · jornalismo</p>
       </div>
     </div>
-    <div class="playback-bar">
+    <div class="playback-bar" aria-hidden="true">
       <span class="tc-readout" id="heroTimecode">00:00:00:00</span>
       <span class="transport">⏮ ◀ ▶ ▶ ⏭</span>
       <span class="fit-tag">Fit ▾</span>
@@ -151,8 +155,8 @@
         </a>
       </div>
       <div class="bin-sub">
-        <div class="bin-item"><span class="file-ic">▤</span><span data-i18n="exp1_l2">editor audiovisual | terceirizado, out. 2024 – atual</span><span class="date">2024—atual</span></div>
-        <div class="bin-item"><span class="file-ic">▤</span><span data-i18n="exp1_l1">editor audiovisual | estágio, nov. 2023 – set. 2024</span><span class="date">2023</span></div>
+        <div class="bin-item"><span class="file-ic">▤</span><span data-i18n="exp1_l2">editor audiovisual | terceirizado, out. 2024 – atual</span><span class="date" data-i18n="current_period">2024—atual</span></div>
+        <div class="bin-item"><span class="file-ic">▤</span><span data-i18n="exp1_l1">editor audiovisual | estágio, nov. 2023 – set. 2024</span><span class="date">2023—2024</span></div>
       </div>
     </div>
     <div class="bin reveal">
@@ -197,7 +201,7 @@
     <div class="featured-work reveal in">
       <div class="player featured-player">
         <div class="video-box">
-          <iframe src="https://drive.google.com/file/d/1wNEM2RUJwKO6dW5ZJnRGFhnYJN2ezjl4/preview" title="Hemobrás em um minuto" allowfullscreen loading="lazy"></iframe>
+          <iframe title="Hemobrás em um minuto" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
       <div class="featured-info">
@@ -257,13 +261,14 @@
 </main>
 </div>
 
-<footer><a href="editor.html">Editor de vídeos</a> · <span data-i18n="footer_text">feito por David Sales — portfólio pessoal · 2026</span></footer>
+<noscript><p class="load-warning">Ative o JavaScript para carregar os vídeos e selecionar idiomas. / Enable JavaScript to view videos. / Activa JavaScript para ver los vídeos.</p></noscript>
+<footer><a href="editor.html" data-i18n="editor_link">Editor de vídeos</a> · <span data-i18n="footer_text">feito por David Sales — portfólio pessoal · 2026</span></footer>
 
-<script src="data.js?v=1.0.3"></script>
+<script src="data.js?v=5"></script>
 <script>
   window.PROJECTS_FILTER_IDS = ['a-stalker', 'rolou-olinda'];
 </script>
-<script src="projects.js?v=3"></script>
-<script src="common.js?v=2"></script>
+<script src="video-utils.js?v=5"></script>
+<script src="bootstrap.js?v=5" data-app="portfolio"></script>
 </body>
 </html>

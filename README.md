@@ -41,3 +41,7 @@ O token só fica no campo e na memória da aba durante o uso; é limpo após cad
 ## Correção de categorias
 
 Vídeos novos herdam a categoria quando a coleção possui uma única categoria definida. Rascunhos antigos e exportações também recebem essa normalização, preservando categorias explícitas. Isso evita que um vídeo sem categoria crie uma aba “geral” ao lado de “YouTube”. O vídeo institucional adicionado foi corrigido para `youtube`.
+
+## Escolher categoria pelo editor
+
+O campo **Categoria**, abaixo de **Formato**, oferece Geral, YouTube, Instagram e TV corporativa. A seleção acompanha o vídeo no rascunho, histórico, exportação e publicação; é única para os três idiomas, com nome traduzido no portfólio. Categorias existentes fora dessa lista são preservadas e exibidas no seletor. A escolha explícita de Geral é preservada, mesmo em uma coleção YouTube. Categorias diferentes geram abas dentro do projeto; uma categoria única exibe todos os vídeos juntos. Depois de escolher, clique em **Salvar vídeo** e publique no GitHub para atualizar o site.

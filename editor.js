@@ -39,17 +39,22 @@ function move(from,to){checkpoint();const [v]=project().videos.splice(from,1);pr
 function preview(){
  const v=video();$('preview').replaceChildren();if(!v){$('preview').textContent='Adicione um vídeo a este projeto.';return;}
  try {const frame=document.createElement('iframe');frame.src=embedURL(v.embed);frame.title=v.caption?.[lang]||'Prévia do vídeo';frame.allowFullscreen=true;frame.classList.toggle('vertical',v.orientation==='vertical');$('preview').append(frame);} catch {const note=document.createElement('p');note.textContent='Insira um link válido e salve para visualizar.';$('preview').append(note);}
+ const tag=document.createElement('p');tag.className='eyebrow';tag.textContent=I18N[lang]['cat_'+(v.category||'geral')]||v.category||'Geral';$('preview').append(tag);
  const title=document.createElement('h3');title.textContent=v.caption?.[lang]||'Sem título';const desc=document.createElement('p');desc.textContent=v.desc?.[lang]||'';$('preview').append(title,desc);
 }
 function render(){
  renderList();const v=video();$('fields').disabled=!v;
+ const category=v?.category||'geral';
+ if(![...$('category').options].some(o=>o.value===category)){const option=document.createElement('option');option.value=category;option.textContent=category;$('category').append(option);}
+ $('category').value=category;
  $('url').value=v?.embed||'';$('orientation').value=v?.orientation||'horizontal';$('title').value=v?.caption?.[lang]||'';$('description').value=v?.desc?.[lang]||'';
  $('titleLabel').firstChild.textContent=`Título · ${languages[lang]}`;$('descLabel').firstChild.textContent=`Descrição · ${languages[lang]}`;
  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));preview();
 }
-function capture(){const v=video();if(!v)return;v.caption ||= {};v.desc ||= {};v.caption[lang]=$('title').value;v.desc[lang]=$('description').value;v.embed=$('url').value.trim();v.orientation=$('orientation').value;}
+function capture(){const v=video();if(!v)return;v.caption ||= {};v.desc ||= {};v.caption[lang]=$('title').value;v.desc[lang]=$('description').value;v.embed=$('url').value.trim();v.orientation=$('orientation').value;v.category=$('category').value;}
 // Cada alteração permanece no rascunho, inclusive ao mudar de idioma ou seleção.
 $('videoForm').addEventListener('input',()=>{checkpoint();capture();persist();renderList();});
+$('category').addEventListener('change',()=>{checkpoint();capture();persist();preview();});
 $('orientation').addEventListener('change',()=>{checkpoint();capture();persist();preview();});
 $('videoForm').onsubmit=e=>{e.preventDefault();try{const normalized=embedURL($('url').value.trim());checkpoint();capture();video().embed=normalized;persist();render();}catch(error){status(error.message);}};
 for(const [i,p] of projects.entries()){const option=document.createElement('option');option.value=i;option.textContent=p.title.pt;$('project').append(option);}

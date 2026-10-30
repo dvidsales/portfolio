@@ -36,3 +36,7 @@ Siga `tests/README.md`. O teste gera um JSON com cada verificação e capturas d
 A API do GitHub e os documentos dos players externos foram **simulados** durante a suíte. Os testes não publicam commits usando credenciais reais e não certificam a reprodução, as permissões de compartilhamento, legendas ou disponibilidade dos vídeos no Google Drive, YouTube ou Vimeo. Fontes externas são substituídas pelo fallback local no teste automatizado. Ausência de violações no axe-core não é certificação de acessibilidade integral.
 
 O envio e a implantação reais desta revisão são acompanhados separadamente pelo workflow **pages build and deployment** do repositório, em GitHub Actions. O resultado da suíte se refere ao código desta revisão, preservando os vídeos e créditos publicados anteriormente.
+
+## Ajuste visual posterior do destaque
+
+O destaque foi reavaliado com a fonte real Instrument Serif Italic, em 375, 768, 1280 e 1920 px, nos três idiomas (12 cenários). Conferidos: ausência de transbordamento horizontal, alinhamento pelo topo em duas colunas e título limitado a 30 px. O conteúdo de vídeo foi simulado para avaliar a composição; as permissões dos provedores continuam fora deste teste. O novo tratamento está documentado em `CHANGELOG.md`.

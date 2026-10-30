@@ -1,5 +1,12 @@
 # Histórico de mudanças
 
+## 30/10/2026 — Ajuste visual do destaque
+
+- Vídeo e informações alinhados pelo topo, evitando espaço vazio acima do player quando o título é longo.
+- Coluna de informações mais larga e título limitado a 30 px, com entrelinha controlada e hierarquia abaixo do título da seção.
+- Espaçamentos mais compactos e link de abertura no provedor com tratamento secundário.
+- Mantida a disposição em uma coluna no celular e tablet estreito.
+
 ## 30/10/2026 — Revisão end to end
 
 ### Dados, vídeo e consistência

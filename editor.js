@@ -75,8 +75,13 @@ function renderList(focusIndex){
     const select = document.createElement('button');
     select.className = 'select-video';select.dataset.select = i;
     select.setAttribute('aria-pressed', i === selectedVideo);
-    select.textContent = `${String(i + 1).padStart(2,'0')} / ${v.caption?.[lang] || 'Novo vídeo — sem título'}`;
-    select.onclick = () => { selectedVideo = i;lastEditGroup = null;clearError();render(); };
+    const thumb = document.createElement('span');thumb.className='editor-thumbnail';thumb.setAttribute('aria-hidden','true');
+    thumb.innerHTML='<svg viewBox="0 0 40 32"><rect x="1" y="1" width="38" height="30" rx="3"/><path d="m16 10 10 6-10 6Z"/></svg>';
+    const thumbnail=PortfolioVideo.thumbnail(v.embed);
+    if(thumbnail){const image=document.createElement('img');image.alt='';image.loading='lazy';image.src=thumbnail;image.referrerPolicy='no-referrer';image.onerror=()=>image.remove();thumb.append(image);}
+    const label = document.createElement('span');label.textContent=`${String(i + 1).padStart(2,'0')} / ${v.caption?.[lang] || 'Novo vídeo — sem título'}`;
+    select.append(thumb,label);
+    select.onclick = () => { selectedVideo = i;lastEditGroup = null;clearError();render();activateEditorPanel('monitor'); };
     li.append(select);
     const controls = document.createElement('div');controls.className = 'order-controls';
     for(const [label, delta] of [['↑',-1],['↓',1]]){
@@ -154,7 +159,7 @@ function showError(error){
     selectedProject = error.projectIndex;selectedVideo = error.videoIndex;lang = error.lang || lang;render();
   }
   $('videoError').textContent = error.message;status(error.message);
-  if(error.field){$(error.field).setAttribute('aria-invalid','true');$(error.field).focus();}
+  if(error.field){activateEditorPanel('details');$(error.field).setAttribute('aria-invalid','true');$(error.field).focus();}
 }
 function capture(){
   const v = video();if(!v) return;
@@ -182,7 +187,7 @@ for(const button of document.querySelectorAll('[data-lang]')) button.onclick = (
 $('add').onclick = () => {
   checkpoint();const category = collectionCategory(project());
   project().videos.push({caption:{pt:'',en:'',es:''},desc:{pt:'',en:'',es:''},embed:'',orientation:'horizontal',category:category || 'geral'});
-  selectedVideo = project().videos.length - 1;persist();clearError();render();$('url').focus();$('reviewed').checked = false;
+  selectedVideo = project().videos.length - 1;persist();clearError();render();activateEditorPanel('details');$('url').focus();$('reviewed').checked = false;
 };
 $('remove').onclick = () => {
   if(!video() || !confirm('Remover este vídeo do rascunho? Você pode desfazer.')) return;
@@ -292,3 +297,33 @@ if(!window.PORTFOLIO_DATA_ERROR){
   for(const id of ['project','reset','undo']) $(id).disabled = true;
 }
 render();
+
+
+// No celular, os mesmos painéis viram abas; o estado de edição é compartilhado.
+const editorMobile = matchMedia('(max-width:650px)');
+const editorPanels = {library:'editorLibrary',monitor:'editorMonitor',details:'editorDetails'};
+let activeEditorPanel = 'library';
+function activateEditorPanel(key,focus=false){
+  if(!editorPanels[key])return;
+  activeEditorPanel=key;
+  for(const [name,id] of Object.entries(editorPanels)){
+    const panel=$(id);panel.hidden=editorMobile.matches && name!==key;
+    if(editorMobile.matches){panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby','editorTab-'+name);}
+    else{panel.removeAttribute('role');panel.setAttribute('aria-labelledby','editorHeading-'+name);}
+    const tab=$('editorTab-'+name);tab.setAttribute('aria-selected',name===key);tab.tabIndex=name===key?0:-1;
+  }
+  if(focus)$('editorTab-'+key).focus();
+}
+for(const [i,tab] of [...document.querySelectorAll('[data-editor-panel]')].entries()){
+  tab.onclick=()=>activateEditorPanel(tab.dataset.editorPanel);
+  tab.onkeydown=e=>{
+    const keys=Object.keys(editorPanels);let next;
+    if(e.key==='ArrowRight')next=(i+1)%keys.length;
+    if(e.key==='ArrowLeft')next=(i+keys.length-1)%keys.length;
+    if(e.key==='Home')next=0;if(e.key==='End')next=keys.length-1;
+    if(next!==undefined){e.preventDefault();activateEditorPanel(keys[next],true);}
+  };
+}
+$('editSelectedVideo').onclick=()=>{activateEditorPanel('details');$('title').focus();};
+editorMobile.addEventListener('change',()=>activateEditorPanel(activeEditorPanel));
+activateEditorPanel(activeEditorPanel);

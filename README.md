@@ -10,9 +10,9 @@ Portfólio e editor visual em **HTML, CSS e JavaScript**, sem backend e sem buil
 
 1. Selecione a coleção e o vídeo, ou clique em **Adicionar vídeo**.
 2. Insira um link HTTPS de arquivo do Google Drive, YouTube (inclusive Shorts e transmissões) ou Vimeo. A prévia e o portfólio usam a mesma normalização. Links protegidos por `resourcekey` do Drive ou hash de vídeo não listado do Vimeo mantêm esses parâmetros.
-3. Escolha **Formato** e **Categoria**. Categorias diferentes criam abas dentro da coleção; use a mesma categoria para manter os vídeos juntos. Vídeos novos herdam a categoria quando há uma única categoria na coleção. A escolha explícita de **Geral** é preservada.
+3. Escolha **Formato** e **Categoria**. A categoria aparece na miniatura quando necessário e na ficha do trabalho. Na biblioteca pública, os filtros separam Hemobrás, UFPE e autorais; nas páginas institucionais, separam as coleções/canais. Vídeos novos herdam a categoria quando há uma única categoria na coleção. A escolha explícita de **Geral** é preservada.
 4. Preencha o título e, se quiser, a descrição em **Português, English e Español**. As traduções são manuais. Os títulos nos três idiomas são obrigatórios para publicar; descrições são opcionais. Limites: 300 caracteres para títulos, 5.000 para descrições.
-5. Use **Salvar vídeo** para validar o item. A prévia de texto acompanha a digitação. Arraste os vídeos ou use as setas para mudar a ordem. **Remover** pede confirmação. **Desfazer** recupera alterações, inclusive da coleção selecionada anteriormente, em até 30 estados.
+5. Use **Salvar vídeo** para validar o item. No desktop, a biblioteca fica à esquerda, o monitor ao centro e os detalhes à direita. No celular, os mesmos painéis viram abas e mantêm o rascunho compartilhado. A prévia de texto acompanha a digitação. Arraste os vídeos ou use as setas para mudar a ordem. **Remover** pede confirmação. **Desfazer** recupera alterações, inclusive da coleção selecionada anteriormente, em até 30 estados.
 6. Revise o destino, informe o token restrito e publique. A mensagem **Commit criado** confirma o envio ao repositório. A implantação do Pages é uma etapa posterior; acompanhe o link para Actions antes de conferir o site.
 
 O rascunho é salvo automaticamente no navegador, inclusive ao mudar de vídeo, idioma ou coleção. Alterar um rascunho não modifica o site público. O editor administra vídeos das coleções existentes; não cria projetos nem envia arquivos de vídeo aos provedores.
@@ -67,13 +67,34 @@ Os testes automatizados ficam em `tests/`. Eles verificam navegação, traduçõ
 | `projects.js` | Conteúdo publicado pelo editor; substitui a lista de projetos em memória. |
 | `video-utils.js` | Validação e normalização compartilhadas de vídeos e estrutura de dados. |
 | `bootstrap.js` | Carregamento dos dados, tratamento de falhas e inicialização da página. |
-| `common.js` | Idiomas, projetos, categorias, créditos, contagens, destaque e navegação. |
+| `common.js` | Idiomas, rótulos e navegação geral. |
+| `workbench.js`, `workbench.css` | Biblioteca com miniaturas, busca, filtros, grade/lista, monitor, propriedades e timeline de navegação. |
 | `editor.html`, `editor.css`, `editor.js` | Editor visual, rascunhos, histórico, backup e publicação no GitHub. |
 | `favicon.svg` | Ícone do site, servido localmente. |
 | `curriculo.pdf` | Currículo original, preservado. |
 
-Os créditos e os conteúdos autorais foram preservados. O primeiro vídeo da coleção **Hemobrás — YouTube** é usado como destaque na página inicial. Se a coleção estiver vazia, o destaque fica oculto. Os links **Abrir vídeo no provedor** permitem acessar o vídeo fora do player incorporado.
+Os créditos e os conteúdos autorais foram preservados. A biblioteca pública mostra todos os vídeos das coleções disponíveis. O primeiro vídeo é selecionado inicialmente; um link com `?video=` permite abrir diretamente outro trabalho. Os links **Abrir vídeo no provedor** permitem assistir fora do player incorporado.
 
 ## Limites da verificação
 
 Os testes simulam respostas dos players e da API do GitHub; não criam commits de teste com o token do visitante. As permissões de compartilhamento, a reprodução, legendas e a disponibilidade de cada vídeo são controladas pelo provedor. O relatório distingue esses limites dos fluxos verificados no site. Detalhes das correções estão em [CHANGELOG.md](CHANGELOG.md).
+
+## Biblioteca inspirada em uma estação de edição
+
+Na seção **Trabalhos**, os filtros **Todos, Hemobrás, UFPE e Autorais** selecionam as coleções. A busca aceita palavras sem acentos e encontra títulos em qualquer um dos três idiomas. É possível alternar entre grade e lista; a preferência de visualização fica salva no navegador.
+
+Selecione uma miniatura para trocar o monitor central. Os botões anterior/próximo percorrem os resultados visíveis; não controlam a reprodução dentro do provedor. Apenas um player de vídeo é carregado por página pública. As miniaturas de Drive e YouTube são solicitadas ao próprio provedor; se não estiverem disponíveis, o cartão mantém um ícone, título e formato. O Vimeo utiliza esse fallback sem depender de um serviço externo de miniaturas.
+
+O painel **Sobre o trabalho** é recolhível e mostra projeto, canal/categoria, formato, participação e créditos existentes. Para os trabalhos da Hemobrás, a participação em edição já descrita nos textos originais é apresentada como edição; nos outros projetos ela é derivada das fichas técnicas cadastradas, sem inventar nomes ou funções. Nenhum crédito foi removido.
+
+A seleção atual é compartilhável pelo endereço com `?video=` e continua válida após reordenar os vídeos, pois usa o provedor e o identificador do arquivo, em vez da posição na lista. As páginas Hemobrás e UFPE mantêm o mesmo monitor/biblioteca, limitadas às respectivas coleções. Links antigos `#proj-...` continuam selecionando os trabalhos correspondentes.
+
+A timeline na parte inferior navega de verdade entre as seções. O indicador acompanha a posição na página; ele não simula duração de vídeo. No celular, a timeline vira um seletor compacto **Ir para**. Os antigos símbolos de transporte decorativos da apresentação foram substituídos por um rótulo, para não sugerir ações inexistentes.
+
+## Voltar ao visual anterior
+
+Antes do redesign foi criada e enviada ao GitHub a tag **`backup-before-premiere-workspace-2026-10-30`**, apontando para `739195a4347f3e858449dc0477d7c9fb28e5da88`.
+
+Ela preserva a versão anterior inteira. Para desfazer apenas o redesign, prefira um **novo commit de reversão (`git revert`) do commit do redesign**, seguido de um push normal para `main`. Isso mantém o histórico e preserva publicações posteriores que alterem somente `projects.js`. Não use reset nem force-push. Se houver outras mudanças de interface depois do redesign, revise eventuais conflitos antes da reversão.
+
+O arquivo de vídeos `projects.js`, os arquivos de currículo e os dados originais dos vídeos não foram alterados pelo redesign.

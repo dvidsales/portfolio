@@ -43,6 +43,19 @@ window.PortfolioVideo = Object.freeze({
     const hash = url.searchParams.get('h');
     return `https://vimeo.com/${url.pathname.split('/').pop()}${hash ? '/' + hash : ''}`;
   },
+  thumbnail(value) {
+    const embed = this.safe(value);
+    if(!embed) return '';
+    const url = new URL(embed);
+    if(url.hostname === 'drive.google.com'){
+      const thumb = new URL('https://drive.google.com/thumbnail');
+      thumb.searchParams.set('id',url.pathname.split('/')[3]);thumb.searchParams.set('sz','w480');
+      if(url.searchParams.has('resourcekey'))thumb.searchParams.set('resourcekey',url.searchParams.get('resourcekey'));
+      return thumb.href;
+    }
+    if(url.hostname === 'www.youtube-nocookie.com')return `https://i.ytimg.com/vi/${url.pathname.split('/').pop()}/hqdefault.jpg`;
+    return '';
+  },
   validProjects(value) {
     const credits = pairs => Array.isArray(pairs) && pairs.every(pair => Array.isArray(pair) && pair.length === 2 && pair.every(x => typeof x === 'string'));
     const localized = text => text && typeof text === 'object' && !Array.isArray(text)

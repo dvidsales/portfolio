@@ -122,6 +122,7 @@ function creditsHTML(pairs, lang){
   return `<details class="credits"><summary>${esc(I18N[lang].credits_label)}</summary><div class="credits-list">${rows}</div></details>`;
 }
 function renderProjects(lang){
+  if(document.getElementById('videoWorkbench') && window.PortfolioWorkbench){PortfolioWorkbench.render(lang);return;}
   const list = document.getElementById('projectsList');
   if(!list) return;
   const items = window.PROJECTS_FILTER_IDS ? PROJECTS.filter(p => window.PROJECTS_FILTER_IDS.includes(p.id)) : PROJECTS;

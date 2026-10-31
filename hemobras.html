@@ -9,7 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=6">
+<link rel="stylesheet" href="styles.css?v=7">
+<link rel="stylesheet" href="workbench.css?v=7">
 <meta property="og:type" content="website">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://dvidsales.github.io/portfolio/hemobras.html">
@@ -17,7 +18,7 @@
 <meta property="og:title" content="Hemobrás — Trabalhos | David Sales">
 <meta property="og:description" content="Vídeos editados por David Sales para a Hemobrás.">
 </head>
-<body>
+<body class="portfolio-workspace">
 
 <div class="scrub-progress" id="scrubProgress"></div>
 <a href="#main" class="skip-link" data-i18n="skip_link">Pular para o conteúdo</a>
@@ -82,7 +83,8 @@
 </section>
 
 <section class="section-pad container" id="trabalhos">
-  <div class="projects" id="projectsList"></div>
+  <h2 class="section-title collection-heading" data-i18n="nav_trabalhos_full">meus trabalhos</h2>
+  <div id="videoWorkbench"></div>
 </section>
 
 </main>
@@ -91,11 +93,12 @@
 <noscript><p class="load-warning">Ative o JavaScript para carregar os vídeos e selecionar idiomas. / Enable JavaScript to view videos. / Activa JavaScript para ver los vídeos.</p></noscript>
 <footer><a href="editor.html" data-i18n="editor_link">Editor de vídeos</a> · <span data-i18n="footer_text">feito por David Sales — portfólio pessoal · 2026</span></footer>
 
-<script src="data.js?v=5"></script>
+<script src="data.js?v=7"></script>
 <script>
   window.PROJECTS_FILTER_IDS = ['hemobras', 'hemobras-tv', 'hemobras-instagram'];
 </script>
-<script src="video-utils.js?v=5"></script>
-<script src="bootstrap.js?v=5" data-app="portfolio"></script>
+<script src="video-utils.js?v=7"></script>
+<script src="workbench.js?v=7"></script>
+<script src="bootstrap.js?v=7" data-app="portfolio"></script>
 </body>
 </html>

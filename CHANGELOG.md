@@ -1,5 +1,19 @@
 # Histórico de mudanças
 
+## 30/10/2026 — Biblioteca e estação de edição inspiradas no Premiere
+
+- Backup da versão anterior publicado como tag `backup-before-premiere-workspace-2026-10-30`, no commit `739195a4347f3e858449dc0477d7c9fb28e5da88`.
+- Biblioteca pública com todos os trabalhos, miniaturas dos próprios provedores e fallback para imagens indisponíveis. Filtros Hemobrás/UFPE/autorais, busca entre idiomas sem depender de acentos e modos grade/lista.
+- Monitor central carrega apenas o vídeo selecionado; botões anterior/próximo percorrem o filtro atual. Seleção, título, descrição e formato permanecem consistentes ao trocar o idioma.
+- Painel recolhível com projeto, canal/categoria, formato, participação e créditos existentes. Conteúdo e créditos dos vídeos preservados.
+- Links com identificadores de arquivo compartilham a seleção sem depender da ordem dos vídeos. Links antigos de projetos continuam funcionais.
+- Páginas Hemobrás e UFPE adotam a mesma biblioteca, com escopo limitado às respectivas coleções e filtros por canal/projeto.
+- Timeline inferior navega entre as seções e indica o progresso da página. No celular, transforma-se em seletor compacto.
+- Editor administrativo reorganizado em biblioteca, monitor e propriedades; no celular, painéis em abas com navegação por teclado e rascunho compartilhado. A validação abre a aba que contém o campo com erro.
+- Botões decorativos de transporte na apresentação foram substituídos por um rótulo. Não foram acrescentados controles de edição, medidores ou parâmetros sem função.
+- Novos arquivos `workbench.js` e `workbench.css`; helper de miniaturas em `video-utils.js`; versões de carregamento atualizadas. Publicação e proteção contra conflitos do editor preservadas.
+- Testes e documentação atualizados para a nova interface; instruções de reversão por novo commit no README.
+
 ## 30/10/2026 — Ajuste visual do destaque
 
 - Vídeo e informações alinhados pelo topo, evitando espaço vazio acima do player quando o título é longo.

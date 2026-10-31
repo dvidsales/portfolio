@@ -1,42 +1,44 @@
-# Validação end to end — 30/10/2026
+# Validação — versão inspirada no Premiere — 30/10/2026
 
-Resultado da execução final: **357 verificações passaram**, sem erros JavaScript de página. Suíte: `tests/e2e.py`. Navegador: Chromium; ferramentas: Playwright 1.62.0 e axe-core 4.14.0.
+A suíte `tests/e2e.py` terminou com **406 verificações aprovadas**, sem erros JavaScript de página. As fontes, os players e a API externa são tratados conforme os limites descritos abaixo.
 
-## Cobertura e resultado
+## Cobertura
 
 | Área | Resultado |
 | --- | --- |
-| Layout | 70 cenários sem transbordamento horizontal: páginas públicas × três idiomas × sete larguras, mais editor × sete larguras. |
-| Telas | 320, 375, 768, 900, 1024, 1280 e 1920 px. Emulação de viewport no desktop; não são aparelhos físicos. |
-| Acessibilidade automatizada | 10 cenários (três páginas × três idiomas, mais editor), sem violações nas tags WCAG 2 A, WCAG 2 AA e WCAG 2.1 AA. Auditoria realizada a 1280 px, com créditos/detalhes abertos. |
-| Idiomas | Rótulos cadastrados, atributo `lang`, metadados, contagens, descrições e seleção de categoria conferidos. |
-| Navegação | Links locais e âncoras, link direto para projeto dinâmico, menu móvel, seletor de idioma, Escape e foco verificados. |
-| Categorias | Abas e painéis associados; setas selecionam categorias; escolha mantida ao trocar idioma; conteúdo tratado como texto. |
-| Vídeos e destaque | Normalização de URLs, rejeição de protocolos/provedores inválidos, formato vertical, descrições por idioma, links externos e destaque oculto para coleção vazia. |
-| Currículo | Download executado e assinatura PDF conferida; arquivo original preservado. |
-| Editor | Adicionar, editar nos três idiomas, remover, arrastar, mover por setas, desfazer entre coleções, recuperar rascunho e exportar arquivo. |
-| Publicação simulada | Commit, branch e SHA; envio subsequente; bloqueio de publicação intermediária; HTTP 403, conflito 409 e falha de conexão. |
-| Token | Campo limpo após sucesso, validação, conflito e falha; ausência do token simulado no armazenamento e exportação. |
-| Resiliência | Preferências e rascunhos corrompidos, armazenamento indisponível, falha de carga e estrutura inválida dos dados publicados; navegação estática sem JavaScript. |
-| Cache | URL de carregamento dos dados muda após recarregar a página. |
-| Arquivos | Sintaxe JavaScript conferida; scripts, estilos e ícone locais existem; `git diff --check` sem erros. |
+| Layout | 70 cenários sem transbordamento horizontal: três páginas públicas × três idiomas × sete larguras, mais editor × sete larguras. |
+| Larguras | 320, 375, 768, 900, 1024, 1280 e 1920 px; emulação no Chromium. |
+| Acessibilidade desktop | 10 cenários sem violações nas tags axe-core WCAG 2 A, WCAG 2 AA e WCAG 2.1 AA. |
+| Acessibilidade móvel adicional | Seis cenários sem violações: biblioteca pública nos três idiomas e três abas do editor em 375 px. |
+| Conferência visual | Fontes reais Instrument Serif, Inter e JetBrains Mono, nas quatro páginas em 375, 768, 1024 e 1440 px; 16 cenários. |
+| Biblioteca | 21 vídeos atuais; filtros Todos/Hemobrás/UFPE/autorais, busca sem acentos entre idiomas, grade/lista, miniaturas com fallback e seleção. |
+| Monitor | Um único iframe público, troca de vídeo, título/descrição por idioma, formato vertical e botões anterior/próximo para os resultados visíveis. |
+| Propriedades | Créditos e participação, painel recolhível e preservação do link original da coleção. |
+| Compartilhamento | Endereço com `?video=` recupera a seleção; links antigos de projeto continuam funcionando. |
+| Timeline | Navegação real por seções; seletor compacto no celular e indicação da seção atual. |
+| Editor | Biblioteca, monitor e propriedades; abas móveis com teclado; CRUD, arraste, setas, rascunho, histórico, exportação e tradução. |
+| Validação móvel adicional | Adicionar abre a aba de detalhes; erro de tradução também abre essa aba e limpa o token. |
+| GitHub API simulada | SHA e branch, segundo envio, alteração concorrente, HTTP 403/409, conexão interrompida e token limpo nos caminhos avaliados. |
+| Resiliência | Preferências/rascunhos inválidos, armazenamento indisponível, falha de carga e estrutura de dados inválida. |
+| Conteúdo | Dados originais de projetos, créditos e softwares conferidos contra a tag de backup, sem diferenças. `projects.js` e `curriculo.pdf` também são idênticos ao backup. |
+| Arquivos | Sintaxe de todos os JavaScripts validada; scripts, estilos e ícones locais existentes; `git diff --check` sem erros. |
 
-## Correções confirmadas
+## Backup e reversão
 
-A avaliação inicial encontrou violações de contraste (19 elementos na página inicial, 14 em cada página institucional e quatro no editor, nos cenários avaliados). Após os ajustes, os dez cenários de acessibilidade terminaram sem violações automáticas.
+A tag **`backup-before-premiere-workspace-2026-10-30`** foi enviada ao GitHub antes das alterações e aponta para `739195a4347f3e858449dc0477d7c9fb28e5da88`.
 
-A suíte também confirmou e motivou a correção de um link direto que não rolava até um projeto criado dinamicamente. A revisão do código corrigiu o acesso por teclado a menus fechados, descrições e orientação inconsistentes no destaque, preferência de idioma inválida, histórico entre coleções, diferença entre commit e deploy e risco de sobrescrever uma publicação mais recente com rascunho antigo. Consulte `CHANGELOG.md` para a lista completa.
+O redesign modifica a interface e as traduções de seus controles; os vídeos e as fichas técnicas publicados foram preservados. Se for necessário voltar ao visual anterior, a reversão deve ser feita por novo commit, preservando o histórico e as publicações posteriores em `projects.js`. O README descreve esse procedimento.
 
-## Reproduzir
+## Reproduzir e limites
 
-Siga `tests/README.md`. O teste gera um JSON com cada verificação e capturas das páginas. As dependências ficam restritas ao desenvolvimento; não há backend ou build de produção.
+A suíte reproduzível está em `tests/`; instruções em `tests/README.md`. Ferramentas: Playwright 1.62.0, axe-core 4.14.0 e Chromium.
 
-## Limites
+A API do GitHub e os documentos dos players são simulados durante a suíte. Não são criados commits com credenciais reais nos testes. A disponibilidade das miniaturas, reprodução, permissões e legendas dos arquivos no Google Drive, YouTube e Vimeo continua dependendo dos provedores. Quando a miniatura falha, a interface usa um ícone e preserva título/formato.
 
-A API do GitHub e os documentos dos players externos foram **simulados** durante a suíte. Os testes não publicam commits usando credenciais reais e não certificam a reprodução, as permissões de compartilhamento, legendas ou disponibilidade dos vídeos no Google Drive, YouTube ou Vimeo. Fontes externas são substituídas pelo fallback local no teste automatizado. Ausência de violações no axe-core não é certificação de acessibilidade integral.
+A suíte principal usa fontes de fallback; a conferência visual complementar usa os arquivos reais das fontes. As verificações são em navegador desktop com emulação de viewport, não em aparelhos físicos. Ausência de violações automáticas não é certificação integral de acessibilidade.
 
-O envio e a implantação reais desta revisão são acompanhados separadamente pelo workflow **pages build and deployment** do repositório, em GitHub Actions. O resultado da suíte se refere ao código desta revisão, preservando os vídeos e créditos publicados anteriormente.
+O envio e a implantação reais desta revisão são acompanhados separadamente pelo workflow **pages build and deployment** no GitHub Actions.
 
-## Ajuste visual posterior do destaque
+## Histórico de validação
 
-O destaque foi reavaliado com a fonte real Instrument Serif Italic, em 375, 768, 1280 e 1920 px, nos três idiomas (12 cenários). Conferidos: ausência de transbordamento horizontal, alinhamento pelo topo em duas colunas e título limitado a 30 px. O conteúdo de vídeo foi simulado para avaliar a composição; as permissões dos provedores continuam fora deste teste. O novo tratamento está documentado em `CHANGELOG.md`.
+Antes do redesign, a revisão end to end anterior passou por 357 verificações. O ajuste do antigo destaque foi conferido em 12 cenários adicionais. As correções de contraste, proteção de publicação e rascunhos foram mantidas nesta versão e seus fluxos voltaram a ser testados.

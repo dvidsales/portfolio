@@ -12,12 +12,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=6">
+<link rel="stylesheet" href="styles.css?v=7">
+<link rel="stylesheet" href="workbench.css?v=7">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://dvidsales.github.io/portfolio/">
 <meta property="og:url" content="https://dvidsales.github.io/portfolio/">
 </head>
-<body>
+<body class="portfolio-workspace">
 
 <div class="scrub-progress" id="scrubProgress"></div>
 <a href="#main" class="skip-link" data-i18n="skip_link">Pular para o conteúdo</a>
@@ -82,12 +83,13 @@
         <p class="hero-role" data-i18n="hero_role">editor audiovisual</p>
         <h1 class="hero-title" data-i18n-html="hero_title">edição que dá <span class="accent">ritmo</span> à história</h1>
         <p class="hero-sub" data-i18n="hero_sub">vídeos institucionais · redes sociais · jornalismo</p>
+        <a class="hero-library-link" href="#trabalhos" data-i18n="explore_library">Explorar trabalhos →</a>
       </div>
     </div>
     <div class="playback-bar" aria-hidden="true">
       <span class="tc-readout" id="heroTimecode">00:00:00:00</span>
-      <span class="transport">⏮ ◀ ▶ ▶ ⏭</span>
-      <span class="fit-tag">Fit ▾</span>
+      <span class="transport" data-i18n="intro_panel_label">apresentação / David Sales</span>
+      <span class="fit-tag">DS</span>
     </div>
     <div class="scrub-bar" aria-hidden="true">
       <div class="scrub-fill" id="heroScrubFill"></div>
@@ -190,51 +192,15 @@
   </div>
 </section>
 
-<section class="section-pad" id="trabalhos">
+<section class="section-pad work-section" id="trabalhos" aria-labelledby="workHeading">
   <div class="container">
     <div class="tc-divider"><span class="tc-num">05</span><span class="tc-ticks"></span></div>
-    <div class="section-head reveal">
-      <span class="eyebrow" data-i18n="featured_eyebrow">// em destaque</span>
-      <h2 class="section-title" data-i18n="nav_trabalhos_full">meus trabalhos</h2>
+    <div class="work-intro">
+      <div><span class="eyebrow" data-i18n="workbench_eyebrow">// seleção de trabalhos</span><h2 class="section-title" id="workHeading" data-i18n="nav_trabalhos_full">meus trabalhos</h2></div>
+      <p data-i18n="workbench_intro">Explore a biblioteca e selecione um vídeo para assistir e conhecer a ficha técnica.</p>
     </div>
-
-    <div class="featured-work reveal in">
-      <div class="player featured-player">
-        <div class="video-box">
-          <iframe title="Hemobrás em um minuto" allowfullscreen loading="lazy"></iframe>
-        </div>
-      </div>
-      <div class="featured-info">
-        <span class="eyebrow" data-i18n="featured_label">// trabalho selecionado</span>
-        <h3 data-i18n="featured_caption">Hemobrás em um minuto</h3>
-        <p data-i18n="featured_desc">editei este vídeo institucional para a Hemobrás.</p>
-        <div class="featured-meta" data-i18n="featured_meta">edição audiovisual · conteúdo institucional</div>
-        <a class="project-link featured-link" href="hemobras.html" data-i18n="featured_cta">ver trabalhos da Hemobrás →</a>
-      </div>
-    </div>
-    <p class="soft-note reveal" data-i18n="explore_more">veja outros trabalhos para a Hemobrás e a UFPE nas pastas abaixo.</p>
-
-    <div class="bin reveal">
-      <div class="bin-org">
-        <a class="bin-org-link" href="hemobras.html">
-          <span class="folder-ic">📁</span><span data-i18n="exp1_org">Hemobrás — Empresa Brasileira de Hemoderivados e Biotecnologia</span>
-          <span class="goto-tag" data-i18n="goto_label">ver trabalhos →</span>
-        </a>
-      </div>
-      <div class="bin-sub"><div class="bin-item"><span class="file-ic">▤</span><span data-i18n="bin_hemobras_count">12 vídeos</span></div></div>
-    </div>
-    <div class="bin reveal">
-      <div class="bin-org">
-        <a class="bin-org-link" href="ufpe.html">
-          <span class="folder-ic">📁</span><span data-i18n="exp2_org">UFPE — Universidade Federal de Pernambuco</span>
-          <span class="goto-tag" data-i18n="goto_label">ver trabalhos →</span>
-        </a>
-      </div>
-      <div class="bin-sub"><div class="bin-item"><span class="file-ic">▤</span><span data-i18n="bin_ufpe_count">6 vídeos</span></div></div>
-    </div>
-
-    <div class="eyebrow reveal" style="display:block;margin:28px 0 14px;" data-i18n="personal_projects_label">projetos pessoais</div>
-    <div class="projects" id="projectsList"></div>
+    <div id="videoWorkbench"></div>
+    <div class="collection-links"><a href="hemobras.html" data-i18n="collection_hemobras">Coleção Hemobrás</a><span data-collection-count="hemobras"></span><a href="ufpe.html" data-i18n="collection_ufpe">Coleção UFPE</a><span data-collection-count="ufpe"></span></div>
   </div>
 </section>
 
@@ -264,11 +230,12 @@
 <noscript><p class="load-warning">Ative o JavaScript para carregar os vídeos e selecionar idiomas. / Enable JavaScript to view videos. / Activa JavaScript para ver los vídeos.</p></noscript>
 <footer><a href="editor.html" data-i18n="editor_link">Editor de vídeos</a> · <span data-i18n="footer_text">feito por David Sales — portfólio pessoal · 2026</span></footer>
 
-<script src="data.js?v=5"></script>
+<script src="data.js?v=7"></script>
 <script>
-  window.PROJECTS_FILTER_IDS = ['a-stalker', 'rolou-olinda'];
+  // A biblioteca reúne as coleções institucionais e os projetos pessoais.
 </script>
-<script src="video-utils.js?v=5"></script>
-<script src="bootstrap.js?v=5" data-app="portfolio"></script>
+<script src="video-utils.js?v=7"></script>
+<script src="workbench.js?v=7"></script>
+<script src="bootstrap.js?v=7" data-app="portfolio"></script>
 </body>
 </html>

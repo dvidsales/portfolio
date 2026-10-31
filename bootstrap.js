@@ -3,7 +3,7 @@
 (() => {
   const loader = document.currentScript;
   const app = loader.dataset.app;
-  if(typeof PROJECTS === 'undefined' || !window.PortfolioVideo){
+  if(typeof PROJECTS === 'undefined' || !window.PortfolioVideo || (app!=='editor' && document.getElementById('videoWorkbench') && !window.PortfolioWorkbench)){
     document.documentElement.classList.remove('js');
     const note = document.createElement('p');note.className='load-warning';note.setAttribute('role','alert');
     note.textContent='Não foi possível carregar os arquivos da página. Confira sua conexão e recarregue.';
@@ -36,7 +36,7 @@
       document.querySelector('main').prepend(note);
     }
     const script = document.createElement('script');
-    script.src = `${app === 'editor' ? 'editor' : 'common'}.js?v=5`;
+    script.src = `${app === 'editor' ? 'editor' : 'common'}.js?v=7`;
     script.onerror = () => {
       document.documentElement.classList.remove('js');
       const note = document.createElement('p');

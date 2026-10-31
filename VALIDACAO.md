@@ -54,3 +54,7 @@ Conferidas 21 combinações de vídeo/idioma: quatro vídeos da TV corporativa e
 ## Ferramentas e exceção do Super Plasma
 
 Conferidas 63 combinações (21 vídeos × três idiomas): After Effects nos quatro vídeos da TV corporativa e no Jogo do Super Plasma; Premiere Pro nos outros 16 vídeos. O jogo exibe animação como participação e descrição própria nos três idiomas. A exportação do editor preserva as ferramentas; comparação com a versão anterior confirmou que os créditos dos outros trabalhos não foram alterados.
+
+## Remoção do link do Instagram
+
+O link do projeto para o Instagram foi ocultado na ficha dos vídeos verticais. O link para abrir o próprio vídeo no provedor continua disponível. A suíte foi atualizada para verificar essa escolha de interface.

@@ -91,7 +91,7 @@ try:
   check('player vertical mede 9:16',abs(rect['width']/rect['height']-9/16)<.005)
   check('player vertical centralizado',abs(rect['x']+rect['width']/2-box['x']-box['width']/2)<1)
   check('link compartilhável','video=' in page.url)
-  check('link original do projeto preservado',page.locator('#propertyProjectLink a').get_attribute('href')=='https://instagram.com/hemobras')
+  check('link do Instagram omitido nos verticais',page.locator('#propertyProjectLink a').count()==0)
   shared=page.url;title=page.locator('#monitorTitle').inner_text();page.goto(shared,wait_until='domcontentloaded');page.wait_for_function('typeof applyLang==="function"');check('link mantém seleção',page.locator('#monitorTitle').inner_text()==title)
   page.locator('#workProperties summary').click();check('propriedades recolhíveis',not page.locator('#propertyValues').is_visible());page.locator('#workProperties summary').click()
   page.set_viewport_size({'width':375,'height':812})

@@ -1,5 +1,10 @@
 # Histórico de mudanças
 
+## 30/10/2026 — Link do Instagram nos vídeos verticais
+
+- Link do projeto para o Instagram omitido na ficha dos vídeos verticais, nos três idiomas.
+- Mantido o link para abrir o próprio vídeo no provedor. Dados, créditos e ferramentas não foram alterados.
+
 ## 30/10/2026 — Ferramentas de todos os vídeos
 
 - Premiere Pro indicado para todos os demais trabalhos, incluindo UFPE e autorais.

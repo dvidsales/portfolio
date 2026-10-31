@@ -176,7 +176,7 @@ window.PortfolioWorkbench = (() => {
     for(const [label,value] of properties){const dt=document.createElement('dt');dt.textContent=tr(label);const dd=document.createElement('dd');dd.textContent=value;dl.append(dt,dd);}
     const projectLink=$('propertyProjectLink');projectLink.replaceChildren();
     if(r.p.link?.href){
-      try{const url=new URL(r.p.link.href);if(url.protocol==='https:'&&!url.username&&!url.password){const a=document.createElement('a');a.className='properties-project-link';a.href=url.href;a.target='_blank';a.rel='noopener noreferrer';a.textContent=text(r.p.link.label,ui.lang);projectLink.append(a);}}catch{}
+      try{const url=new URL(r.p.link.href);const hideInstagram=r.v.orientation==='vertical'&&['instagram.com','www.instagram.com'].includes(url.hostname);if(url.protocol==='https:'&&!url.username&&!url.password&&!hideInstagram){const a=document.createElement('a');a.className='properties-project-link';a.href=url.href;a.target='_blank';a.rel='noopener noreferrer';a.textContent=text(r.p.link.label,ui.lang);projectLink.append(a);}}catch{}
     }
     const credits=$('workCredits');credits.replaceChildren();
     const heading=document.createElement('h4');heading.textContent=tr('credits_label');credits.append(heading);

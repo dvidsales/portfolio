@@ -1,5 +1,12 @@
 # Histórico de mudanças
 
+## 30/10/2026 — Ferramentas de todos os vídeos
+
+- Premiere Pro indicado para todos os demais trabalhos, incluindo UFPE e autorais.
+- After Effects mantido nos vídeos da TV corporativa.
+- Exceção individual do vídeo “jogo do Super Plasma”: animação por David Sales, After Effects e descrição própria nos três idiomas. A identificação usa o arquivo do Drive, preservando a regra caso o título mude.
+- Créditos existentes dos outros vídeos preservados; metadados incluídos na publicação e na base de recuperação.
+
 ## 30/10/2026 — Participações confirmadas na Hemobrás
 
 - TV corporativa: edição e animação por David Sales, com After Effects indicado como ferramenta. Descrições atualizadas em português, inglês e espanhol.

@@ -50,3 +50,7 @@ Foram medidos os seis vídeos verticais nas páginas inicial e Hemobrás, em 320
 ## Participações confirmadas — Hemobrás
 
 Conferidas 21 combinações de vídeo/idioma: quatro vídeos da TV corporativa e três do YouTube, nos três idiomas. A TV mostra edição, animação e After Effects; o YouTube mostra edição e informa o uso de imagens fornecidas. Verificado que o editor preserva esses metadados na exportação. Os projetos, vídeos e créditos da UFPE foram comparados com a versão anterior e permanecem idênticos.
+
+## Ferramentas e exceção do Super Plasma
+
+Conferidas 63 combinações (21 vídeos × três idiomas): After Effects nos quatro vídeos da TV corporativa e no Jogo do Super Plasma; Premiere Pro nos outros 16 vídeos. O jogo exibe animação como participação e descrição própria nos três idiomas. A exportação do editor preserva as ferramentas; comparação com a versão anterior confirmou que os créditos dos outros trabalhos não foram alterados.

@@ -256,3 +256,16 @@ const CONFIRMED_CONTRIBUTIONS = {
 for(const p of PROJECTS)if(CONFIRMED_CONTRIBUTIONS[p.id])Object.assign(p,CONFIRMED_CONTRIBUTIONS[p.id]);
 CREDIT_LABELS.pt.animacao="animação";CREDIT_LABELS.en.animacao="animation";CREDIT_LABELS.es.animacao="animación";
 I18N.pt.property_tools="Ferramentas";I18N.en.property_tools="Tools";I18N.es.property_tools="Herramientas";
+
+// Ferramentas confirmadas: exceção do vídeo do jogo identificada pelo arquivo, não pelo título.
+for(const project of PROJECTS){
+  project.tools = [project.id === 'hemobras-tv' ? 'After Effects' : 'Premiere Pro'];
+  for(const video of project.videos){
+    const game = video.embed.includes('/1fYktSbheXIA4p3c9y3nQxuH-HH5vAuLW/');
+    if(game){
+      video.tools=['After Effects'];
+      video.credits=[['animacao','david sales']];
+      video.desc={pt:'animação para o vídeo “jogo do Super Plasma”, feita no After Effects.',en:'animation for the “Super Plasma game” video, created in After Effects.',es:'animación para el vídeo “juego del Super Plasma”, realizada en After Effects.'};
+    }else if(Array.isArray(video.tools)) video.tools=[project.id === 'hemobras-tv' ? 'After Effects' : 'Premiere Pro'];
+  }
+}

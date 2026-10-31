@@ -62,6 +62,9 @@ PROJECTS.splice(0, PROJECTS.length, ...[
         "edicao",
         "david sales"
       ]
+    ],
+    "tools": [
+      "Premiere Pro"
     ]
   },
   {
@@ -172,7 +175,21 @@ PROJECTS.splice(0, PROJECTS.length, ...[
           "es": "juego del super plasma"
         },
         "embed": "https://drive.google.com/file/d/1fYktSbheXIA4p3c9y3nQxuH-HH5vAuLW/preview",
-        "orientation": "vertical"
+        "orientation": "vertical",
+        "tools": [
+          "After Effects"
+        ],
+        "credits": [
+          [
+            "animacao",
+            "david sales"
+          ]
+        ],
+        "desc": {
+          "pt": "animação para o vídeo “jogo do Super Plasma”, feita no After Effects.",
+          "en": "animation for the “Super Plasma game” video, created in After Effects.",
+          "es": "animación para el vídeo “juego del Super Plasma”, realizada en After Effects."
+        }
       },
       {
         "caption": {
@@ -211,7 +228,10 @@ PROJECTS.splice(0, PROJECTS.length, ...[
         "orientation": "vertical"
       }
     ],
-    "credits": []
+    "credits": [],
+    "tools": [
+      "Premiere Pro"
+    ]
   },
   {
     "id": "noticias-campus",
@@ -299,7 +319,10 @@ PROJECTS.splice(0, PROJECTS.length, ...[
         ]
       }
     ],
-    "credits": []
+    "credits": [],
+    "tools": [
+      "Premiere Pro"
+    ]
   },
   {
     "id": "documenta-ufpe",
@@ -395,7 +418,10 @@ PROJECTS.splice(0, PROJECTS.length, ...[
         ]
       }
     ],
-    "credits": []
+    "credits": [],
+    "tools": [
+      "Premiere Pro"
+    ]
   },
   {
     "id": "a-stalker",
@@ -454,6 +480,9 @@ PROJECTS.splice(0, PROJECTS.length, ...[
         "musica",
         "\"psycho killer\", talking heads"
       ]
+    ],
+    "tools": [
+      "Premiere Pro"
     ]
   },
   {
@@ -529,6 +558,9 @@ PROJECTS.splice(0, PROJECTS.length, ...[
         "agradecimentos",
         "jacemira monteiro, joão batista e nilton correia"
       ]
+    ],
+    "tools": [
+      "Premiere Pro"
     ]
   }
 ]);

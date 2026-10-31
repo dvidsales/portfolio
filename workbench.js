@@ -152,7 +152,7 @@ window.PortfolioWorkbench = (() => {
     const src=PortfolioVideo.safe(r.v.embed);let frame=screen.querySelector('iframe');
     if(!src){screen.replaceChildren();const note=document.createElement('p');note.textContent=tr('embed_hint');screen.append(note);}
     else if(!frame||frame.getAttribute('src')!==src){
-      screen.replaceChildren();frame=document.createElement('iframe');frame.src=src;frame.allow='fullscreen; picture-in-picture';frame.allowFullscreen=true;frame.referrerPolicy='strict-origin-when-cross-origin';screen.append(frame);
+      screen.replaceChildren();const viewport=document.createElement('div');viewport.className='monitor-viewport';frame=document.createElement('iframe');frame.src=src;frame.allow='fullscreen; picture-in-picture';frame.allowFullscreen=true;frame.referrerPolicy='strict-origin-when-cross-origin';viewport.append(frame);screen.append(viewport);
     }
     if(frame)frame.title=text(r.v.caption,ui.lang);
     screen.classList.toggle('is-vertical',r.v.orientation==='vertical');

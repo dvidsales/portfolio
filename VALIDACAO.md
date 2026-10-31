@@ -42,3 +42,7 @@ O envio e a implantação reais desta revisão são acompanhados separadamente p
 ## Histórico de validação
 
 Antes do redesign, a revisão end to end anterior passou por 357 verificações. O ajuste do antigo destaque foi conferido em 12 cenários adicionais. As correções de contraste, proteção de publicação e rascunhos foram mantidas nesta versão e seus fluxos voltaram a ser testados.
+
+## Correção posterior dos vídeos verticais
+
+Foram medidos os seis vídeos verticais nas páginas inicial e Hemobrás, em 320, 375, 768, 1024, 1440 e 1920 px: **72 casos aprovados**. A medição verifica a largura e a altura reais do iframe (9:16), centralização, limites do monitor e ausência de transbordamento. Em cada página/largura também foi conferido o retorno a um vídeo horizontal em 16:9. O teste continua usando um documento de player simulado; não certifica o conteúdo interno ou as permissões do provedor. A suíte principal ganhou verificações da proporção real e da centralização, além da classe de orientação.

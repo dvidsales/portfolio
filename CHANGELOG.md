@@ -1,5 +1,11 @@
 # Histórico de mudanças
 
+## 30/10/2026 — Correção do monitor vertical
+
+- O iframe passa a ocupar um viewport próprio, com dimensões definidas independentemente do tamanho intrínseco do player do provedor.
+- Nos vídeos verticais, o viewport é centralizado em 9:16, com margens laterais; a alternância para vídeos horizontais volta a preencher o monitor em 16:9.
+- Versões dos arquivos da biblioteca atualizadas para evitar reutilizar o CSS anterior.
+
 ## 30/10/2026 — Biblioteca e estação de edição inspiradas no Premiere
 
 - Backup da versão anterior publicado como tag `backup-before-premiere-workspace-2026-10-30`, no commit `739195a4347f3e858449dc0477d7c9fb28e5da88`.

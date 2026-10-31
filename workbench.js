@@ -170,6 +170,8 @@ window.PortfolioWorkbench = (() => {
     if(!roles.length && r.group==='hemobras')roles.push(CREDIT_LABELS[ui.lang].edicao);
     const properties=[['property_project',text(r.p.title,ui.lang)],['property_channel',category?(I18N[ui.lang]['cat_'+category]||category):text(r.p.kind,ui.lang)],['property_format',(r.v.orientation==='vertical'?tr('format_vertical')+' · 9:16':tr('format_horizontal')+' · 16:9')]];
     if(roles.length)properties.push(['property_role',roles.join(' · ')]);
+    const tools=Array.isArray(r.v.tools)?r.v.tools:r.p.tools;
+    if(Array.isArray(tools)&&tools.length)properties.push(['property_tools',tools.filter(x=>typeof x==='string').join(' · ')]);
     const dl=$('propertyValues');dl.replaceChildren();
     for(const [label,value] of properties){const dt=document.createElement('dt');dt.textContent=tr(label);const dd=document.createElement('dd');dd.textContent=value;dl.append(dt,dd);}
     const projectLink=$('propertyProjectLink');projectLink.replaceChildren();

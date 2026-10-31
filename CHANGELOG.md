@@ -1,5 +1,12 @@
 # Histórico de mudanças
 
+## 30/10/2026 — Participações confirmadas na Hemobrás
+
+- TV corporativa: edição e animação por David Sales, com After Effects indicado como ferramenta. Descrições atualizadas em português, inglês e espanhol.
+- YouTube: edição por David Sales, com descrições esclarecendo que as imagens já haviam sido fornecidas.
+- Informações cadastradas nos projetos publicados e na base de recuperação; ficha técnica e campo de participação passam a exibir os créditos reais, com ferramentas quando informadas.
+- Vídeos e créditos da UFPE preservados sem alterações.
+
 ## 30/10/2026 — Correção do monitor vertical
 
 - O iframe passa a ocupar um viewport próprio, com dimensões definidas independentemente do tamanho intrínseco do player do provedor.

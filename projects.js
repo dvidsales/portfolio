@@ -13,9 +13,9 @@ PROJECTS.splice(0, PROJECTS.length, ...[
       "es": "hemobrás — youtube"
     },
     "desc": {
-      "pt": "editei estes vídeos institucionais para o canal da Hemobrás no YouTube.",
-      "en": "I edited these institutional videos for Hemobrás’s YouTube channel.",
-      "es": "edité estos vídeos institucionales para el canal de Hemobrás en YouTube."
+      "pt": "editei estes vídeos institucionais para o canal da Hemobrás no YouTube, utilizando imagens já fornecidas.",
+      "en": "I edited these institutional videos for Hemobrás’s YouTube channel using footage that had already been provided.",
+      "es": "edité estos vídeos institucionales para el canal de Hemobrás en YouTube, utilizando imágenes ya proporcionadas."
     },
     "link": null,
     "videos": [
@@ -57,7 +57,12 @@ PROJECTS.splice(0, PROJECTS.length, ...[
         "category": "youtube"
       }
     ],
-    "credits": []
+    "credits": [
+      [
+        "edicao",
+        "david sales"
+      ]
+    ]
   },
   {
     "id": "hemobras-tv",
@@ -72,9 +77,9 @@ PROJECTS.splice(0, PROJECTS.length, ...[
       "es": "hemobrás — tv corporativa"
     },
     "desc": {
-      "pt": "editei tutoriais e vídeos institucionais para a TV corporativa da Hemobrás, voltados à comunicação com os colaboradores.",
-      "en": "I edited tutorials and institutional videos for Hemobrás’s corporate TV, aimed at communicating with employees.",
-      "es": "edité tutoriales y vídeos institucionales para la TV corporativa de Hemobrás, dirigidos a la comunicación con sus colaboradores."
+      "pt": "editei e animei estes tutoriais e vídeos institucionais no After Effects para a TV corporativa da Hemobrás, voltados à comunicação com os colaboradores.",
+      "en": "I edited and animated these tutorials and institutional videos in After Effects for Hemobrás’s corporate TV, for internal employee communications.",
+      "es": "edité y animé estos tutoriales y vídeos institucionales en After Effects para la TV corporativa de Hemobrás, dirigidos a la comunicación con sus colaboradores."
     },
     "link": null,
     "videos": [
@@ -111,7 +116,19 @@ PROJECTS.splice(0, PROJECTS.length, ...[
         "embed": "https://drive.google.com/file/d/14JojR0DahqXHvRK_TZqNTVIp8uZRtacD/preview"
       }
     ],
-    "credits": []
+    "credits": [
+      [
+        "edicao",
+        "david sales"
+      ],
+      [
+        "animacao",
+        "david sales"
+      ]
+    ],
+    "tools": [
+      "After Effects"
+    ]
   },
   {
     "id": "hemobras-instagram",

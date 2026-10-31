@@ -216,3 +216,43 @@ const WORKBENCH_TEXT = {
   es:{intro_panel_label:'presentación / David Sales',workbench_eyebrow:'// selección de trabajos',workbench_intro:'Explora la biblioteca. Selecciona un vídeo para verlo y consultar su ficha técnica.',explore_library:'Explorar trabajos →',library_label:'Proyecto / biblioteca',monitor_heading:'Monitor / en pantalla',properties_heading:'Sobre el trabajo',filter_all:'Todos',filter_personal:'Autorales',filter_label:'Filtrar trabajos',search_label:'Buscar vídeos',search_placeholder:'Buscar en la biblioteca…',clear_search:'Limpiar búsqueda',view_label:'Vista de la biblioteca',view_grid:'Vista de cuadrícula',view_list:'Vista de lista',no_results:'No se encontraron vídeos. Prueba otro término o filtro.',no_selection:'Ningún vídeo seleccionado',adjust_filters:'Ajusta la búsqueda o los filtros para explorar los trabajos.',previous_video:'Vídeo anterior',next_video:'Siguiente vídeo',selected_video:'Vídeo seleccionado',property_project:'Proyecto',property_channel:'Canal / categoría',property_format:'Formato',property_role:'Mi participación',format_vertical:'Vertical',format_horizontal:'Horizontal',credits_not_listed:'No se han registrado los créditos de este vídeo.',collection_hemobras:'Colección Hemobrás →',collection_ufpe:'Colección UFPE →',sequence_heading:'Secuencia / portafolio',sequence_label:'Timeline de navegación del portafolio',sequence_mobile:'Ir a',editor_tab_library:'Biblioteca',editor_tab_monitor:'Monitor',editor_tab_details:'Detalles'}
 };
 for(const lang of Object.keys(WORKBENCH_TEXT))Object.assign(I18N[lang],WORKBENCH_TEXT[lang]);
+
+// Participações confirmadas por David Sales; preservadas também na base de recuperação.
+const CONFIRMED_CONTRIBUTIONS = {
+  "hemobras": {
+    "desc": {
+      "pt": "editei estes vídeos institucionais para o canal da Hemobrás no YouTube, utilizando imagens já fornecidas.",
+      "en": "I edited these institutional videos for Hemobrás’s YouTube channel using footage that had already been provided.",
+      "es": "edité estos vídeos institucionales para el canal de Hemobrás en YouTube, utilizando imágenes ya proporcionadas."
+    },
+    "credits": [
+      [
+        "edicao",
+        "david sales"
+      ]
+    ]
+  },
+  "hemobras-tv": {
+    "desc": {
+      "pt": "editei e animei estes tutoriais e vídeos institucionais no After Effects para a TV corporativa da Hemobrás, voltados à comunicação com os colaboradores.",
+      "en": "I edited and animated these tutorials and institutional videos in After Effects for Hemobrás’s corporate TV, for internal employee communications.",
+      "es": "edité y animé estos tutoriales y vídeos institucionales en After Effects para la TV corporativa de Hemobrás, dirigidos a la comunicación con sus colaboradores."
+    },
+    "credits": [
+      [
+        "edicao",
+        "david sales"
+      ],
+      [
+        "animacao",
+        "david sales"
+      ]
+    ],
+    "tools": [
+      "After Effects"
+    ]
+  }
+};
+for(const p of PROJECTS)if(CONFIRMED_CONTRIBUTIONS[p.id])Object.assign(p,CONFIRMED_CONTRIBUTIONS[p.id]);
+CREDIT_LABELS.pt.animacao="animação";CREDIT_LABELS.en.animacao="animation";CREDIT_LABELS.es.animacao="animación";
+I18N.pt.property_tools="Ferramentas";I18N.en.property_tools="Tools";I18N.es.property_tools="Herramientas";

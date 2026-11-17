@@ -55,6 +55,21 @@ PROJECTS.splice(0, PROJECTS.length, ...[
         },
         "embed": "https://drive.google.com/file/d/1ejgGxSmHspLxAmW0eLaRLE9KRJAK9Kqk/preview",
         "category": "youtube"
+      },
+      {
+        "caption": {
+          "pt": "hemobrás no HEMO 2025",
+          "en": "hemobrás at HEMO 2025",
+          "es": "hemobrás en HEMO 2025"
+        },
+        "desc": {
+          "pt": "",
+          "en": "",
+          "es": ""
+        },
+        "embed": "https://www.youtube-nocookie.com/embed/CIP4egwszVI",
+        "orientation": "horizontal",
+        "category": "youtube"
       }
     ],
     "credits": [

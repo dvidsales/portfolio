@@ -21,6 +21,15 @@ PROJECTS.splice(0, PROJECTS.length, ...[
     "videos": [
       {
         "caption": {
+          "pt": "inauguração da fábrica de hemoderivados — super plasma",
+          "en": "opening of the blood-products factory — super plasma",
+          "es": "inauguración de la fábrica de hemoderivados — super plasma"
+        },
+        "embed": "https://drive.google.com/file/d/1ejgGxSmHspLxAmW0eLaRLE9KRJAK9Kqk/preview",
+        "category": "youtube"
+      },
+      {
+        "caption": {
           "pt": "vídeo institucional para evento com o ministério da saúde",
           "en": "institutional video for an event with the ministry of health",
           "es": "video institucional para un evento con el ministerio de salud"
@@ -36,6 +45,21 @@ PROJECTS.splice(0, PROJECTS.length, ...[
       },
       {
         "caption": {
+          "pt": "pós-inauguração da fábrica de medicamentos hemoderivados da hemobrás",
+          "en": "post-inauguration of hemobrás' blood-derived medicines manufacturing plant",
+          "es": "postinauguración de la fábrica de medicamentos hemoderivados de hemobrás"
+        },
+        "desc": {
+          "pt": "",
+          "en": "",
+          "es": ""
+        },
+        "embed": "https://www.youtube-nocookie.com/embed/F_wlqm74--0",
+        "orientation": "horizontal",
+        "category": "youtube"
+      },
+      {
+        "caption": {
           "pt": "hemobrás em um minuto",
           "en": "hemobrás in one minute",
           "es": "hemobrás en un minuto"
@@ -46,15 +70,6 @@ PROJECTS.splice(0, PROJECTS.length, ...[
           "pt": ""
         },
         "orientation": "horizontal"
-      },
-      {
-        "caption": {
-          "pt": "inauguração da fábrica de hemoderivados — super plasma",
-          "en": "opening of the blood-products factory — super plasma",
-          "es": "inauguración de la fábrica de hemoderivados — super plasma"
-        },
-        "embed": "https://drive.google.com/file/d/1ejgGxSmHspLxAmW0eLaRLE9KRJAK9Kqk/preview",
-        "category": "youtube"
       },
       {
         "caption": {
